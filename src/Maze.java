@@ -8,8 +8,6 @@ public class Maze {
 	private static String START = "start";
 	private static String WALL = "wall";
 	private static String PATH = "path";
-	private static boolean T = true;
-	private static boolean F = false;
 	
 	/**
 	 * The constructor to create a new maze object.  
@@ -24,7 +22,7 @@ public class Maze {
 		// initialise all tiles to be wall tiles
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				Tile t = new Tile(WALL, F, F, F);
+				Tile t = new Tile(WALL, false, false, false);
 				tiles[i][j] = t; 
 			}
 		}	
@@ -32,7 +30,7 @@ public class Maze {
 		// start tile
 		Tile startTile = tiles[0][0];
 		startTile.setClassification(START);
-		startTile.setTraversable(T);
+		startTile.setTraversable(true);
 		Point startPoint = new Point(0, 0);
 		
 		
