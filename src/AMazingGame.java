@@ -1,12 +1,11 @@
 
 public class AMazingGame {
-	
 	/**
 	 * AmazingGame containing main starting point for the maze game
 	 * handles running of the game, but lets GUI handle input
 	 * keeps track of score and game state?
 	 */
-	public static main(String args[]) {
+	public static void main(String args[]) {
 		int gameScore;
 		// take to GUI handler
 		// UserInput i = new UserInput();

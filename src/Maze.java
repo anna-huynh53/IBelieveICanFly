@@ -10,10 +10,14 @@ public class Maze {
 	private static boolean T = true;
 	private static boolean F = false;
 	
+	/**
+	 * The constructor to create a new maze object.  
+	 * @param size The height/width of the square maze that will be created
+	 */
 	public Maze(int size) {
 		this.size = size;
 		tiles = new Tile[size][size];
-		this.player = player;		
+		this.player = new Player(size, size);			
 		
 		// all tiles
 		ArrayList<Tile> toVisit = new ArrayList<Tile>();
@@ -64,9 +68,10 @@ public class Maze {
 	
 	public boolean isGameOver(Maze m) {
 		//the end tile will be of type endTile
+		return false;
 	}
 	
 	public boolean isValidMove(Player p) {
-		
+		return false;
 	}
 }
