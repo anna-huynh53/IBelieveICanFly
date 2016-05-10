@@ -3,6 +3,7 @@ public class AMazingGame {
 	
 	
 	//private static Gui guiFrame;
+	@SuppressWarnings("unused")
 	private Maze m;
 	
 	public static void main (String args[]) {
