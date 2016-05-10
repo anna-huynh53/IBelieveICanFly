@@ -1,18 +1,33 @@
 
 public class AMazingGame {
+	private mazeUI //GUI field/s??
+	
+	//enum  MAZE_SIZES - DEFAULT_SIZE, SMALL_SIZE, MED_SIZE, LARGE_SIZE
+	private AMazingGame() {
+		this.mazeUI = new mazeUI();
+	}
 
 	public static void main(String args[]) {
-		int gameScore;
 		// take to GUI handler
 		// UserInput i = new UserInput();
-		runGame();		
+		AMazingGame master = new AMazingGame();
+		int currMazeSize;
+		int currMazeScore; //Score object instead?
+		/* while (true) { //program is running
+			currMazeSize = master.chooseSize();
+			currMazeScore = runGame(currMazeSize);
+			displayScore(currMazeScore);
+			clearGame(master);
+		}*/
 	}
 	
-	public void runGame() {
+	public void runGame(size) { //return 'Score' object instead ?? would contain time, movements made, points(from objects) etc.
+		Maze maze = new Maze(size);
+		//dislay maze
+		
+		while(!maze.isComplete) {
 		// should this be called from amazGame or gui?
 		// should rungame be given an int size from gui?
-		Maze currentGame = new Maze(size);
-		while(!isGameOver(game)) {
 			// arrow key input 
 			// using keylistener and keyEvents?
 
@@ -33,10 +48,28 @@ public class AMazingGame {
 	
 	public int generateScore(Maze m) {
 		return 0;
+	
+	/*public void displayScore(Score s) { displays score object instead 
+		//grabs the data from the score object and displays it onScreen
+		//could add highScore functionality? - read in saved scores from a protected local file?
+		
+		//if (on-screen button is pressed) return;
+	*/
 		
 	}
-	
+		
+	}
 	public void restartGame(Maze m) {
 		m = new Maze(size); // are we deleting or making new maze?
 	}
+	
+	/*	
+	private int chooseSize() {
+		int mazeSize = DEFAULT_SIZE;
+		//Displays the choice of maze sizes
+		//Waits for the user to select one
+		//Returns the selected size
+		return 
+	}
+	*/
 }
