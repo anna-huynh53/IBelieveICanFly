@@ -3,15 +3,28 @@ public class Player {
 	private int locX;
 	private int locY;
 	private ArrayList<Point> pastLocs;
+	private Maze maze;
 	
-	public Player(int locX, int locY) {
+	public Player(Maze maze, int locX, int locY) {
 		this.locX = locX;
 		this.locY = locY;
-		pastLocs = new ArrayList<Point>(); //all past x and y or just trail
+		this.pastLocs = new ArrayList<Point>(); //all past x and y
+		this.maze = maze;
 	}
 	
-	public void movePlayer() {
+	public Point moveLeft() {
 		
 	}
 	
+	public Point moveRight() {
+		
+	}
+	
+	public Point moveUp() {
+		
+	}
+	
+	public Point moveDown() {
+		
+	}
 }
