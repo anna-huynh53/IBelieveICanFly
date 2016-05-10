@@ -1,7 +1,7 @@
 
 public class AMazingGame {
 
-	public static main(String args[]) {
+	public static void main(String args[]) {
 		int gameScore;
 		// take to GUI handler
 		// UserInput i = new UserInput();
