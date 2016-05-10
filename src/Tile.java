@@ -36,7 +36,7 @@ public class Tile {
 	
 	/**
 	 * Returns whether the tile is empty
-	 * @return whehter the tile contains any items/objects
+	 * @return whether the tile contains any items/objects
 	**/
 	public boolean isEmpty() {
 		return this.empty;
@@ -44,7 +44,7 @@ public class Tile {
 	
 	/**
 	 * Returns whether the tile is traversable
-	 * @return whehter a player can move on or through the tile 
+	 * @return whether a player can move on or through the tile 
 	**/
 	public boolean isTraversable() {
 		return this.traversable;

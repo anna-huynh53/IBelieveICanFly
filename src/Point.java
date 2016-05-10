@@ -47,4 +47,13 @@ public class Point {
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	/**
+	 * Determines if this point is equal to another point
+	 * @param p A point
+	 * @return If the points are the same
+	 */
+	public boolean equals(Point p) {
+		return ((this.getX() == p.getX()) && (this.getY() == p.getY()));
+	}
 }

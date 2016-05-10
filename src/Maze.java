@@ -84,14 +84,42 @@ public class Maze {
 		return false;
 	}
 	
-	//public boolean isValidMove(Player p) {
-	//	return false;
-	//}
+	/**
+	 * Determines if the player can make the move they are requesting.
+	 * This is determined by maze size, traversible tiles. It does not include players current location, only that the new location is valid.
+	 * @param p The player making the move
+	 * @param newLoc The new point
+	 * @return Boolean if the move is valid
+	 */
+	public boolean isValidMove(Player p, Point newLoc) {
+		// Check X is valid
+		if (newLoc.getX() < 0 || newLoc.getX() > size) {
+			return false;
+		}
+		// Check Y is valid
+		if (newLoc.getY() < 0 || newLoc.getY() > size) {
+			return false;
+		}
+		// Check player can be on tile
+		if (!this.getTile(newLoc).isTraversable()) {
+			return false;
+		}
+		
+		// Move is valid
+		return true;
+	}
 	
+	/**
+	 * Get the size of the maze
+	 * @return The height and width of the maze
+	 */
 	public int getSize() {
 		return this.size;
 	}
 	
+	/**
+	 * Fuction to show the maze for testing purposes
+	 */
 	public void showMaze () {
 		//Tile playerLoc = player.getLocation();
 		for (int j = 0; j < size; j++) {
@@ -113,4 +141,23 @@ public class Maze {
 		}
 	}
 	
+	/**
+	 * Get the tile object located at a point
+	 * @param p The point at which the tile is located
+	 * @return The tile object
+	 */
+	public Tile getTile(Point p) {
+		return this.tiles[p.getX()][p.getY()];
+	}
+	
+	/**
+	 * Called whenever a player moves. Determines deaths/victory.
+	 * @param p The player that moved
+	 */
+	public void playerMovementListener(Player p) {
+		// Check if player should die
+		if (this.getTile(p.getLocation()).isLethal()) {
+			// Player should die TODO
+		}
+	}
 }
