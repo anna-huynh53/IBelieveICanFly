@@ -32,16 +32,16 @@ public class Maze {
 		Tile startTile = tiles[0][0];
 		startTile.setClassification(START);
 		startTile.setTraversable(T);
+		Point startPoint = new Point(0, 0);
 		
 		// tiles that have been visited
 		ArrayList<Point> visited = new ArrayList<Point>();
-		visited.add(startTile);
-		toVisit.remove(startTile);
+		visited.add(startPoint);
 		
 		// choose a random neighbour tile from the current tile from the toVisit
 		// list and make it a path. Add the visited. Continue until toVisit is empty.
 		Tile curr = startTile;
-		Point currPoint = new Point(0, 0);
+		Point currPoint = startPoint;
 		Random rand = new Random();
 		while (!toVisit.isEmpty()) {
 			// find random neighbour from the curr in toVisit list

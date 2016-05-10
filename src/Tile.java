@@ -16,7 +16,7 @@ public class Tile {
 	 * @param traversable - whether or not a player can move on or through the tile 
 	 * @param lethal - whether or not the tile kills the player 
 	**/
-	public Tile(String classification, boolean empty, boolean traversable, boolean lethal, int xLoc, int yLoc) {
+	public Tile(String classification, boolean empty, boolean traversable, boolean lethal) {
 		this.classification = classification;
 		this.empty = empty;
 		this.traversable = traversable;
