@@ -5,9 +5,6 @@ public class Maze {
 	private int size;
 	private Tile[][] tiles;
 	//private Player player;
-	private static String START = "start";
-	private static String WALL = "wall";
-	private static String PATH = "path";
 	
 	/**
 	 * The constructor to create a new maze object.  
@@ -22,14 +19,14 @@ public class Maze {
 		// initialise all tiles to be wall tiles
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				Tile t = new Tile(WALL, false, false, false);
+				Tile t = new Tile(Tile.WALL, false, false, false);
 				tiles[i][j] = t; 
 			}
 		}	
 		
 		// start tile
 		Tile startTile = tiles[0][0];
-		startTile.setClassification(START);
+		startTile.setClassification(Tile.START);
 		startTile.setTraversable(true);
 		Point startPoint = new Point(0, 0);
 		
@@ -69,7 +66,7 @@ public class Maze {
 			if (toVisit.contains(t4)) neighbours.add(t1);
 			Tile neighbour = neighbours.get(rand.nextInt(neighbours.size()));
 			// set the chosen neighbour to a path
-			neighbour.setClassification(PATH);
+			neighbour.setClassification(Tile.PATH);
 			neighbour.setTraversable(true);
 			visited.add(neighbour);
 			toVisit.remove(neighbour);

@@ -9,8 +9,11 @@ public class Tile {
 	private boolean traversable;
 	private boolean lethal;
 	
-	//private static final String START = "start";
-	//private static final String PATH = "path";
+	// classifications
+	public static final String START = "start";
+	public static final String END = "end";
+	public static final String WALL = "wall";
+	public static final String PATH = "path";
 	
 	/**
 	 * Instantiates a new tile object
