@@ -9,15 +9,16 @@ public class Tile {
 	private boolean traversable;
 	private boolean lethal;
 	
-	// classifications
-	public static final String START = "start";
-	public static final String END = "end";
+	// Classifications //
+	public static final String START = "start"; // Also a path by definition
+	public static final String END = "end"; // Also a path by definition
 	public static final String WALL = "wall";
 	public static final String PATH = "path";
+	public static final String LAVA = "lava";
 	
 	/**
 	 * Instantiates a new tile object
-	 * @param classification - describes type of tile
+	 * @param classification - describes type of tile [only for display]
 	 * @param empty - whether or not the tile contains an item/object
 	 * @param traversable - whether or not a player can move on or through the tile 
 	 * @param lethal - whether or not the tile kills the player 
@@ -61,15 +62,36 @@ public class Tile {
 		return this.lethal;
 	}
 	
+	/**
+	 * Sets the tile classification
+	 * @param c The classification
+	 */
 	public void setClassification(String c) {
 		this.classification = c;
 	}
 	
+	/**
+	 * Sets the tile to be trasversable
+	 * @param t
+	 */
 	public void setTraversable(boolean t) {
 		this.traversable = t;
 	}
 	
+	/**
+	 * Sets the tile to be lethal
+	 * @param l
+	 */
 	public void setLethal(boolean l) {
 		this.lethal = l;
+	}
+	
+	/**
+	 * Checks if this and another tile are equal
+	 * @param t A tile object
+	 * @return If the two tiles are equal
+	 */
+	public boolean equals(Tile t) {
+		return ((this.classification.equals(t.classification)) &&  (this.empty == t.isEmpty()) && (this.isLethal() == t.isLethal()) && (this.isTraversable() == t.isTraversable()));
 	}
 }

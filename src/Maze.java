@@ -120,7 +120,7 @@ public class Maze {
 		for (int j = 0; j < size; j++) {
 			for (int i = 0; i < size; i++) {
 				if (this.tiles[i][j].isTraversable()) {
-					if (this.tiles[i][j].getClassification().equals("path")) {
+					if (this.tiles[i][j].getClassification().equals(Tile.PATH)) {
 						System.out.println("p ");
 				    } else if (i == (size-1)-1 && j == (size-1)-1) {
 						System.out.print("D"); // destintation
@@ -146,13 +146,13 @@ public class Maze {
 	}
 	
 	/**
-	 * Called whenever a player moves. Determines deaths/victory.
-	 * @param p The player that moved
+	 * Called whenever a Entity moves. Determines deaths/victory.
+	 * @param p The entity that moved
 	 */
-	public void playerMovementListener(Player p) {
-		// Check if player should die
+	public void entityMovementListener(Entity p) {
+		// Check if Entity should die
 		if (this.getTile(p.getLocation()).isLethal()) {
-			// Player should die TODO
+			// Entity should die TODO
 		}
 	}
 }

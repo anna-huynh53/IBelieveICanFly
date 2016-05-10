@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Entity {
 	private Point currentLoc;
 	private ArrayList<Point> pastLocs;
 	private Maze maze;
@@ -60,11 +60,11 @@ public class Player {
 	 * @param newLoc The point to move the player to
 	 * @return the new position of the player
 	 */
-	private Point move(Point newLoc) {
+	public Point move(Point newLoc) {
 		if (maze.isValidMove(this, newLoc)) {
 			this.pastLocs.add(this.currentLoc);
 			this.currentLoc = newLoc;
-			maze.playerMovementListener(this); // This must be called whenever the player moves
+			maze.entityMovementListener(this); // This must be called whenever the player moves
 			return newLoc;
 		} else {
 			return this.currentLoc;
@@ -73,7 +73,7 @@ public class Player {
 	
 	/**
 	 * Get the number of moves the player has made
-	 * @return The number of moves made succesfully
+	 * @return The number of moves made successfully
 	 */
 	public int getNumberOfMoves() {
 		return this.pastLocs.size();
