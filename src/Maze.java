@@ -4,10 +4,14 @@ public class Maze {
 	private Tile[][] tiles;
 	private Player player;
 	
+	/**
+	 * The constructor to create a new maze object.  
+	 * @param size The height/width of the square maze that will be created
+	 */
 	public Maze(int size) {
 		this.size = size;
 		tiles = new Tile[size][size];
-		this.player = player;		
+		this.player = new Player(size, size);		
 	}	
 	
 	public boolean isGameOver(Maze m) {

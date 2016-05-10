@@ -2,7 +2,7 @@
 public class Player {
 	private int locX;
 	private int locY;
-	private Tile[][] pastLocs;
+	private int[][] pastLocs;
 	
 	public Player(int locX, int locY) {
 		this.locX = locX;
