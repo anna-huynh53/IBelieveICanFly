@@ -1,7 +1,7 @@
 
 public class AMazingGame {
 	
-	public static main(String args[]) {
+	public static void main(String args[]) {
 		
 	}
 	
@@ -10,6 +10,7 @@ public class AMazingGame {
 	}
 	
 	public int generateScore(Maze m) {
+		return 0;
 		
 	}
 	
