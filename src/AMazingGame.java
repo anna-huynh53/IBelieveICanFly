@@ -1,30 +1,33 @@
 
 public class AMazingGame {
-	/**
-	 * AmazingGame containing main starting point for the maze game
-	 * handles running of the game, but lets GUI handle input
-	 * keeps track of score and game state?
-	 */
+	private mazeUI //GUI field/s??
+	
+	//enum  MAZE_SIZES - DEFAULT_SIZE, SMALL_SIZE, MED_SIZE, LARGE_SIZE
+	private AMazingGame() {
+		this.mazeUI = new mazeUI();
+	}
+
 	public static void main(String args[]) {
-		int gameScore;
 		// take to GUI handler
 		// UserInput i = new UserInput();
-		runGame();		
+		AMazingGame master = new AMazingGame();
+		int currMazeSize;
+		int currMazeScore; //Score object instead?
+		/* while (true) { //program is running
+			currMazeSize = master.chooseSize();
+			currMazeScore = runGame(currMazeSize);
+			displayScore(currMazeScore);
+			clearGame(master);
+		}*/
 	}
 	
-
-	/**
-	 * called from GUI
-	 * creates maze from given size, input from user
-	 * runs until game over or early termination
-	 * @param legal maze size
-	 */
-	public void runGame(int size) {
+	public void runGame(size) { //return 'Score' object instead ?? would contain time, movements made, points(from objects) etc.
+		Maze maze = new Maze(size);
+		//dislay maze
+		
+		while(!maze.isComplete) {
 		// should this be called from amazGame or gui?
 		// should rungame be given an int size from gui?
-		// create maze here or somewhere else??
-		Maze currentGame = new Maze(size);
-		while(!isGameOver(game)) {
 			// arrow key input 
 			// using keylistener and keyEvents?
 
@@ -43,21 +46,30 @@ public class AMazingGame {
 		// then take to GUI for button press to exit or restart?
 	}
 	
-	/**
-	 * given maze, calculate score from time and number of moves
-	 * @return integer score
-	 */
 	public int generateScore(Maze m) {
 		return 0;
+	
+	/*public void displayScore(Score s) { displays score object instead 
+		//grabs the data from the score object and displays it onScreen
+		//could add highScore functionality? - read in saved scores from a protected local file?
+		
+		//if (on-screen button is pressed) return;
+	*/
 		
 	}
-	
-	/**
-	 * restarting the game
-	 * creates a new maze
-	 * @return new maze
-	 */	
-	public Maze restartGame(int size) {
-		m = new Maze(size);
+		
 	}
+	public void restartGame(Maze m) {
+		m = new Maze(size); // are we deleting or making new maze?
+	}
+	
+	/*	
+	private int chooseSize() {
+		int mazeSize = DEFAULT_SIZE;
+		//Displays the choice of maze sizes
+		//Waits for the user to select one
+		//Returns the selected size
+		return 
+	}
+	*/
 }
