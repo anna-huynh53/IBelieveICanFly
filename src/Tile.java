@@ -8,8 +8,6 @@ public class Tile {
 	private boolean empty;
 	private boolean traversable;
 	private boolean lethal;
-	private int xLoc;
-	private int yLoc;
 	
 	/**
 	 * Instantiates a new tile object
@@ -23,8 +21,6 @@ public class Tile {
 		this.empty = empty;
 		this.traversable = traversable;
 		this.lethal = lethal;
-		this.xLoc = xLoc;
-		this.yLoc = yLoc;
 	}
 	
 	/**
@@ -57,14 +53,6 @@ public class Tile {
 	**/
 	public boolean isLethal() {
 		return this.lethal;
-	}
-	
-	public int getXLoc() {
-		return this.xLoc;
-	}
-	
-	public int getYLoc() {
-		return this.yLoc;
 	}
 	
 	public void setClassification(String c) {
