@@ -8,6 +8,7 @@ public class Tile {
 	private boolean empty;
 	private boolean traversable;
 	private boolean lethal;
+	private boolean[] edges; //north, east, south, west
 	
 	// Classifications //
 	public static final String START = "start"; // Also a path by definition
@@ -23,11 +24,14 @@ public class Tile {
 	 * @param traversable - whether or not a player can move on or through the tile 
 	 * @param lethal - whether or not the tile kills the player 
 	**/
-	public Tile(String classification, boolean empty, boolean traversable, boolean lethal) {
+	public Tile(String classification) {
 		this.classification = classification;
-		this.empty = empty;
-		this.traversable = traversable;
-		this.lethal = lethal;
+		if (classification.equals(START) || classification.equals(PATH)) {
+			this.empty = T;
+			this.traversable = T;
+			this.lethal = F;
+		} 
+		this.edges = new boolean[4];
 	}
 	
 	/**
@@ -62,6 +66,10 @@ public class Tile {
 		return this.lethal;
 	}
 	
+	public boolean[] getEdges() {
+		return this.edges;
+	}
+	
 	/**
 	 * Sets the tile classification
 	 * @param c The classification
@@ -84,6 +92,10 @@ public class Tile {
 	 */
 	public void setLethal(boolean l) {
 		this.lethal = l;
+	}
+	
+	public void setEdges(boolean[] e) {
+		this.edges = e;
 	}
 	
 	/**
