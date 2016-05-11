@@ -27,9 +27,9 @@ public class Tile {
 	public Tile(String classification) {
 		this.classification = classification;
 		if (classification.equals(START) || classification.equals(PATH)) {
-			this.empty = T;
-			this.traversable = T;
-			this.lethal = F;
+			this.empty = true;
+			this.traversable = true;
+			this.lethal = false;
 		} 
 		this.edges = new boolean[4];
 	}

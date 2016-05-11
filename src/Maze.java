@@ -5,10 +5,6 @@ import java.util.Stack;
 public class Maze {
 	private int size;
 	private Tile[][] tiles;
-	private static String START = "start";
-	private static String PATH = "path";
-	private static boolean T = true;
-	private static boolean F = false;
 	//private Player player;
 	
 	/**
@@ -23,9 +19,9 @@ public class Maze {
 		ArrayList<Point> toVisit = new ArrayList<Point>();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				tiles[i][j] = new Tile(PATH);
+				tiles[i][j] = new Tile(Tile.PATH);
 				boolean[] edges = new boolean[4];
-				edges[0] = edges[1] = edges[2] = edges[3] = T;
+				edges[0] = edges[1] = edges[2] = edges[3] = true;
 				tiles[i][j].setEdges(edges);
 				Point p = new Point(i, j);
 				all.add(p);
@@ -34,7 +30,7 @@ public class Maze {
 		}
 		
 		// start tile
-		tiles[0][0].setClassification(START);
+		tiles[0][0].setClassification(Tile.START);
 		Point startPoint = new Point(0, 0);
 		Point curr = startPoint;
 		toVisit.remove(curr);
@@ -62,24 +58,24 @@ public class Maze {
 				 boolean[] neighbourEdges = neighbourTile.getEdges();
 
 				if (neighbour.equals(p1)) {
-					currEdges[0] = F;
+					currEdges[0] = false;
 					currTile.setEdges(currEdges);
-					neighbourEdges[2] = F; 
+					neighbourEdges[2] = false; 
 					neighbourTile.setEdges(neighbourEdges);
 				} else if (neighbour.equals(p2)) {
-					currEdges[1] = F; 
+					currEdges[1] = false; 
 					currTile.setEdges(currEdges);
-					neighbourEdges[3] = F; 
+					neighbourEdges[3] = false; 
 					neighbourTile.setEdges(neighbourEdges);	
 				} else if (neighbour.equals(p3)) {
-					currEdges[2] = F; 
+					currEdges[2] = false; 
 					currTile.setEdges(currEdges);
-					neighbourEdges[0] = F; 
+					neighbourEdges[0] = false; 
 					neighbourTile.setEdges(neighbourEdges);	
 				} else if (neighbour.equals(p4)) {
-					currEdges[3] = F;
+					currEdges[3] = false;
 					currTile.setEdges(currEdges);
-					neighbourEdges[1] = F;
+					neighbourEdges[1] = false;
 					neighbourTile.setEdges(neighbourEdges);	
 				}
 
