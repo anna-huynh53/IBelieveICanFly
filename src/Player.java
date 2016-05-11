@@ -15,7 +15,7 @@ public class Player implements Entity {
 	 * Moves the current player (if possible)
 	 * @return The location of the player
 	 */
-	public Point moveLeft() {
+	public Point moveWest() {
 		Point newLoc = new Point(this.currentLoc.getX()-1, this.currentLoc.getY());
 		return this.move(newLoc);
 	}
@@ -24,7 +24,7 @@ public class Player implements Entity {
 	 * Moves the current player (if possible)
 	 * @return The location of the player
 	 */
-	public Point moveRight() {
+	public Point moveEast() {
 		Point newLoc = new Point(this.currentLoc.getX()+1, this.currentLoc.getY());
 		return this.move(newLoc);
 	}
@@ -33,7 +33,7 @@ public class Player implements Entity {
 	 * Moves the current player (if possible)
 	 * @return The location of the player
 	 */
-	public Point moveUp() {
+	public Point moveNorth() {
 		Point newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()-1);
 		return this.move(newLoc);
 	}
@@ -42,7 +42,7 @@ public class Player implements Entity {
 	 * Moves the current player (if possible)
 	 * @return The location of the player
 	 */
-	public Point moveDown() {
+	public Point moveSouth() {
 		Point newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()+1);
 		return this.move(newLoc);
 	}
