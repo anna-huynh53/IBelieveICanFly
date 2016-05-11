@@ -3,29 +3,24 @@ public class Tester {
 	public static void main(String args[]) {
 		int size = 10;
 		Maze m = new Maze(size);
+		int boardSize = size + size + 1;
 		Tile[][] tiles = m.getTiles();
 		
-		for (int i = 0; i < size; i++) {
-			// draw north edge
-			for (int j = 0; j < size; j++) {
-				boolean[] edges = tiles[j][i].getEdges();
-				System.out.print(edges[0] == true ? "*---" : "*   ");
+		int i = 0; int j;
+		while (i < boardSize) {
+			j = 0;
+			while (j < boardSize) {
+				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
+					System.out.print(" X ");
+				} else if (tiles[i][j].getClassification().equals(Tile.PATH)) {
+					System.out.print(" . ");
+				} else if (tiles[i][j].getClassification().equals(Tile.START)) {
+					System.out.print(" S ");
+				}
+				j++;
 			}
-			System.out.println("*");
-			// draw west edge
-			for (int j = 0; j < size; j++) {
-				boolean[] edges = tiles[j][i].getEdges();
-				if (tiles[i][j].getClassification().equals("start")) 
-					System.out.print(edges[3] == true ? "| S " : "  S ");
-				else 
-					System.out.print(edges[3] == true ? "|   " : "    ");
-			}
-			System.out.println("|");
+			System.out.println("");
+			i++;
 		}
-		// draw bottom line
-		for (int j = 0; j < size; j++) {
-			System.out.print("*---");
-		}
-		System.out.println("*");
 	}
 }

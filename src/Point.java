@@ -8,8 +8,8 @@ public class Point {
 	
 	/**
 	 * Constructor for creating a point
-	 * @param x The x coordinate
-	 * @param y The y coordinate
+	 * @param x - x coordinate
+	 * @param y - y coordinate
 	 */
 	public Point(int x, int y) {
 		this.x = x;
@@ -18,7 +18,7 @@ public class Point {
 	
 	/**
 	 * Get X
-	 * @return The x coordinate
+	 * @return x coordinate
 	 */
 	public int getX() {
 		return this.x;
@@ -26,7 +26,7 @@ public class Point {
 	
 	/**
 	 * Get Y
-	 * @return The y coordinate
+	 * @return y coordinate
 	 */
 	public int getY() {
 		return this.y;
@@ -34,7 +34,7 @@ public class Point {
 	
 	/**
 	 * Set X
-	 * @param x The x coordinate
+	 * @param x coordinate
 	 */
 	public void setX(int x) {
 		this.x = x;
@@ -42,7 +42,7 @@ public class Point {
 	
 	/**
 	 * Set Y
-	 * @param y The y coordinate
+	 * @param y coordinate
 	 */
 	public void setY(int y) {
 		this.y = y;
@@ -50,8 +50,8 @@ public class Point {
 	
 	/**
 	 * Determines if this point is equal to another point
-	 * @param p A point
-	 * @return If the points are the same
+	 * @param p - point
+	 * @return if the points are the same
 	 */
 	public boolean equals(Object o) {
 		if (o instanceof Point) { 
@@ -60,5 +60,4 @@ public class Point {
 		}
 		return false;
 	}
-	
 }

@@ -1,14 +1,13 @@
 /**
  * This class represents a tile of the maze.
- * It describes the classification of the tile eg. wall, lava etc. 
- * and the properties of the tile ie if it is traversable, empty, or lethal
+ * It describes the classification of the tile e.g. wall, lava etc. 
+ * and the properties of the tile i.e. if it is traversable, empty, or lethal
 **/
 public class Tile {
 	private String classification;
 	private boolean empty;
 	private boolean traversable;
 	private boolean lethal;
-	private boolean[] edges; //north, east, south, west
 	
 	// Classifications //
 	public static final String START = "start"; // Also a path by definition
@@ -30,8 +29,11 @@ public class Tile {
 			this.empty = true;
 			this.traversable = true;
 			this.lethal = false;
-		} 
-		this.edges = new boolean[4];
+		} else if (classification.equals(WALL)) {
+			this.empty = false;
+			this.traversable = false;
+			this.lethal = false;
+		}
 	}
 	
 	/**
@@ -66,44 +68,38 @@ public class Tile {
 		return this.lethal;
 	}
 	
-	public boolean[] getEdges() {
-		return this.edges;
-	}
-	
 	/**
 	 * Sets the tile classification
-	 * @param c The classification
+	 * @param c - classification
 	 */
 	public void setClassification(String c) {
 		this.classification = c;
 	}
 	
 	/**
-	 * Sets the tile to be trasversable
-	 * @param t
+	 * Sets traversability of tile
+	 * @param t - true if can traverse otherwise false
 	 */
 	public void setTraversable(boolean t) {
 		this.traversable = t;
 	}
 	
 	/**
-	 * Sets the tile to be lethal
-	 * @param l
+	 * Sets lethalness of tile
+	 * @param l - true if lethal otherwise false
 	 */
 	public void setLethal(boolean l) {
 		this.lethal = l;
 	}
 	
-	public void setEdges(boolean[] e) {
-		this.edges = e;
-	}
-	
 	/**
 	 * Checks if this and another tile are equal
-	 * @param t A tile object
-	 * @return If the two tiles are equal
+	 * @param t - tile object
+	 * @return if the two tiles are equal
 	 */
 	public boolean equals(Tile t) {
-		return ((this.classification.equals(t.classification)) &&  (this.empty == t.isEmpty()) && (this.isLethal() == t.isLethal()) && (this.isTraversable() == t.isTraversable()));
+		return ((this.classification.equals(t.classification)) &&  
+				(this.empty == t.isEmpty()) && (this.isLethal() == t.isLethal()) && 
+				(this.isTraversable() == t.isTraversable()));
 	}
 }
