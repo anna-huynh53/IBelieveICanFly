@@ -53,7 +53,12 @@ public class Point {
 	 * @param p A point
 	 * @return If the points are the same
 	 */
-	public boolean equals(Point p) {
-		return ((this.getX() == p.getX()) && (this.getY() == p.getY()));
+	public boolean equals(Object o) {
+		if (o instanceof Point) { 
+		    Point p = (Point) o;
+		    return ((this.x == p.getX()) && (this.y == p.getY()));
+		}
+		return false;
 	}
+	
 }
