@@ -6,17 +6,17 @@ import java.awt.event.*;
  * will take in a size and output a maze
  * ..
  */
-public class Game {	
+public class Gui {	
 	private JFrame mainFrame;
 	private JLabel headerLabel;
 	private JPanel panel;
 	
-	public Game() {
+	public Gui() {
 		guiMaker();
 	}
 	
 	public static void main (String[] args) {
-		Game mainMenu = new Game();
+		Gui mainMenu = new Gui();
 		mainMenu.display();
 	}
 	
