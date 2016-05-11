@@ -159,6 +159,14 @@ public class Maze {
 	}
 	
 	/**
+	 * Get the tiles array
+	 * @return A 2D array of tiles
+	 */
+	public Tile[][] getTiles() {
+		return this.tiles;
+	}
+	
+	/**
 	 * Called whenever a Entity moves. Determines deaths/victory.
 	 * @param p The entity that moved
 	 */
