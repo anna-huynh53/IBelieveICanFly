@@ -126,30 +126,6 @@ public class Maze {
 	}
 	
 	/**
-	 * Fuction to show the maze for testing purposes
-	 */
-	public void showMaze () {
-		//Tile playerLoc = player.getLocation();
-		for (int j = 0; j < size; j++) {
-			for (int i = 0; i < size; i++) {
-				if (this.tiles[i][j].isTraversable()) {
-					if (this.tiles[i][j].getClassification().equals(Tile.PATH)) {
-						System.out.println("p ");
-				    } else if (i == (size-1)-1 && j == (size-1)-1) {
-						System.out.print("D"); // destintation
-					} else {
-						System.out.print("0 "); // start
-					}
-					
-				} else {
-					System.out.print("--");	//represents wall
-				}
-			}
-			System.out.println();
-		}
-	}
-	
-	/**
 	 * Get the tile object located at a point
 	 * @param p The point at which the tile is located
 	 * @return The tile object
