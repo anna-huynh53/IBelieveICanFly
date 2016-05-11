@@ -12,6 +12,7 @@ public class Maze {
 	 * @param size The height/width of the square maze that will be created
 	 */
 	public Maze(int size) {
+		this.size = size;
 		tiles = new Tile[size][size];			
 		
 		// initialise all tiles to have all edges i.e. all walls
