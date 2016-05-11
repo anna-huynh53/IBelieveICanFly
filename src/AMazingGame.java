@@ -17,7 +17,6 @@ public class AMazingGame {
 	public static void runGame(Maze m) {
 		
 		//guiFrame = new Gui(m);
-		m.showMaze();
 		
 	}
 	
