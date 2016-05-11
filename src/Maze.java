@@ -167,5 +167,11 @@ public class Maze {
 		if (this.getTile(p.getLocation()).isLethal()) {
 			// Entity should die TODO
 		}
+		// Check if player has finished maze
+		if (p instanceof Player) {
+			if (this.getTile(p.getLocation()).getClassification().equals(Tile.END)) {
+				// Player has finished the maze TODO
+			}
+		}
 	}
 }
