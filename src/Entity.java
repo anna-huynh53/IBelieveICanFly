@@ -12,4 +12,28 @@ public interface Entity {
 	 * @return The location the entity is located at after move
 	 */
 	Point move(Point newLoc);
+	
+	/**
+	 * Moves the current entity (if possible)
+	 * @return The location of the player
+	 */
+	Point moveWest();
+	
+	/**
+	 * Moves the current entity (if possible)
+	 * @return The location of the player
+	 */
+	Point moveEast();
+	
+	/**
+	 * Moves the current entity (if possible)
+	 * @return The location of the player
+	 */
+	Point moveNorth();
+	
+	/**
+	 * Moves the current entity (if possible)
+	 * @return The location of the player
+	 */
+	Point moveSouth();
 }

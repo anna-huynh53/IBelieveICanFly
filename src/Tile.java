@@ -97,9 +97,13 @@ public class Tile {
 	 * @param t - tile object
 	 * @return if the two tiles are equal
 	 */
-	public boolean equals(Tile t) {
-		return ((this.classification.equals(t.classification)) &&  
-				(this.empty == t.isEmpty()) && (this.isLethal() == t.isLethal()) && 
-				(this.isTraversable() == t.isTraversable()));
+	public boolean equals(Object o) {
+		if (o instanceof Tile) {
+			Tile t = (Tile)o;
+			return ((this.classification.equals(t.classification)) &&  
+					(this.empty == t.isEmpty()) && (this.isLethal() == t.isLethal()) && 
+					(this.isTraversable() == t.isTraversable()));
+		}
+		return false;
 	}
 }
