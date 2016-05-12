@@ -8,20 +8,22 @@ import java.awt.event.*;
  * ..
  */
 
-public class Game {	
+public class Gui {	
 	private JFrame mainFrame;
 	private JLabel headerLabel;
 	private JPanel panel;
 	private JPanel gamePanel;
 	
-	public Game() {
+	public Gui() {
 		guiMaker();
 	}
 	
+	/* 
 	public static void main (String[] args) {
-		Game mainMenu = new Game();
+		Gui mainMenu = new Gui();
 		mainMenu.display();
 	}
+	*/
 	
 	/*
 	 * sets up the frame
@@ -111,7 +113,7 @@ public class Game {
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainFrame.setVisible(false);
-				Game newGame = new Game();
+				Gui newGame = new Gui();
 				newGame.display();
 			}
 		});
