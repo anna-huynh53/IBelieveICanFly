@@ -7,11 +7,15 @@ public class Maze {
 	private Tile[][] tiles;
 	private Player player;
 	
+	public static final String PRIM = "prim";
+	public static final String DEPTH = "depth";
+	
 	/**
 	 * The constructor to create a new maze object
 	 * @param seed - used to generate size of the maze (size = 2 * seed + 1)
+	 * @param type - the type of maze generation [Maze.PRIM, Maze.DEPTH]
 	 */
-	public Maze(int seed) {
+	public Maze(int seed, String type) {
 		
 		// the actual board size will be size x 2 + 1 to account for the 
 		// border and the walls needed between each of the tiles
@@ -42,8 +46,14 @@ public class Maze {
 		// 2 points; where it is placed will just affect difficulty)
 		tiles[size-2][size-2].setClassification(Tile.END);
 		
-		//generateDepthFirstMaze(toVisit);
-		generatePrimsMaze();
+		if (type.equals(Maze.DEPTH)) {
+			generateDepthFirstMaze(toVisit);
+		} else if (type.equals(Maze.PRIM)) {
+			generatePrimsMaze();
+		}
+		
+		
+		
 		Point start = new Point(1,1);
 		this.player = new Player(this, start);
 	}	

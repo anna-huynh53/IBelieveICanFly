@@ -8,7 +8,7 @@ public class AMazingGame {
 	
 	public static void main (String args[]) {
 		
-		Maze m =  new Maze(10);
+		Maze m =  new Maze(30, Maze.DEPTH);
 		runGame(m);
 		
 	}

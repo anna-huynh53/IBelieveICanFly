@@ -1,8 +1,8 @@
 
 public class Tester {
 	public static void main(String args[]) {
-		int seed = 5;
-		Maze m = new Maze(seed);
+		int seed = 20;
+		Maze m = new Maze(seed, Maze.DEPTH);
 		int size = m.getSize();
 		Tile[][] tiles = m.getTiles();
 		
