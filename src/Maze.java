@@ -38,6 +38,10 @@ public class Maze {
 		
 		// set start tile at (1, 1) 
 		tiles[1][1].setClassification(Tile.START);
+		// set the end tile in the south east corner
+		this.tiles[this.size-2][this.size-2].setClassification(Tile.END);
+		this.tiles[this.size-2][this.size-2].setTraversable(true);
+		
 		Point startPoint = new Point(1, 1);
 		// start point is initial point to search from
 		Point curr = startPoint;

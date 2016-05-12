@@ -1,7 +1,7 @@
 
 public class Tester {
 	public static void main(String args[]) {
-		int size = 11;
+		int size = 10;
 		Maze m = new Maze(size);
 		int boardSize = size + size + 1;
 		Tile[][] tiles = m.getTiles();
@@ -18,6 +18,8 @@ public class Tester {
 					System.out.print(" . ");
 				} else if (tiles[i][j].getClassification().equals(Tile.START)) {
 					System.out.print(" S ");
+				} else if (tiles[i][j].getClassification().equals(Tile.END)) {
+					System.out.print(" E ");
 				}
 				j++;
 			}
