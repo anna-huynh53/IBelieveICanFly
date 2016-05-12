@@ -52,12 +52,8 @@ public class Maze {
 			generatePrimsMaze();
 		}
 		
-		
-		
-		Point start = new Point(1,1);
-		
 		// Player is automatically created along with the maze
-		this.player = new Player(this, start);
+		this.createPlayer();
 	}	
 	
 	/**
@@ -293,20 +289,18 @@ public class Maze {
 	}
 	
 	/**
-	 * Called whenever a Entity moves. Determines deaths/victory.
-	 * @param p - entity that moved
+	 * Called whenever a player moves. Determines deaths/victory.
+	 * @param p - player that moved
 	 */
-	public void entityMovementListener(Entity p) {
-		// check if Entity should die
+	public void playerMovementListener(Entity p) {
+		// check if player should die
 		if (this.getTile(p.getLocation()).isLethal()) {
 			// entity should die TODO
 		}
 		// check if player has finished maze
-		if (p instanceof Player) {
-			if (this.getTile(p.getLocation()).getClassification().equals(Tile.END)) {
-				// player has finished the maze TODO
-				// Implement call to the GUI for display of end of game
-			}
+		if (this.getTile(p.getLocation()).getClassification().equals(Tile.END)) {
+			// player has finished the maze TODO
+			// Implement call to the GUI for display of end of game
 		}
 		//Check if there is an item on the tile
 
@@ -317,6 +311,23 @@ public class Maze {
 	 * @return player
 	 */
 	public Player getPlayer() {
+		return this.player;
+	}
+	
+	/**
+	 * Removes the player from the maze
+	 */
+	public void removePlayer() {
+		this.player = null;
+	}
+	
+	/**
+	 * Create a new player and put it at the start of the maze
+	 * @return The player created
+	 */
+	public Player createPlayer() {
+		Point start = new Point(1,1);
+		this.player = new Player(this, start);
 		return this.player;
 	}
 }

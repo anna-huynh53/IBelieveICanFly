@@ -96,4 +96,22 @@ public class Tile {
 		}
 		return false;
 	}
+	
+	/**
+	 * Set the item the tile contains
+	 * @param i - the Item the tile contains
+	 */
+	public void setItem(Item i) {
+		this.item = i;
+	}
+	
+	/**
+	 * Removes the item from the tile
+	 * @return The item removed
+	 */
+	public Item removeItem() {
+		Item i = this.item;
+		this.item = null;
+		return i;
+	}
 }

@@ -64,7 +64,7 @@ public class Player implements Entity {
 		if (maze.isValidMove(this, newLoc)) {
 			this.pastLocs.add(this.currentLoc);
 			this.currentLoc = newLoc;
-			maze.entityMovementListener(this); // This must be called whenever the player moves
+			maze.playerMovementListener(this); // This must be called whenever the player moves
 			return newLoc;
 		} else {
 			return this.currentLoc;
