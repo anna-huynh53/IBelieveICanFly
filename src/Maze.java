@@ -12,11 +12,11 @@ public class Maze {
 	 * @param size - height/width of the square maze that will be created
 	 */
 	public Maze(int size) {
-		this.size = size;
+		
 		// the actual board size will be size x 2 + 1 to account for the 
 		// border and the walls needed between each of the tiles
-		int boardSize = size + size + 1; 
-		this.tiles = new Tile[boardSize][boardSize]; 
+		this.size = size + size + 1;
+		this.tiles = new Tile[this.size][this.size]; 
 		
 		// initialise all tiles to have walls surrounding them i.e.
 		// tiles are isolated and not connecting to any other tile
@@ -24,8 +24,8 @@ public class Maze {
 		// to some tile in the 2d array 
 		// toVisit contains all points to visit when doing depth-first search 
 		ArrayList<Point> toVisit = new ArrayList<Point>();
-		for (int i = 0; i < boardSize; i++) {
-			for (int j = 0; j < boardSize; j++) {
+		for (int i = 0; i < this.size; i++) {
+			for (int j = 0; j < this.size; j++) {
 				if (j % 2 == 0 || i % 2 == 0) {
 					tiles[i][j] = new Tile(Tile.WALL);
 				} else {
