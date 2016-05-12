@@ -5,7 +5,7 @@ import java.util.Stack;
 public class Maze {
 	private int size;
 	private Tile[][] tiles;
-	//private Player player;
+	private Player player;
 	
 	/**
 	 * The constructor to create a new maze object
@@ -44,6 +44,8 @@ public class Maze {
 		
 		//generateDepthFirstMaze(toVisit);
 		generatePrimsMaze();
+		Point start = new Point(1,1);
+		this.player = new Player(this, start);
 	}	
 	
 	/**
@@ -239,11 +241,11 @@ public class Maze {
 	 */
 	public boolean isValidMove(Player p, Point newLoc) {
 		// check X is valid
-		if (newLoc.getX() < 0 || newLoc.getX() > size) {
+		if (newLoc.getX() < 0 || newLoc.getX() > this.size) {
 			return false;
 		}
 		// check Y is valid
-		if (newLoc.getY() < 0 || newLoc.getY() > size) {
+		if (newLoc.getY() < 0 || newLoc.getY() > this.size) {
 			return false;
 		}
 		// check player can be on tile
@@ -291,7 +293,16 @@ public class Maze {
 		if (p instanceof Player) {
 			if (this.getTile(p.getLocation()).getClassification().equals(Tile.END)) {
 				// player has finished the maze TODO
+				// Implement call to the GUI for display of end of game
 			}
 		}
+	}
+	
+	/**
+	 * Gets the player object associated with the maze
+	 * @return player
+	 */
+	public Player getPlayer() {
+		return this.player;
 	}
 }
