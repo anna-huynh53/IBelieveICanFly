@@ -1,4 +1,7 @@
-
+/**
+ * A controllable entity that is able to interact with the maze
+ *
+ */
 public interface Entity {
 	/**
 	 * Gets the location of the entity

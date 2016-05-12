@@ -55,6 +55,8 @@ public class Maze {
 		
 		
 		Point start = new Point(1,1);
+		
+		// Player is automatically created along with the maze
 		this.player = new Player(this, start);
 	}	
 	
@@ -306,6 +308,8 @@ public class Maze {
 				// Implement call to the GUI for display of end of game
 			}
 		}
+		//Check if there is an item on the tile
+
 	}
 	
 	/**

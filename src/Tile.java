@@ -1,13 +1,13 @@
 /**
  * This class represents a tile of the maze.
  * It describes the classification of the tile e.g. wall, lava etc. 
- * and the properties of the tile i.e. if it is traversable, empty, or lethal
+ * and the properties of the tile i.e. if it is traversable or lethal
 **/
 public class Tile {
 	private String classification;
-	private boolean empty;
 	private boolean traversable;
 	private boolean lethal;
+	private Item item = null;
 	
 	// Classifications //
 	public static final String START = "start"; // Also a path by definition
@@ -25,12 +25,10 @@ public class Tile {
 	**/
 	public Tile(String classification) {
 		this.classification = classification;
-		if (classification.equals(START) || classification.equals(PATH)) {
-			this.empty = true;
+		if (classification.equals(START) || classification.equals(PATH) || classification.equals(END)) {
 			this.traversable = true;
 			this.lethal = false;
 		} else if (classification.equals(WALL)) {
-			this.empty = false;
 			this.traversable = false;
 			this.lethal = false;
 		}
@@ -42,14 +40,6 @@ public class Tile {
 	**/
 	public String getClassification() {
 		return this.classification;
-	}
-	
-	/**
-	 * Returns whether the tile is empty
-	 * @return whether the tile contains any items/objects
-	**/
-	public boolean isEmpty() {
-		return this.empty;
 	}
 	
 	/**
@@ -100,8 +90,8 @@ public class Tile {
 	public boolean equals(Object o) {
 		if (o instanceof Tile) {
 			Tile t = (Tile)o;
-			return ((this.classification.equals(t.classification)) &&  
-					(this.empty == t.isEmpty()) && (this.isLethal() == t.isLethal()) && 
+			return ((this.classification.equals(t.classification)) &&
+					(this.isLethal() == t.isLethal()) && 
 					(this.isTraversable() == t.isTraversable()));
 		}
 		return false;
