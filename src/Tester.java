@@ -1,17 +1,15 @@
 
 public class Tester {
 	public static void main(String args[]) {
-		int size = 10;
-		Maze m = new Maze(size);
-		int boardSize = size + size + 1;
+		int seed = 5;
+		Maze m = new Maze(seed);
+		int size = m.getSize();
 		Tile[][] tiles = m.getTiles();
 		
-		System.out.println(String.format("A maze with seed %d, size %d.", size, m.getSize()));
-		
 		int i = 0; int j;
-		while (i < boardSize) {
+		while (i < size) {
 			j = 0;
-			while (j < boardSize) {
+			while (j < size) {
 				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
 					System.out.print(" X ");
 				} else if (tiles[i][j].getClassification().equals(Tile.PATH)) {
