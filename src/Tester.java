@@ -1,10 +1,12 @@
 
 public class Tester {
 	public static void main(String args[]) {
-		int size = 10;
+		int size = 11;
 		Maze m = new Maze(size);
 		int boardSize = size + size + 1;
 		Tile[][] tiles = m.getTiles();
+		
+		System.out.println(String.format("A maze with seed %d, size %d.", size, m.getSize()));
 		
 		int i = 0; int j;
 		while (i < boardSize) {

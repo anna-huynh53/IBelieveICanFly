@@ -9,13 +9,13 @@ public class Maze {
 	
 	/**
 	 * The constructor to create a new maze object.  
-	 * @param size - height/width of the square maze that will be created
+	 * @param seed - Used to generate the height and width of the maze (size = 2*seed +1)
 	 */
-	public Maze(int size) {
+	public Maze(int seed) {
 		
 		// the actual board size will be size x 2 + 1 to account for the 
 		// border and the walls needed between each of the tiles
-		this.size = size + size + 1;
+		this.size = seed + seed + 1;
 		this.tiles = new Tile[this.size][this.size]; 
 		
 		// initialise all tiles to have walls surrounding them i.e.
