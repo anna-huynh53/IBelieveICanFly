@@ -15,9 +15,10 @@ public class AMazingGame {
 	
 	
 	public static void runGame(Maze m) {
-		
+		// this initiates the gui
+		Gui mainMenu = new Gui();
+		mainMenu.display();
 		//guiFrame = new Gui(m);
-		
 	}
 	
 }	
