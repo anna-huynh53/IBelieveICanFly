@@ -8,8 +8,8 @@ public class Maze {
 	//private Player player;
 	
 	/**
-	 * The constructor to create a new maze object.  
-	 * @param seed - Used to generate the height and width of the maze (size = 2*seed +1)
+	 * The constructor to create a new maze object
+	 * @param seed - used to generate size of the maze (size = 2 * seed + 1)
 	 */
 	public Maze(int seed) {
 		
@@ -35,16 +35,25 @@ public class Maze {
 				}
 			}
 		}
-		
-		// set start tile at (1, 1) 
+		// set start tile at top left corner 
 		tiles[1][1].setClassification(Tile.START);
-		// set the end tile in the south east corner
-		this.tiles[this.size-2][this.size-2].setClassification(Tile.END);
-		this.tiles[this.size-2][this.size-2].setTraversable(true);
+		// set end tile at bottom right corner
+		// (the end can be placed anywhere as there is a path between any
+		// 2 points; where it is placed will just affect difficulty)
+		tiles[size-2][size-2].setClassification(Tile.END);
 		
-		Point startPoint = new Point(1, 1);
-		// start point is initial point to search from
-		Point curr = startPoint;
+		//generateDepthFirstMaze(toVisit);
+		generatePrimsMaze();
+	}	
+	
+	/**
+	 * Generates a maze using depth first search with recursive backtracking.
+	 * This produces a maze with longer paths.
+	 * @param toVisit - list of all points in the grid
+	 */
+	public void generateDepthFirstMaze(ArrayList<Point> toVisit) {		
+		// start point at (1, 1) is initial point to search from
+		Point curr = new Point(1, 1);
 		toVisit.remove(curr);
 		
 		// to generate the maze using depth-first search, a stack is used to keep
@@ -70,7 +79,42 @@ public class Maze {
 				curr = backStack.pop();
 			}
 		}
-	}		
+	}
+	
+	/**
+	 * Generates a maze using Prim's algorithm.
+	 */
+	public void generatePrimsMaze() {
+		// points that are part of the maze
+		ArrayList<Point> mazePoints = new ArrayList<Point>();
+		// add start point at (1, 1) to maze
+		Point startPoint = new Point(1, 1);
+		mazePoints.add(startPoint);
+		
+		// list of all walls to check
+		ArrayList<Point> wallsToCheck = new ArrayList<Point>();
+		// add walls of start tile to wall list
+		wallsToCheck.addAll(findAdjacentTiles(startPoint));
+		
+		Random rand = new Random();	
+		while(!wallsToCheck.isEmpty()) {
+			Point wall = wallsToCheck.get(rand.nextInt(wallsToCheck.size()));
+			// either there is exactly one tile on one side of the wall that is  
+			// not part of the maze or not
+			ArrayList<Point> unvisitedTiles = unvisitedTilesBesideWall(wall, mazePoints);
+			// if there is one unvisited tile next to the wall 
+			if (unvisitedTiles.size() == 1) {
+				// make the wall a path
+				tiles[wall.getX()][wall.getY()] = new Tile(Tile.PATH);
+				// add unvisited tile to maze 
+				mazePoints.add(unvisitedTiles.get(0));
+				// add walls of the tile to walls list
+				wallsToCheck.addAll(findAdjacentTiles(unvisitedTiles.get(0)));		
+			}
+			// remove chosen wall from walls list
+			wallsToCheck.remove(wall);
+		}
+	}
 	
 	/**
 	 * Finds all unvisited neighbours for a given point and list of points 
@@ -93,6 +137,7 @@ public class Maze {
 		if (toVisit.contains(p4)) neighbours.add(p4);	
 		return neighbours;
 	}
+	
 	/**
 	 * Removes a wall between 2 points by replacing it with a path 
 	 * @param p1
@@ -107,6 +152,77 @@ public class Maze {
 			tiles[p1.getX()][(p1.getY()+p2.getY())/2] = new Tile(Tile.PATH);
 		} 
 	}
+	
+	/** 
+	 * Finds all tiles surrounding a tile. If given a tile that is not a wall,
+	 * will return walls surrounding the tile.
+	 * @param tile point
+	 * @return list of all surrounding tiles
+	 */
+	public ArrayList<Point> findAdjacentTiles(Point p) {
+		ArrayList<Point> tiles = new ArrayList<Point>();
+		Point w1 = new Point(p.getX(), p.getY()-1); // north wall
+		tiles.add(w1);
+		Point w2 = new Point(p.getX()+1, p.getY()); // east wall
+		tiles.add(w2);
+		Point w3 = new Point(p.getX(), p.getY()+1); // south wall
+		tiles.add(w3);
+		Point w4 = new Point(p.getX()-1, p.getY()); // west wall
+		tiles.add(w4);
+		return tiles;
+	}	
+	
+	/**
+	 * For a given wall, will return the a list of all adjacent unvisited tiles
+	 * that is not a wall
+	 * @param wall point
+	 * @param visitedPoints - a list of visited points in the maze generation so
+	 * 						  far to filter out visited points
+	 * @return list of unvisited tiles 
+	 */
+	public ArrayList<Point> unvisitedTilesBesideWall(Point wall, ArrayList<Point> visitedPoints) {
+		ArrayList<Point> adjacentTiles = findAdjacentTiles(wall);
+		// from the adjacent tiles, check if the point is valid, not been visited
+		// and not a wall and if all satisfied, add to unvisited tiles list
+		ArrayList<Point> unvisitedTiles = new ArrayList<Point>();
+		for (int i = 0; i < adjacentTiles.size(); i++) {
+			Point p = adjacentTiles.get(i);
+			int x = p.getX();
+			int y = p.getY();
+			if (x > 0 && x <= size-1 && y > 0 && y <= size-1 && !visitedPoints.contains(p)) {
+				if (!tiles[x][y].getClassification().equals(Tile.WALL)) {
+					unvisitedTiles.add(p);
+				}
+			}
+		}
+		return unvisitedTiles;	
+	}
+	
+	/**
+	 * From a tile, finds the tile that lies beyond a given wall (tile here
+	 * refers to the point of the tile, not the object Tile). This method
+	 * is needed as the direction of the wall randomly chosen is not known
+	 * @param tile - point
+	 * @param wall - wall adjoining the point
+	 * @return
+	 */
+	/* May use for something else
+	public Point findTileAcrossWall(Point tile, Point wall) {
+		Point tileAcrossWall = new Point(0, 0);
+		int xDiff = tile.getX() - wall.getX();
+		int yDiff = tile.getY() - wall.getY();
+		if (yDiff < 0) { // tile to north
+			tileAcrossWall = new Point(tile.getX(), tile.getY()-2);
+		} else if (xDiff > 0) { //tile to east
+			tileAcrossWall = new Point(tile.getX()+2, tile.getY());
+		} else if (yDiff > 0) { //tile to south
+			tileAcrossWall = new Point(tile.getX(), tile.getY()+2);
+		} else if (xDiff < 0) { //tile to west
+			tileAcrossWall = new Point(tile.getX()-2, tile.getY());	
+		}
+		return tileAcrossWall;
+	}
+	*/
 
 	public boolean isGameOver(Maze m) {
 		//the end tile will be of type end
@@ -167,14 +283,14 @@ public class Maze {
 	 * @param p - entity that moved
 	 */
 	public void entityMovementListener(Entity p) {
-		// Check if Entity should die
+		// check if Entity should die
 		if (this.getTile(p.getLocation()).isLethal()) {
-			// Entity should die TODO
+			// entity should die TODO
 		}
-		// Check if player has finished maze
+		// check if player has finished maze
 		if (p instanceof Player) {
 			if (this.getTile(p.getLocation()).getClassification().equals(Tile.END)) {
-				// Player has finished the maze TODO
+				// player has finished the maze TODO
 			}
 		}
 	}
