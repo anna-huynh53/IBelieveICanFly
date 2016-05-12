@@ -4,11 +4,13 @@ public class Player implements Entity {
 	private Point currentLoc;
 	private ArrayList<Point> pastLocs;
 	private Maze maze;
+	private int score;
 	
 	public Player(Maze maze, Point loc) {
 		this.currentLoc = loc;
 		this.pastLocs = new ArrayList<Point>(); //all past x and y
 		this.maze = maze;
+		this.score = 0;
 	}
 	
 	/**
@@ -77,5 +79,44 @@ public class Player implements Entity {
 	 */
 	public int getNumberOfMoves() {
 		return this.pastLocs.size();
+	}
+	
+	/**
+	 * Get the players score
+	 * @return score
+	 */
+	public int getScore() {
+		return score;
+	}
+	
+	/**
+	 * Set the players score
+	 * @param score - the players score
+	 */
+	public void setScore(int score) {
+		this.score = score;
+		if (this.score < 0) {
+			this.score = 0;
+		}
+	}
+	
+	/**
+	 * Increase the players score by a value
+	 * @param value - the value to increase the score by
+	 */
+	public void increaseScore(int value) {
+		if (this.score < value) {
+			this.score = 0;
+		} else {
+			this.score = this.score + value;
+		}
+	}
+	
+	/**
+	 * The current tile the player is standing on
+	 * @return
+	 */
+	public Tile getTile() {
+		return maze.getTile(this.currentLoc);
 	}
 }

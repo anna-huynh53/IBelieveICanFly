@@ -39,4 +39,10 @@ public interface Entity {
 	 * @return The location of the player
 	 */
 	Point moveSouth();
+	
+	/**
+	 * The tile the entity is located on
+	 * @return Tile
+	 */
+	Tile getTile();
 }
