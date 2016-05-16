@@ -8,7 +8,7 @@ public class AMazingGame {
 	
 	public static void main (String args[]) {
 		
-		Maze m =  new Maze(30, Maze.DEPTH);
+		Maze m =  new Maze(20, Maze.DEPTH);
 		runGame(m);
 		
 	}
@@ -16,9 +16,7 @@ public class AMazingGame {
 	
 	public static void runGame(Maze m) {
 		// this initiates the gui
-		Gui mainMenu = new Gui();
-		mainMenu.display();
-		//guiFrame = new Gui(m);
+		UIFrame UI = new UIFrame(m);
 	}
 	
 }	

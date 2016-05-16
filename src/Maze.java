@@ -1,11 +1,17 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
+
+import javax.swing.ImageIcon;
 
 public class Maze {
 	private int size;
 	private Tile[][] tiles;
 	private Player player;
+	private Image wall, sprite, end, path;
 	
 	public static final String PRIM = "prim";
 	public static final String DEPTH = "depth";
@@ -16,6 +22,15 @@ public class Maze {
 	 * @param type - the type of maze generation [Maze.PRIM, Maze.DEPTH]
 	 */
 	public Maze(int seed, String type) {
+		
+		ImageIcon img = new ImageIcon("res//wall.png");
+		wall = img.getImage();
+		img = new ImageIcon("res//sprite.png");
+		sprite = img.getImage();
+		img = new ImageIcon("res//end.png");
+		end = img.getImage();
+		img = new ImageIcon("res//path.png");
+		path = img.getImage();
 		
 		// the actual board size will be size x 2 + 1 to account for the 
 		// border and the walls needed between each of the tiles
@@ -329,5 +344,50 @@ public class Maze {
 		Point start = new Point(1,1);
 		this.player = new Player(this, start);
 		return this.player;
+	}
+	
+	/**
+	 * Prints an ascii drawing of a maze to output
+	 */
+	public void printMaze() {
+		int i, j;
+	
+		for (i = 0; i < size; i++) {
+			for(j = 0; j < size; j++) {
+				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
+					System.out.print(" X ");
+				} else if (tiles[i][j].getClassification().equals(Tile.PATH)) {
+					System.out.print(" . ");
+				} else if (tiles[i][j].getClassification().equals(Tile.START)) {
+					System.out.print(" S ");
+				} else if (tiles[i][j].getClassification().equals(Tile.END)) {
+					System.out.print(" E ");
+				}
+			}
+			System.out.println("");
+		}
+	}
+	/**
+	 * Draws the maze in its current state (maybe go in the UI?)
+	 */
+	public void drawMaze(Graphics g) {
+		int i, j;
+		
+		//draw the environment
+		for (i = 0; i < size; i++) {
+			for(j = 0; j < size; j++) {
+				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
+					g.drawImage(wall, i * 20, j * 20, null);
+				} else if (tiles[i][j].getClassification().equals(Tile.PATH)) {
+					g.drawImage(path, i * 20, j * 20, null);
+				} else if (tiles[i][j].getClassification().equals(Tile.START)) {
+					g.drawImage(path, i * 20, j * 20, null);
+				} else if (tiles[i][j].getClassification().equals(Tile.END)) {
+					g.drawImage(end, i * 20, j * 20, null);
+				}
+			}
+			//draw the character
+			g.drawImage(sprite, player.getLocation().getX() * 20, player.getLocation().getY() * 20, null);
+		}
 	}
 }
