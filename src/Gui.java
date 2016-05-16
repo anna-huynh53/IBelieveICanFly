@@ -1,3 +1,7 @@
+//THIS FILE ISN'T NEEDED SINCE I REWORKED THE UI USING CARDLAYOUT
+//HOWEVER I LEFT IT HERE SO WE CAN DRAW INSPIRATION
+//FROM WHAT HAS BEEN ADDED TO IT
+/*
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -186,3 +190,4 @@ public class Gui {
 		gameRules.setVisible(true);
 	}	
 }
+*/
