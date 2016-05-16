@@ -45,10 +45,16 @@ public class Gui {
 		mainFrame.setLayout(new FlowLayout());
 		headerLabel = new JLabel("",JLabel.CENTER);
 		panel = new JPanel();
-		panel.setLayout(new FlowLayout());
+		panel.setBorder(BorderFactory.createTitledBorder("Menu"));
+		BoxLayout boxLayout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+		// panel.setLayout(new FlowLayout());
+		panel.setLayout(boxLayout);
 		
+		panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.setAlignmentY(Component.CENTER_ALIGNMENT);
 		mainFrame.add(headerLabel);
 		mainFrame.add(panel);
+		// mainFrame.pack();
 		mainFrame.setVisible(true);
 	}
 
@@ -60,11 +66,25 @@ public class Gui {
 	 */
 	
 	public void display() {
-		headerLabel.setText("Welcome to the Amazing Maze Game");
+		headerLabel.setFont(new java.awt.Font("Verdana",1,18));
+		headerLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+		headerLabel.setText("Welcome to the Amazing Maze Game!");
+		//mainFrame.setContentPane(new JLabel(new ImageIcon("/home/siriprayook/YEAR 2 UNI/project/background.jpg")));
+		
+		// initialize buttons and set alignment //
 		
 		JButton start = new JButton("START");
+		start.setAlignmentX(Component.CENTER_ALIGNMENT);
+		//start.setFont(new java.awt.Font("Verdana", 1, 24));
+
 		JButton instructions = new JButton("Instructions");
+		instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		JButton difficulty = new JButton("Set Difficultly");
+		difficulty.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		JButton exit = new JButton("Quit");
+		exit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		// when start button is pressed
 	    start.addActionListener(new ActionListener() {
@@ -77,7 +97,8 @@ public class Gui {
 	    // when instruction button is pressed
 	    instructions.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
-	        	headerLabel.setText("Instructions Button clicked.");
+	        	// headerLabel.setText("Instructions Button clicked.");
+	        	rules();
 	        }
 	    });
 	    
@@ -88,13 +109,28 @@ public class Gui {
 	        }
 	    });
 	    
+	    // when Quit button is pressed
+	    exit.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		System.exit(0);
+	    	}
+	    });
+	    
 	    start.setAlignmentY(Component.CENTER_ALIGNMENT);
 	    instructions.setAlignmentY(Component.CENTER_ALIGNMENT);
 	    difficulty.setAlignmentY(Component.CENTER_ALIGNMENT);
+	
+	    Dimension buttonSize = new Dimension(180,30);
+	    
 	    panel.add(start);
 	    panel.add(instructions);
-	    panel.add(difficulty);       
-
+	    panel.add(difficulty);
+	    panel.add(exit);
+	    start.setMaximumSize(buttonSize);
+	    instructions.setMaximumSize(buttonSize);
+	    difficulty.setMaximumSize(buttonSize);
+	    exit.setMaximumSize(buttonSize);
+	    
 	    mainFrame.setVisible(true);  
 	}
 	
@@ -113,7 +149,7 @@ public class Gui {
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainFrame.setVisible(false);
-				Gui newGame = new Gui();
+				Game newGame = new Game();
 				newGame.display();
 			}
 		});
@@ -122,4 +158,31 @@ public class Gui {
 		mainFrame.setVisible(true);
 	}
 	
+	/*
+	 * when instruction button is pressed, it passes to rules()
+	 * opens new window with helpful text to explain how to play the game
+	 * includes back button (maybe a play button)
+	 */
+	
+	public void rules() {
+		JFrame gameRules = new JFrame("Instructions");
+		gameRules.setSize(700,500);
+		gameRules.setLayout(new FlowLayout());
+		// gameRules.setContentPane(new JLabel(new ImageIcon("/home/siriprayook/YEAR 2 UNI/project/background.jpg")));
+		gameRules.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent windowEvent){
+				System.exit(0);
+			}
+		});
+		gameRules.setLayout(new FlowLayout());
+		JLabel header = new JLabel("- How to Play -",JLabel.CENTER);
+		JLabel body = new JLabel("insert instructions here... blah blah blah blah blah blah",JLabel.LEFT);
+		
+		// header.setFont(new java.awt.Font("",1,15));
+		header.setFont(new java.awt.Font("Verdana",1,18));
+		
+		gameRules.add(header);
+		gameRules.add(body);
+		gameRules.setVisible(true);
+	}	
 }
