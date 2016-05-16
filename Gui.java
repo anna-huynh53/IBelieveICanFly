@@ -1,12 +1,12 @@
 //THIS FILE ISN'T NEEDED SINCE I REWORKED THE UI USING CARDLAYOUT
 //HOWEVER I LEFT IT HERE SO WE CAN DRAW INSPIRATION
-//FROM WHAT HAS BEEN ADDED TO IT
-/*
+//FROM WHAT HAS BEEN ADDED TO IT (design choices, etc)
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/**
+/*
  * displays maze
  * will take in a size and output a maze
  * ..
@@ -153,7 +153,7 @@ public class Gui {
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainFrame.setVisible(false);
-				Game newGame = new Game();
+				//Game newGame = new Game();
 				newGame.display();
 			}
 		});
@@ -190,4 +190,3 @@ public class Gui {
 		gameRules.setVisible(true);
 	}	
 }
-*/
