@@ -1,9 +1,9 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
@@ -11,7 +11,7 @@ public class Maze {
 	private int size;
 	private Tile[][] tiles;
 	private Player player;
-	private Image wall, sprite, end, path;
+	private Image wall, path, end, sprite;
 	
 	public static final String PRIM = "prim";
 	public static final String DEPTH = "depth";
@@ -25,12 +25,12 @@ public class Maze {
 		
 		ImageIcon img = new ImageIcon("res//wall.png");
 		wall = img.getImage();
-		img = new ImageIcon("res//sprite.png");
-		sprite = img.getImage();
-		img = new ImageIcon("res//end.png");
-		end = img.getImage();
 		img = new ImageIcon("res//path.png");
 		path = img.getImage();
+		img = new ImageIcon("res//end.png");
+		end = img.getImage();
+		img = new ImageIcon("res//sprite.png");
+		sprite = img.getImage();
 		
 		// the actual board size will be size x 2 + 1 to account for the 
 		// border and the walls needed between each of the tiles
@@ -108,6 +108,7 @@ public class Maze {
 	
 	/**
 	 * Generates a maze using Prim's algorithm.
+	 * This produces a maze with shorter paths and more deadends. 
 	 */
 	public void generatePrimsMaze() {
 		// points that are part of the maze
@@ -263,19 +264,17 @@ public class Maze {
 	 * @return true if the move is valid otherwise false
 	 */
 	public boolean isValidMove(Player p, Point newLoc) {
+		boolean validMove = true;
 		// check X is valid
-		if (newLoc.getX() < 0 || newLoc.getX() > this.size) {
-			return false;
-		}
+		if (newLoc.getX() < 0 || newLoc.getX() > this.size) 
+			validMove = false;
 		// check Y is valid
-		if (newLoc.getY() < 0 || newLoc.getY() > this.size) {
-			return false;
-		}
+		if (newLoc.getY() < 0 || newLoc.getY() > this.size) 
+			validMove = false;
 		// check player can be on tile
-		if (!this.getTile(newLoc).isTraversable()) {
-			return false;
-		}
-		return true;
+		if (!this.getTile(newLoc).isTraversable()) 
+			validMove = false;
+		return validMove;
 	}
 	
 	/**
@@ -304,6 +303,16 @@ public class Maze {
 	}
 	
 	/**
+	 * Create a new player and put it at the start of the maze
+	 * @return The player created
+	 */
+	public Player createPlayer() {
+		Point start = new Point(1,1);
+		this.player = new Player(this, start);
+		return this.player;
+	}	
+	
+	/**
 	 * Called whenever a player moves. Determines deaths/victory.
 	 * @param p - player that moved
 	 */
@@ -318,7 +327,6 @@ public class Maze {
 			// Implement call to the GUI for display of end of game
 		}
 		//Check if there is an item on the tile
-
 	}
 	
 	/**
@@ -337,23 +345,11 @@ public class Maze {
 	}
 	
 	/**
-	 * Create a new player and put it at the start of the maze
-	 * @return The player created
-	 */
-	public Player createPlayer() {
-		Point start = new Point(1,1);
-		this.player = new Player(this, start);
-		return this.player;
-	}
-	
-	/**
 	 * Prints an ascii drawing of a maze to output
 	 */
 	public void printMaze() {
-		int i, j;
-	
-		for (i = 0; i < size; i++) {
-			for(j = 0; j < size; j++) {
+		for (int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
 				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
 					System.out.print(" X ");
 				} else if (tiles[i][j].getClassification().equals(Tile.PATH)) {
@@ -367,15 +363,14 @@ public class Maze {
 			System.out.println("");
 		}
 	}
+	
 	/**
 	 * Draws the maze in its current state (maybe go in the UI?)
 	 */
 	public void drawMaze(Graphics g) {
-		int i, j;
-		
 		//draw the environment
-		for (i = 0; i < size; i++) {
-			for(j = 0; j < size; j++) {
+		for (int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
 				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
 					g.drawImage(wall, i * 20, j * 20, null);
 				} else if (tiles[i][j].getClassification().equals(Tile.PATH)) {

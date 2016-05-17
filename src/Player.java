@@ -8,65 +8,21 @@ public class Player implements Entity {
 	
 	public Player(Maze maze, Point loc) {
 		this.currentLoc = loc;
-		this.pastLocs = new ArrayList<Point>(); //all past x and y
+		this.pastLocs = new ArrayList<Point>(); // all past x and y
 		this.maze = maze;
 		this.score = 0;
 	}
 	
 	/**
-	 * Moves the current player (if possible)
-	 * @return The location of the player
-	 */
-	public Point moveWest() {
-		Point newLoc = new Point(this.currentLoc.getX()-1, this.currentLoc.getY());
-		return this.move(newLoc);
-	}
-	
-	/**
-	 * Moves the current player (if possible)
-	 * @return The location of the player
-	 */
-	public Point moveEast() {
-		Point newLoc = new Point(this.currentLoc.getX()+1, this.currentLoc.getY());
-		return this.move(newLoc);
-	}
-	
-	/**
-	 * Moves the current player (if possible)
-	 * @return The location of the player
-	 */
-	public Point moveNorth() {
-		Point newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()-1);
-		return this.move(newLoc);
-	}
-	
-	/**
-	 * Moves the current player (if possible)
-	 * @return The location of the player
-	 */
-	public Point moveSouth() {
-		Point newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()+1);
-		return this.move(newLoc);
-	}
-	
-	/**
-	 * Get the player's location in the maze
-	 * @return The point object of the players location.
-	 */
-	public Point getLocation() {
-		return this.currentLoc;
-	}
-	
-	/**
 	 * Move the player to the given location (if possible)
-	 * @param newLoc The point to move the player to
-	 * @return the new position of the player
+	 * @param newLoc - point to move the player to
+	 * @return new position of the player
 	 */
 	public Point move(Point newLoc) {
 		if (maze.isValidMove(this, newLoc)) {
 			this.pastLocs.add(this.currentLoc);
 			this.currentLoc = newLoc;
-			maze.playerMovementListener(this); // This must be called whenever the player moves
+			maze.playerMovementListener(this); // must be called whenever the player moves
 			return newLoc;
 		} else {
 			return this.currentLoc;
@@ -74,8 +30,56 @@ public class Player implements Entity {
 	}
 	
 	/**
+	 * Moves the current player (if possible)
+	 * @return location of the player
+	 */
+	public Point moveNorth() {
+		Point newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()-1);
+		return this.move(newLoc);
+	}
+	
+	public Point moveEast() {
+		Point newLoc = new Point(this.currentLoc.getX()+1, this.currentLoc.getY());
+		return this.move(newLoc);
+	}
+	
+	public Point moveSouth() {
+		Point newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()+1);
+		return this.move(newLoc);
+	}
+	
+	public Point moveWest() {
+		Point newLoc = new Point(this.currentLoc.getX()-1, this.currentLoc.getY());
+		return this.move(newLoc);
+	}
+	
+	/**
+	 * Get the player's location in the maze
+	 * @return coordinates of the player's location
+	 */
+	public Point getLocation() {
+		return this.currentLoc;
+	}
+	
+	/**
+	 * The current tile the player is standing on
+	 * @return
+	 */
+	public Tile getTile() {
+		return maze.getTile(this.currentLoc);
+	}
+	
+	/**
+	 * Gets list of player's past locations 
+	 * @return list of coordinates of past locations player has been on
+	 */
+	public ArrayList<Point> getPastLocs() {
+		return this.pastLocs;
+	}
+	
+	/**
 	 * Get the number of moves the player has made
-	 * @return The number of moves made successfully
+	 * @return number of moves made successfully
 	 */
 	public int getNumberOfMoves() {
 		return this.pastLocs.size();
@@ -110,13 +114,5 @@ public class Player implements Entity {
 		} else {
 			this.score = this.score + value;
 		}
-	}
-	
-	/**
-	 * The current tile the player is standing on
-	 * @return
-	 */
-	public Tile getTile() {
-		return maze.getTile(this.currentLoc);
 	}
 }

@@ -7,7 +7,7 @@ public class Tile {
 	private String classification;
 	private boolean traversable;
 	private boolean lethal;
-	private Item item = null;
+	private Item item;
 	
 	// Classifications //
 	public static final String START = "start"; // Also a path by definition
@@ -32,6 +32,7 @@ public class Tile {
 			this.traversable = false;
 			this.lethal = false;
 		}
+		item = null;
 	}
 	
 	/**
@@ -83,6 +84,24 @@ public class Tile {
 	}
 	
 	/**
+	 * Set the item the tile contains
+	 * @param i - the Item the tile contains
+	 */
+	public void setItem(Item i) {
+		this.item = i;
+	}
+	
+	/**
+	 * Removes the item from the tile
+	 * @return item removed
+	 */
+	public Item removeItem() {
+		Item i = this.item;
+		this.item = null;
+		return i;
+	}
+	
+	/**
 	 * Checks if this and another tile are equal
 	 * @param t - tile object
 	 * @return if the two tiles are equal
@@ -95,23 +114,5 @@ public class Tile {
 					(this.isTraversable() == t.isTraversable()));
 		}
 		return false;
-	}
-	
-	/**
-	 * Set the item the tile contains
-	 * @param i - the Item the tile contains
-	 */
-	public void setItem(Item i) {
-		this.item = i;
-	}
-	
-	/**
-	 * Removes the item from the tile
-	 * @return The item removed
-	 */
-	public Item removeItem() {
-		Item i = this.item;
-		this.item = null;
-		return i;
 	}
 }

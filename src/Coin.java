@@ -10,5 +10,4 @@ public class Coin implements Item {
 		p.increaseScore(value);
 		p.getTile().removeItem();
 	}
-
 }
