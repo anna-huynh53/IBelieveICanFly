@@ -36,6 +36,9 @@ public class UIFrame extends JFrame {
 		this.setLayout(new BorderLayout());
 		this.add(panelContainer);
 		this.setVisible(true);
+
+		BoxLayout boxLayout = new BoxLayout(menuPanel, BoxLayout.Y_AXIS);
+		menuPanel.setLayout(boxLayout);		
 		
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent windowEvent){
@@ -56,6 +59,13 @@ public class UIFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e) {
 	    		panelDeck.show(panelContainer, "difficultyScreen");
 	        }          
+	    });
+		
+		//quit - closes the window exits the main menu
+	    menuPanel.getQuitButton().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		System.exit(0);
+	    	}
 	    });
 
 	    //when gamePanel's back button is pressed, return to the menu
