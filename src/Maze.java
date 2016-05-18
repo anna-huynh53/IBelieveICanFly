@@ -11,7 +11,6 @@ public class Maze {
 	private int size;
 	private Tile[][] tiles;
 	private Player player;
-	private Image wall, path, end, sprite;
 	
 	public static final String PRIM = "prim";
 	public static final String DEPTH = "depth";
@@ -22,15 +21,6 @@ public class Maze {
 	 * @param type - the type of maze generation [Maze.PRIM, Maze.DEPTH]
 	 */
 	public Maze(int seed, String type) {
-		
-		ImageIcon img = new ImageIcon("res//wall.png");
-		wall = img.getImage();
-		img = new ImageIcon("res//path.png");
-		path = img.getImage();
-		img = new ImageIcon("res//end.png");
-		end = img.getImage();
-		img = new ImageIcon("res//sprite.png");
-		sprite = img.getImage();
 		
 		// the actual board size will be size x 2 + 1 to account for the 
 		// border and the walls needed between each of the tiles
@@ -250,9 +240,14 @@ public class Maze {
 	}
 	*/
 
-	public boolean isGameOver(Maze m) {
-		//the end tile will be of type end
-		return false;
+	/**
+	 * If the player is on the end tile, returns true
+	 * @param
+	 * @return
+	 */
+	public boolean isGameOver() {
+		if (player.getTile().getClassification().equals("end")) return true;
+		else return false;
 	}
 	
 	/**
@@ -361,28 +356,6 @@ public class Maze {
 				}
 			}
 			System.out.println("");
-		}
-	}
-	
-	/**
-	 * Draws the maze in its current state (maybe go in the UI?)
-	 */
-	public void drawMaze(Graphics g) {
-		//draw the environment
-		for (int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++) {
-				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
-					g.drawImage(wall, i * 20, j * 20, null);
-				} else if (tiles[i][j].getClassification().equals(Tile.PATH)) {
-					g.drawImage(path, i * 20, j * 20, null);
-				} else if (tiles[i][j].getClassification().equals(Tile.START)) {
-					g.drawImage(path, i * 20, j * 20, null);
-				} else if (tiles[i][j].getClassification().equals(Tile.END)) {
-					g.drawImage(end, i * 20, j * 20, null);
-				}
-			}
-			//draw the character
-			g.drawImage(sprite, player.getLocation().getX() * 20, player.getLocation().getY() * 20, null);
 		}
 	}
 }

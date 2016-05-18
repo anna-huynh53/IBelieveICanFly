@@ -1,25 +1,18 @@
+import java.awt.*;
 
 public class AMazingGame {
-	
-	
-	//private static Gui guiFrame;
-	@SuppressWarnings("unused")
-	private Maze m;
 	
 	public static void main (String args[]) {
 		
 		Maze m =  new Maze(20, Maze.DEPTH);
-		runGame(m);
-		
-	}
-	
-	
-	public static void runGame(Maze m) {
-		// this initiates the gui
 		UIFrame UI = new UIFrame(m);
 	}
 	
-}	
+	
+	public void runGame(UIFrame UI) {
+	}
+	
+}
 	
 //	private mazeUI //GUI field/s??
 //	

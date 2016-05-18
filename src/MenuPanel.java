@@ -1,9 +1,5 @@
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
 
 public class MenuPanel extends JPanel {
 
