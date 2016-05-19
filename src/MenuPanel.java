@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class MenuPanel extends JPanel {
 
-	private JLabel header = new JLabel("Welcome to the Maze Game!!");
+	private JLabel header = new JLabel("I believe I can fly");
 	private JButton start = new JButton("Start Game");
 	private JButton help = new JButton("Help");
 	private JButton quit = new JButton("Quit");
@@ -14,19 +14,19 @@ public class MenuPanel extends JPanel {
 	    help.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    quit.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    
-	    //currently sets font size (type of font doesn't seem to work)
-	    header.setFont(new java.awt.Font("Impact",1,40));
-	    start.setFont(new java.awt.Font("Impact",1,18));
-	    help.setFont(new java.awt.Font("Impact",1,18));
-	    quit.setFont(new java.awt.Font("Impact",1,18));
+	    // sets fonts
+	    header.setFont(new Font("Impact",1,40));
+	    start.setFont(new Font("Impact",1,18));
+	    help.setFont(new Font("Impact",1,18));
+	    quit.setFont(new Font("Impact",1,18));
 	    
-	    //set button size
+	    // sets button size
 	    Dimension buttonSize = new Dimension(180,40);
 	    start.setMaximumSize(buttonSize);
 	    help.setMaximumSize(buttonSize);
 	    quit.setMaximumSize(buttonSize);
 	    
-	    //add the buttons to the panel with input blank area as spacing
+	    // add the buttons to the panel with input blank area as spacing
 	    add(Box.createRigidArea(new Dimension(0,200)));
 	    add(header);
 	    add(Box.createRigidArea(new Dimension(0,50)));

@@ -44,12 +44,12 @@ public class Maze {
 				}
 			}
 		}
-		// set start tile at top left corner 
-		tiles[1][1].setClassification(Tile.START);
-		// set end tile at bottom right corner
+		// set start tile at bottom right corner 
+		tiles[size-2][size-2].setClassification(Tile.START);
+		// set end tile at top left corner
 		// (the end can be placed anywhere as there is a path between any
 		// 2 points; where it is placed will just affect difficulty)
-		tiles[size-2][size-2].setClassification(Tile.END);
+		tiles[1][1].setClassification(Tile.END);
 		
 		if (type.equals(Maze.DEPTH)) {
 			generateDepthFirstMaze(toVisit);
@@ -58,7 +58,7 @@ public class Maze {
 		}
 		
 		// Player is automatically created along with the maze
-		this.createPlayer();
+		createPlayer();
 	}	
 	
 	/**
@@ -246,7 +246,7 @@ public class Maze {
 	 * @return
 	 */
 	public boolean isGameOver() {
-		if (player.getTile().getClassification().equals("end")) return true;
+		if (player.getTile().getClassification().equals(Tile.END)) return true;
 		else return false;
 	}
 	
@@ -301,10 +301,9 @@ public class Maze {
 	 * Create a new player and put it at the start of the maze
 	 * @return The player created
 	 */
-	public Player createPlayer() {
-		Point start = new Point(1,1);
+	public void createPlayer() {
+		Point start = new Point(size-2, size-2);
 		this.player = new Player(this, start);
-		return this.player;
 	}	
 	
 	/**

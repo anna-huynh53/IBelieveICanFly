@@ -3,25 +3,21 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * Controls the contents and design of the window which displays the program ..
+ * Controls the contents and design of the window which displays the program 
  */
 
 public class UIFrame extends JFrame implements KeyListener {
 	private JPanel panelContainer;
-	private MenuPanel menuScreen; // the panel that contains the main menu
-									// components
-	private JPanel gameScreen; // the panel that contains the displayed maze and
-								// its components
-	private GamePanel gamePanel; // the panel displaying the current maze
-	private JPanel difficultyScreen;
+	private MenuPanel menuScreen; // contains the main menu components	
+	private DifficultyPanel difficultyScreen;
+	private GamePanel gameScreen; // contains the displayed maze and its components
 	private CardLayout panelDeck;
 
 	public UIFrame(Maze m) {
 		this.panelContainer = new JPanel();
-		this.gameScreen = new JPanel();
-		this.gamePanel = new GamePanel(m);
 		this.menuScreen = new MenuPanel();
-		this.difficultyScreen = new JPanel();
+		this.difficultyScreen = new DifficultyPanel();
+		this.gameScreen = new GamePanel(m);
 		this.panelDeck = new CardLayout();
 		initUIFrame();
 		initMenuScreen();
@@ -32,11 +28,10 @@ public class UIFrame extends JFrame implements KeyListener {
 	/**
 	 * Initialises the frame and all components it contains
 	 */
-
 	private void initUIFrame() {
 
 		// setup the frame
-		this.setTitle("Maze Game");
+		this.setTitle("I believe I can fly");
 		this.setSize(850, 900);
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
@@ -61,65 +56,7 @@ public class UIFrame extends JFrame implements KeyListener {
 		addKeyListener(this);
 		setFocusable(true);
 	}
-
-	/**
-	 * Sets up the difficulty pane
-	 */
-	private void initDifficultyScreen() {
-		JButton easy = new JButton("Easy");
-		JButton medium = new JButton("Medium");
-		JButton hard = new JButton("Hard");
-
-		// when start button is pressed
-		easy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				gamePanel.setMaze(new Maze(10, "prim"));
-				panelDeck.show(panelContainer, "gameScreen");
-			}
-		});
-
-		// when instruction button is pressed
-		medium.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				gamePanel.setMaze(new Maze(15, "prim"));
-				panelDeck.show(panelContainer, "gameScreen");
-			}
-		});
-
-		// when Set Difficulty button is pressed
-		hard.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				gamePanel.setMaze(new Maze(20, "depth"));
-				panelDeck.show(panelContainer, "gameScreen");
-			}
-		});
-
-		// add the buttons to the panel
-		difficultyScreen.add(easy);
-		difficultyScreen.add(medium);
-		difficultyScreen.add(hard);
-		easy.setAlignmentY(Component.CENTER_ALIGNMENT);
-		medium.setAlignmentY(Component.CENTER_ALIGNMENT);
-		hard.setAlignmentY(Component.CENTER_ALIGNMENT);
-	}
-
-	private void initGameScreen() {
-		BoxLayout boxLayout = new BoxLayout(gameScreen, BoxLayout.Y_AXIS);
-		JButton back = new JButton("Back to Menu");
-
-		// when gamePanel's back button is pressed, return to the menu
-		back.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelDeck.show(panelContainer, "menuScreen");
-			}
-		});
-
-		gameScreen.setLayout(boxLayout);
-		back.setAlignmentX(CENTER_ALIGNMENT);
-		gameScreen.add(back);
-		gameScreen.add(gamePanel);
-	}
-
+	
 	private void initMenuScreen() {
 		// when menuPanel's start button is pressed, show difficulty choices
 		menuScreen.getStartButton().addActionListener(new ActionListener() {
@@ -136,26 +73,60 @@ public class UIFrame extends JFrame implements KeyListener {
 		});
 	}
 
-	public GamePanel getGamePanel() {
-		return this.gamePanel;
+	/**
+	 * Sets up the difficulty pane
+	 */
+	private void initDifficultyScreen() {
+		BoxLayout boxLayout = new BoxLayout(difficultyScreen, BoxLayout.Y_AXIS);
+		difficultyScreen.setLayout(boxLayout);
+		
+		difficultyScreen.getEasyButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameScreen.setMaze(new Maze(10, "prim"));
+				panelDeck.show(panelContainer, "gameScreen");
+			}
+		});
+
+		difficultyScreen.getMediumButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameScreen.setMaze(new Maze(15, "prim"));
+				panelDeck.show(panelContainer, "gameScreen");
+			}
+		});
+
+		difficultyScreen.getHardButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameScreen.setMaze(new Maze(20, "depth"));
+				panelDeck.show(panelContainer, "gameScreen");
+			}
+		});
+	}
+
+	private void initGameScreen() {
+		// when gamePanel's back button is pressed, return to the menu
+		gameScreen.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelDeck.show(panelContainer, "menuScreen");
+			}
+		});
 	}
 
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 
 		if (key == KeyEvent.VK_LEFT) {
-			gamePanel.getMaze().getPlayer().moveWest();
+			gameScreen.getMaze().getPlayer().moveWest();
 		} else if (key == KeyEvent.VK_RIGHT) {
-			gamePanel.getMaze().getPlayer().moveEast();
+			gameScreen.getMaze().getPlayer().moveEast();
 		} else if (key == KeyEvent.VK_UP) {
-			gamePanel.getMaze().getPlayer().moveNorth();
+			gameScreen.getMaze().getPlayer().moveNorth();
 		} else if (key == KeyEvent.VK_DOWN) {
-			gamePanel.getMaze().getPlayer().moveSouth();
+			gameScreen.getMaze().getPlayer().moveSouth();
 		}
-		gamePanel.repaint();
-		if (gamePanel.getMaze().isGameOver()) {
+		gameScreen.repaint();
+		if (gameScreen.getMaze().isGameOver()) {
 			Toolkit.getDefaultToolkit().beep();
-			JOptionPane.showMessageDialog(gamePanel, "Well that was underwhelming. At least you got a 'ding'?");
+			JOptionPane.showMessageDialog(gameScreen, "Well that was underwhelming. At least you got a 'ding'?");
 			panelDeck.show(panelContainer, "menuScreen");
 		}
 	}
@@ -169,5 +140,9 @@ public class UIFrame extends JFrame implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public GamePanel getGamePanel() {
+		return this.gameScreen;
 	}
 }
