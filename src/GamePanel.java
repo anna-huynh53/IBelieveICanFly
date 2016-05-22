@@ -43,6 +43,7 @@ public class GamePanel extends JPanel {
 		Image pathImage = Toolkit.getDefaultToolkit().getImage("res//path.png");
 		Image endImage = Toolkit.getDefaultToolkit().getImage("res//end.png");
 		Image spriteImage = Toolkit.getDefaultToolkit().getImage("res//sprite.png");
+		Image coinImage = Toolkit.getDefaultToolkit().getImage("res//coin.png");
 
 		// draw the environment
 		for (int i = 0; i < maze.getSize(); i++) {
@@ -56,6 +57,12 @@ public class GamePanel extends JPanel {
 				} else if (maze.getTiles()[i][j].getClassification().equals(Tile.END)) {
 					g.drawImage(endImage, i * 20, j * 20, null);
 				}
+				
+				// draw coins
+				if (maze.getTiles()[i][j].getClassification().equals(Tile.PATH) && maze.getTiles()[i][j].getItem() instanceof Coin) {
+					g.drawImage(coinImage, i*20, j*20, null);
+				}
+				
 			}
 			// draw the character
 			g.drawImage(spriteImage, maze.getPlayer().getLocation().getX() * 20,

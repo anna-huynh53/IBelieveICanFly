@@ -92,6 +92,15 @@ public class Tile {
 	}
 	
 	/**
+	 * get the item on the tile
+	 * @return item
+	 */
+	public Item getItem() {
+		Item i = this.item;
+		return i;
+	}
+	
+	/**
 	 * Removes the item from the tile
 	 * @return item removed
 	 */

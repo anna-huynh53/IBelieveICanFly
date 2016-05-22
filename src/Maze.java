@@ -58,7 +58,16 @@ public class Maze {
 		}
 		
 		//Place coins on the maze
-		
+		Random rand = new Random();
+		int i = 0;
+		while (i <= rand.nextInt(5)) {
+			Tile t = this.tiles[rand.nextInt(this.size)][rand.nextInt(this.size)];
+			if (t.getClassification().equals(Tile.PATH) && !(t.getItem() instanceof Item)) {
+				Coin c = new Coin(1);
+				t.setItem(c);
+				i++;
+			}
+		}
 		
 		// Player is automatically created along with the maze
 		createPlayer();
@@ -324,6 +333,9 @@ public class Maze {
 			// Implement call to the GUI for display of end of game
 		}
 		//Check if there is an item on the tile
+		if (this.player.getTile().getItem() instanceof Item) {
+			this.player.getTile().getItem().playerInteractEvent(this.player);
+		}
 	}
 	
 	/**
