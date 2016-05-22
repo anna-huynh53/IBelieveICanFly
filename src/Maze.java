@@ -57,6 +57,9 @@ public class Maze {
 			generatePrimsMaze();
 		}
 		
+		//Place coins on the maze
+		
+		
 		// Player is automatically created along with the maze
 		createPlayer();
 	}	
@@ -316,7 +319,7 @@ public class Maze {
 			// entity should die TODO
 		}
 		// check if player has finished maze
-		if (this.getTile(p.getLocation()).getClassification().equals(Tile.END)) {
+		if (this.isGameOver()) {
 			// player has finished the maze TODO
 			// Implement call to the GUI for display of end of game
 		}
