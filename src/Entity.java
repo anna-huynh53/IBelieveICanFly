@@ -1,48 +1,39 @@
+import java.awt.Graphics;
+
 /**
  * A controllable entity that is able to interact with the maze
  *
  */
 public interface Entity {
+	
+	/**
+	 * Move the entity to a new location (if possible)
+	 * (compressed all separate movements into one)
+	 */
+	public void move();
+	
+	
+	/**
+	 * Updates the entity by calling move and setting other
+	 * (this is for stuff like where it is facing and stuff but don't
+	 * worry about it for now)
+	 */
+	public void update();
+	
+	/**
+	 * Draws the entity
+	 */
+	public void draw(Graphics g);
+	
 	/**
 	 * Gets the location of the entity
 	 * @return The entity's location
 	 */
-	Point getLocation();
-	
-	/**
-	 * Move the entity to a new location (if possible)
-	 * @param newLoc - location to move the entity to
-	 * @return location the entity is located at after move
-	 */
-	Point move(Point newLoc);
-	
-	/**
-	 * Moves the current entity (if possible)
-	 * @return The location of the player
-	 */
-	Point moveNorth();
-	
-	/**
-	 * Moves the current entity (if possible)
-	 * @return location of the player
-	 */
-	Point moveEast();
-	
-	/**
-	 * Moves the current entity (if possible)
-	 * @return The location of the player
-	 */
-	Point moveSouth();
-	
-	/**
-	 * Moves the current entity (if possible)
-	 * @return location of the player
-	 */
-	Point moveWest();
+	public Point getLocation();
 	
 	/**
 	 * The tile the entity is located on
 	 * @return Tile
 	 */
-	Tile getTile();
+	public Tile getTile();
 }
