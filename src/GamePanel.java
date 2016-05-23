@@ -65,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameState.draw(g);
     }
 
+    // can be separated
     public void initKeyBindings() {
         InputMap im = this.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = this.getActionMap();

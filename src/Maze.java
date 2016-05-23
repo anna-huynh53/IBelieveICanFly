@@ -1,12 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
-
-import javax.swing.ImageIcon;
+import java.awt.*;
 
 public class Maze {
 	private int size;

@@ -1,7 +1,5 @@
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.awt.*;
 
 public class Player implements Entity {
 	private Point currentLoc;
@@ -21,14 +19,7 @@ public class Player implements Entity {
 		this.maze = maze;
 		this.score = 0;
 	}
-	
-	public void update() {
-		System.out.println(currentLoc.getX());
-		move();
-		System.out.println(currentLoc.getX());
-	}
-				
-		
+					
 	public void move() {
 		Point newLoc = new Point(0,0);
 		if (left) newLoc = new Point(this.currentLoc.getX()-1, this.currentLoc.getY());
@@ -40,6 +31,12 @@ public class Player implements Entity {
 			this.currentLoc = newLoc;
 			maze.playerMovementListener(this); // must be called whenever the player moves
 		} 
+	}
+	
+	public void update() {
+		System.out.println(currentLoc.getX());
+		move();
+		System.out.println(currentLoc.getX());
 	}
 	
 	public void setLeft(boolean b) {
@@ -60,10 +57,6 @@ public class Player implements Entity {
 	
 	public void setJumping(boolean b) {
 		this.jumping = b;
-	}
-	
-	public boolean getLeft() {
-		return this.left;
 	}
 	
 	/**
@@ -134,9 +127,4 @@ public class Player implements Entity {
 		g.drawImage(spriteImage, maze.getPlayer().getLocation().getX() * 20,
 				maze.getPlayer().getLocation().getY() * 20, null);
 	}
-	
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> b2c4cd23fd12e985e86bdd1cb050f0a473fd99ae

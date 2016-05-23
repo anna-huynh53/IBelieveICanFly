@@ -1,5 +1,5 @@
 /**
- * This class represents a tile of the maze.
+ * Represents a tile of the maze.
  * It describes the classification of the tile e.g. wall, lava etc. 
  * and the properties of the tile i.e. if it is traversable or lethal
 **/

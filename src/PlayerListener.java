@@ -9,8 +9,6 @@ public class PlayerListener implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (gameScreen.getMaze().getPlayer().moveSouth()) {
-			gameScreen.getMaze().getPlayer().moveSouth();
-		}
+
 	}
 }

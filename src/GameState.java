@@ -36,8 +36,4 @@ public class GameState {
 	public void setMaze(Maze m) {
 		this.maze = m;
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> b2c4cd23fd12e985e86bdd1cb050f0a473fd99ae
