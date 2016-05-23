@@ -1,14 +1,18 @@
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
-public class GamePanel extends JPanel {
-	private Maze maze;
+public class GamePanel extends JPanel implements Runnable {
+	private GameState gameState; 
+	
+	private boolean running;
+
 	private JButton restart = new JButton("Restart");
 	private JButton help = new JButton("Help");
 	private JButton back = new JButton("Back To Menu");
-
-	public GamePanel(Maze m) {
-		this.maze = m;
+	
+	public GamePanel() {		
 		restart.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    help.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    back.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -28,55 +32,93 @@ public class GamePanel extends JPanel {
 	    add(restart);
 	    add(help);   
 	    add(back);
-	}
-
-	public void paintComponent(Graphics page) {
-		super.paintComponent(page);
-		drawMaze(page);
-	}
+	   
+	    initKeyBindings(); 
+	}	
 	
-	/**
-	 * Draws the maze in its current state (maybe go in the UI?)
-	 */
-	private void drawMaze(Graphics g) {
-		Image wallImage = Toolkit.getDefaultToolkit().getImage("res//wall.png");
-		Image pathImage = Toolkit.getDefaultToolkit().getImage("res//path.png");
-		Image endImage = Toolkit.getDefaultToolkit().getImage("res//end.png");
-		Image spriteImage = Toolkit.getDefaultToolkit().getImage("res//sprite.png");
-		Image coinImage = Toolkit.getDefaultToolkit().getImage("res//coin.png");
-
-		// draw the environment
-		for (int i = 0; i < maze.getSize(); i++) {
-			for (int j = 0; j < maze.getSize(); j++) {
-				if (maze.getTiles()[i][j].getClassification().equals(Tile.WALL)) {
-					g.drawImage(wallImage, i * 20, j * 20, null);
-				} else if (maze.getTiles()[i][j].getClassification().equals(Tile.PATH)) {
-					g.drawImage(pathImage, i * 20, j * 20, null);
-				} else if (maze.getTiles()[i][j].getClassification().equals(Tile.START)) {
-					g.drawImage(pathImage, i * 20, j * 20, null);
-				} else if (maze.getTiles()[i][j].getClassification().equals(Tile.END)) {
-					g.drawImage(endImage, i * 20, j * 20, null);
-				}
-				
-				// draw coins
-				if (maze.getTiles()[i][j].getClassification().equals(Tile.PATH) && maze.getTiles()[i][j].getItem() instanceof Coin) {
-					g.drawImage(coinImage, i*20, j*20, null);
-				}
-				
+	public void run() {
+		long start;
+		long elapsed;
+		long wait;
+		
+		while(running) {
+			start = System.nanoTime();
+			elapsed = System.nanoTime() - start;
+			wait = 1000/60 - elapsed/1000000;
+			update();
+			repaint();
+			if(wait < 0) wait = 5;
+			try {
+				Thread.sleep(wait);
+			} catch(Exception e) {
+				e.printStackTrace();
 			}
-			// draw the character
-			g.drawImage(spriteImage, maze.getPlayer().getLocation().getX() * 20,
-					maze.getPlayer().getLocation().getY() * 20, null);
 		}
 	}
 	
-	public Image scaleImage(Image img, int width, int height) {
-		Image newImg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
-		return newImg;
+	public void update() {
+		gameState.update();
 	}
 	
-	public Maze getMaze() {
-		return this.maze;
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        gameState.draw(g);
+    }
+
+    public void initKeyBindings() {
+        InputMap im = this.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = this.getActionMap();
+
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
+
+        am.put("left", new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		gameState.getPlayer().setLeft(true);
+        	}
+        });
+        am.put("right", new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		gameState.getPlayer().setRight(true);
+        	}
+        });
+        am.put("up", new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		gameState.getPlayer().setUp(true);
+        	}
+        });
+        am.put("down", new AbstractAction() {
+        	public void actionPerformed(ActionEvent e) {
+        		gameState.getPlayer().setDown(true);
+        	}
+        });
+    }
+    
+/*
+////////////////////////////////////////////////////////////////////////////////
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		Player player = gameState.getPlayer();
+		if (key == KeyEvent.VK_LEFT) player.setLeft(true);
+		if (key == KeyEvent.VK_RIGHT) player.setRight(true);
+		if (key == KeyEvent.VK_UP) player.setJumping(true);
+	}
+
+	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
+		Player player = gameState.getPlayer();
+		if (key == KeyEvent.VK_LEFT) player.setLeft(false);
+		if (key == KeyEvent.VK_RIGHT) player.setRight(false);
+		if (key == KeyEvent.VK_UP) player.setJumping(false);
+	}
+
+	public void keyTyped(KeyEvent e) {}
+////////////////////////////////////////////////////////////////////////////////
+*/	
+	public GameState getGameState() {
+		return this.gameState;
 	}
 	
 	public JButton getRestartButton() {
@@ -91,8 +133,11 @@ public class GamePanel extends JPanel {
 		return this.back;
 	}
 	
-	// set the required maze to be displayed on the panel
-	public void setMaze(Maze m) {
-		this.maze = m;
+	public void setGameState(String level) {
+		this.gameState = new GameState(level);
+	}
+	
+	public void setRunning(Boolean b) {
+		this.running = b;
 	}
 }
