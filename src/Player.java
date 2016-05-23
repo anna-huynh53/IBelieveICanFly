@@ -135,4 +135,8 @@ public class Player implements Entity {
 				maze.getPlayer().getLocation().getY() * 20, null);
 	}
 	
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b2c4cd23fd12e985e86bdd1cb050f0a473fd99ae
