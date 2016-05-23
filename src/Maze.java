@@ -4,6 +4,7 @@ import java.util.Stack;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 
@@ -14,6 +15,8 @@ public class Maze {
 	
 	public static final String PRIM = "prim";
 	public static final String DEPTH = "depth";
+	
+	private final static int SCALE = 20;
 	
 	/**
 	 * The constructor to create a new maze object
@@ -310,7 +313,7 @@ public class Maze {
 	 * Called whenever a player moves. Determines deaths/victory.
 	 * @param p - player that moved
 	 */
-	public void playerMovementListener(Entity p) {
+	public void playerMovementListener(Player p) {
 		// check if player should die
 		if (this.getTile(p.getLocation()).isLethal()) {
 			// entity should die TODO
@@ -337,24 +340,26 @@ public class Maze {
 	public void removePlayer() {
 		this.player = null;
 	}
+
+	public void draw(Graphics g) {
+		Toolkit t = Toolkit.getDefaultToolkit();
+		Image wall = t.getImage("res/wall.png");
+		Image path = t.getImage("res/path.png");
+		Image end = t.getImage("res/end.png");
 	
-	/**
-	 * Prints an ascii drawing of a maze to output
-	 */
-	public void printMaze() {
 		for (int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++) {
-				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
-					System.out.print(" X ");
-				} else if (tiles[i][j].getClassification().equals(Tile.PATH)) {
-					System.out.print(" . ");
-				} else if (tiles[i][j].getClassification().equals(Tile.START)) {
-					System.out.print(" S ");
-				} else if (tiles[i][j].getClassification().equals(Tile.END)) {
-					System.out.print(" E ");
-				}
+			for (int j = 0; j < size; j++) {
+				String tileName = tiles[i][j].getClassification();
+				int xScale = i * SCALE;
+				int yScale = j * SCALE;
+				if (tileName.equals(Tile.WALL)) {
+					g.drawImage(wall, xScale, yScale, null);
+				} else if (tileName.equals(Tile.START) || tileName.equals(Tile.END) ||
+						   tileName.equals(Tile.PATH)) {
+					g.drawImage(path, xScale, yScale, null);
+				} 
 			}
-			System.out.println("");
+			g.drawImage(end, SCALE, SCALE, null);
 		}
 	}
 }

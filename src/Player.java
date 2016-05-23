@@ -1,3 +1,6 @@
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 public class Player implements Entity {
@@ -6,6 +9,12 @@ public class Player implements Entity {
 	private Maze maze;
 	private int score;
 	
+	private boolean left;
+	private boolean right;
+	private boolean up;
+	private boolean down;
+	private boolean jumping;
+	
 	public Player(Maze maze, Point loc) {
 		this.currentLoc = loc;
 		this.pastLocs = new ArrayList<Point>(); // all past x and y
@@ -13,44 +22,48 @@ public class Player implements Entity {
 		this.score = 0;
 	}
 	
-	/**
-	 * Move the player to the given location (if possible)
-	 * @param newLoc - point to move the player to
-	 * @return new position of the player
-	 */
-	public Point move(Point newLoc) {
+	public void update() {
+		System.out.println(currentLoc.getX());
+		move();
+		System.out.println(currentLoc.getX());
+	}
+				
+		
+	public void move() {
+		Point newLoc = new Point(0,0);
+		if (left) newLoc = new Point(this.currentLoc.getX()-1, this.currentLoc.getY());
+		if (right) newLoc = new Point(this.currentLoc.getX()+1, this.currentLoc.getY());
+		if (up) newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()-1);
+		if (down) newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()+1);
 		if (maze.isValidMove(this, newLoc)) {
 			this.pastLocs.add(this.currentLoc);
 			this.currentLoc = newLoc;
 			maze.playerMovementListener(this); // must be called whenever the player moves
-			return newLoc;
-		} else {
-			return this.currentLoc;
-		}
+		} 
 	}
 	
-	/**
-	 * Moves the current player (if possible)
-	 * @return location of the player
-	 */
-	public Point moveNorth() {
-		Point newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()-1);
-		return this.move(newLoc);
+	public void setLeft(boolean b) {
+		this.left = b;
 	}
 	
-	public Point moveEast() {
-		Point newLoc = new Point(this.currentLoc.getX()+1, this.currentLoc.getY());
-		return this.move(newLoc);
+	public void setRight(boolean b) {
+		this.right = b;
 	}
 	
-	public Point moveSouth() {
-		Point newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()+1);
-		return this.move(newLoc);
+	public void setUp(boolean b) {
+		this.up = b;
 	}
 	
-	public Point moveWest() {
-		Point newLoc = new Point(this.currentLoc.getX()-1, this.currentLoc.getY());
-		return this.move(newLoc);
+	public void setDown(boolean b) {
+		this.down = b;
+	}
+	
+	public void setJumping(boolean b) {
+		this.jumping = b;
+	}
+	
+	public boolean getLeft() {
+		return this.left;
 	}
 	
 	/**
@@ -115,4 +128,11 @@ public class Player implements Entity {
 			this.score = this.score + value;
 		}
 	}
+	
+	public void draw(Graphics g) {
+		Image spriteImage = Toolkit.getDefaultToolkit().getImage("res//sprite.png");
+		g.drawImage(spriteImage, maze.getPlayer().getLocation().getX() * 20,
+				maze.getPlayer().getLocation().getY() * 20, null);
+	}
+	
 }
