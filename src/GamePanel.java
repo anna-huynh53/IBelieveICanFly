@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 public class GamePanel extends JPanel implements Runnable {
 	private GameState gameState; 
 	
+	private Thread thread;
 	private boolean running;
 
 	private JButton restart = new JButton("Restart");
@@ -33,8 +34,13 @@ public class GamePanel extends JPanel implements Runnable {
 	    add(help);   
 	    add(back);
 	   
-	    initKeyBindings(); 
+	    initKeyBindings();
 	}	
+	
+	public void start() {
+		thread = new Thread(this);
+		thread.start();
+	}
 	
 	public void run() {
 		long start;

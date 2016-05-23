@@ -68,7 +68,8 @@ public class UIFrame extends JFrame {
 				gameScreen.setGameState("easy");
 				gameScreen.setRunning(true);
 			    gameScreen.requestFocusInWindow();
-				panelDeck.show(panelContainer, "gameScreen");
+			    gameScreen.start();
+			   	panelDeck.show(panelContainer, "gameScreen");
 			}
 		});
 

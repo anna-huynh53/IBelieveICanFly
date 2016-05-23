@@ -34,9 +34,6 @@ public class Player implements Entity {
 	}
 	
 	public void update() {
-		System.out.println(currentLoc.getX());
-		move();
-		System.out.println(currentLoc.getX());
 	}
 	
 	public void setLeft(boolean b) {
