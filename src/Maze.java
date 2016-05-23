@@ -55,6 +55,18 @@ public class Maze {
 			generatePrimsMaze();
 		}
 		
+		//Place coins on the maze
+		Random rand = new Random();
+		int i = 0;
+		while (i <= rand.nextInt(5)) {
+			Tile t = this.tiles[rand.nextInt(this.size)][rand.nextInt(this.size)];
+			if (t.getClassification().equals(Tile.PATH) && !(t.getItem() instanceof Item)) {
+				Coin c = new Coin(1);
+				t.setItem(c);
+				i++;
+			}
+		}
+		
 		// Player is automatically created along with the maze
 		createPlayer();
 	}	
@@ -319,6 +331,9 @@ public class Maze {
 			// Implement call to the GUI for display of end of game
 		}
 		//Check if there is an item on the tile
+		if (this.player.getTile().getItem() instanceof Item) {
+			this.player.getTile().getItem().playerInteractEvent(this.player);
+		}
 	}
 	
 	/**
@@ -341,6 +356,7 @@ public class Maze {
 		Image wall = t.getImage("res/wall.png");
 		Image path = t.getImage("res/path.png");
 		Image end = t.getImage("res/end.png");
+		Image coin = t.getImage("res//coin.png");
 	
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -352,6 +368,9 @@ public class Maze {
 				} else if (tileName.equals(Tile.START) || tileName.equals(Tile.END) ||
 						   tileName.equals(Tile.PATH)) {
 					g.drawImage(path, xScale, yScale, null);
+					if (tiles[i][j].getItem() instanceof Coin) {
+						g.drawImage(coin, i*SCALE, j*SCALE, null);
+					}
 				} 
 			}
 			g.drawImage(end, SCALE, SCALE, null);
