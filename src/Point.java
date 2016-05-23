@@ -1,6 +1,5 @@
 /**
  * Describes a point in the maze in the form (x, y)
- *
  */
 public class Point {
 	private int x;
