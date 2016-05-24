@@ -60,6 +60,14 @@ public class Tile {
 	}
 	
 	/**
+	 * get the item on the tile
+	 * @return item
+	 */
+	public Item getItem() {
+		return this.item;
+	}
+	
+	/**
 	 * Sets the tile classification
 	 * @param c - classification
 	 */
@@ -82,6 +90,7 @@ public class Tile {
 	public void setLethal(boolean l) {
 		this.lethal = l;
 	}
+
 	
 	/**
 	 * Set the item the tile contains
@@ -89,15 +98,6 @@ public class Tile {
 	 */
 	public void setItem(Item i) {
 		this.item = i;
-	}
-	
-	/**
-	 * get the item on the tile
-	 * @return item
-	 */
-	public Item getItem() {
-		Item i = this.item;
-		return i;
 	}
 	
 	/**

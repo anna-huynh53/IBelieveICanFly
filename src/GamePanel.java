@@ -1,150 +1,82 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
-public class GamePanel extends JPanel implements Runnable {
-	private GameState gameState; 
+public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	private Thread thread;
 	private boolean running;
-
-	private JButton restart = new JButton("Restart");
-	private JButton help = new JButton("Help");
-	private JButton back = new JButton("Back To Menu");
 	
-	public GamePanel() {		
-		restart.setAlignmentX(Component.CENTER_ALIGNMENT);
-	    help.setAlignmentX(Component.CENTER_ALIGNMENT);
-	    back.setAlignmentX(Component.CENTER_ALIGNMENT);
-	    
-	    // sets fonts
-	    restart.setFont(new Font("Impact",1,18));
-	    help.setFont(new Font("Impact",1,18));
-	    back.setFont(new Font("Impact",1,18));
-	    
-	    // sets button size
-	    Dimension buttonSize = new Dimension(90,20);
-	    restart.setMaximumSize(buttonSize);
-	    help.setMaximumSize(buttonSize);
-	    back.setMaximumSize(buttonSize);
-	    
-	    // add the buttons to the panel with input blank area as spacing
-	    add(restart);
-	    add(help);   
-	    add(back);
-	   
-	    initKeyBindings();
-	}	
+	private BufferedImage image;
+	private Graphics2D g;
 	
-	public void start() {
-		thread = new Thread(this);
-		thread.start();
+	private GameState gameState;
+	
+	public GamePanel() {
+		setPreferredSize(new Dimension(420, 420));
+		setFocusable(true);
+		requestFocus();
 	}
 	
+	public void addNotify() {
+		super.addNotify();
+		if(thread == null) {
+			thread = new Thread(this);
+			addKeyListener(this);
+			thread.start();
+		}
+	}
+
 	public void run() {
+		image = new BufferedImage(420, 420, BufferedImage.TYPE_INT_RGB);
+		g = (Graphics2D) image.getGraphics();
+		running = true;
+		gameState = new GameState();
+		
 		long start;
 		long elapsed;
 		long wait;
 		
 		while(running) {
 			start = System.nanoTime();
-			elapsed = System.nanoTime() - start;
-			wait = 1000/60 - elapsed/1000000;
 			update();
-			repaint();
+			draw();
+			drawToScreen();
+			elapsed = System.nanoTime() - start;
+			// target time in milli/fps
+			wait = 1500/30 - elapsed / 1000000;
 			if(wait < 0) wait = 5;
 			try {
 				Thread.sleep(wait);
-			} catch(Exception e) {
+			}
+			catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	public void update() {
+	private void update() {
 		gameState.update();
 	}
 	
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        gameState.draw(g);
-    }
-
-    // can be separated
-    public void initKeyBindings() {
-        InputMap im = this.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = this.getActionMap();
-
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
-
-        am.put("left", new AbstractAction() {
-        	public void actionPerformed(ActionEvent e) {
-        		gameState.getPlayer().setLeft(true);
-        	}
-        });
-        am.put("right", new AbstractAction() {
-        	public void actionPerformed(ActionEvent e) {
-        		gameState.getPlayer().setRight(true);
-        	}
-        });
-        am.put("up", new AbstractAction() {
-        	public void actionPerformed(ActionEvent e) {
-        		gameState.getPlayer().setUp(true);
-        	}
-        });
-        am.put("down", new AbstractAction() {
-        	public void actionPerformed(ActionEvent e) {
-        		gameState.getPlayer().setDown(true);
-        	}
-        });
-    }
-    
-/*
-////////////////////////////////////////////////////////////////////////////////
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		Player player = gameState.getPlayer();
-		if (key == KeyEvent.VK_LEFT) player.setLeft(true);
-		if (key == KeyEvent.VK_RIGHT) player.setRight(true);
-		if (key == KeyEvent.VK_UP) player.setJumping(true);
-	}
-
-	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
-		Player player = gameState.getPlayer();
-		if (key == KeyEvent.VK_LEFT) player.setLeft(false);
-		if (key == KeyEvent.VK_RIGHT) player.setRight(false);
-		if (key == KeyEvent.VK_UP) player.setJumping(false);
-	}
-
-	public void keyTyped(KeyEvent e) {}
-////////////////////////////////////////////////////////////////////////////////
-*/	
-	public GameState getGameState() {
-		return this.gameState;
+	private void draw() {
+		gameState.draw(g);
 	}
 	
-	public JButton getRestartButton() {
-		return this.restart;
-	}
-
-	public JButton getHelpButton() {
-		return this.help;
+	private void drawToScreen() {
+		Graphics g2 = getGraphics();
+		g2.drawImage(image, 0, 0, 420, 420, null);
+		g2.dispose();
 	}
 	
-	public JButton getBackButton() {
-		return this.back;
+	public void keyPressed(KeyEvent key) {
+		gameState.keyPressed(key.getKeyCode());
 	}
 	
-	public void setGameState(String level) {
-		this.gameState = new GameState(level);
+	public void keyReleased(KeyEvent key) {
+		gameState.keyReleased(key.getKeyCode());
 	}
 	
-	public void setRunning(Boolean b) {
-		this.running = b;
-	}
+	public void keyTyped(KeyEvent key) {}
 }

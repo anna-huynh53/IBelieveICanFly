@@ -7,9 +7,14 @@ public class Maze {
 	private int size;
 	private Tile[][] tiles;
 	private Player player;
+	private ArrayList<Entity> enemies;
 	
 	public static final String PRIM = "prim";
 	public static final String DEPTH = "depth";
+	
+	private Image wall;
+	private Image path;
+	private Image end;
 	
 	private final static int SCALE = 20;
 	
@@ -53,22 +58,16 @@ public class Maze {
 			generateDepthFirstMaze(toVisit);
 		} else if (type.equals(Maze.PRIM)) {
 			generatePrimsMaze();
-		}
+		}		
 		
-		//Place coins on the maze
-		Random rand = new Random();
-		int i = 0;
-		while (i <= rand.nextInt(5)) {
-			Tile t = this.tiles[rand.nextInt(this.size)][rand.nextInt(this.size)];
-			if (t.getClassification().equals(Tile.PATH) && !(t.getItem() instanceof Item)) {
-				Coin c = new Coin(1);
-				t.setItem(c);
-				i++;
-			}
-		}
-		
-		// Player is automatically created along with the maze
+		// player is automatically created along with the maze
 		createPlayer();
+		// place random coins on the maze
+		placeRandPickups();	
+		// load images
+		enemies = new ArrayList<Entity>();
+		placeEnemies();
+		loadImages();
 	}	
 	
 	/**
@@ -249,16 +248,53 @@ public class Maze {
 		return tileAcrossWall;
 	}
 	*/
-
+	
 	/**
-	 * If the player is on the end tile, returns true
-	 * @param
-	 * @return
+	 * Places random pickups in the maze
+	 * (currently, there are only coins)
 	 */
-	public boolean isGameOver() {
-		if (player.getTile().getClassification().equals(Tile.END)) return true;
-		else return false;
+	public void placeRandPickups() {
+		Random rand = new Random();
+		int i = 0;
+		while (i <= 10) {
+			int x = rand.nextInt(this.size);
+			int y = rand.nextInt(this.size);
+			Tile t = this.tiles[x][y];
+			if (t.getClassification().equals(Tile.PATH) && !(t.getItem() instanceof Item)) {
+				Point p = new Point(x, y);
+				Coin c = new Coin(1, p);
+				t.setItem(c);
+				i++;
+			}
+		}
 	}
+	
+	// place in separate file
+	public void placeEnemies() {
+		Random rand = new Random();
+		int i = 0;
+		while (i < 2) {
+			int x = rand.nextInt(this.size);
+			int y = rand.nextInt(this.size);
+			Tile t = this.tiles[x][y];
+			if (t.getClassification().equals(Tile.PATH)) {
+				Point p = new Point(x, y);
+				EvilSun e = new EvilSun(this, p);
+				enemies.add(e);
+				i++;
+			}
+		}
+	}
+	
+/////////////////////////////////////player/////////////////////////////////////
+	/**
+	 * Create a new player and put it at the start of the maze
+	 * @return The player created
+	 */
+	public void createPlayer() {
+		Point start = new Point(size-2, size-2);
+		this.player = new Player(this, start);
+	}	
 	
 	/**
 	 * Determines if the player can make the move they are requesting,
@@ -268,7 +304,7 @@ public class Maze {
 	 * @param newLoc - new point to move to
 	 * @return true if the move is valid otherwise false
 	 */
-	public boolean isValidMove(Player p, Point newLoc) {
+	public boolean isValidMove(Entity p, Point newLoc) {
 		boolean validMove = true;
 		// check X is valid
 		if (newLoc.getX() < 0 || newLoc.getX() > this.size) 
@@ -280,6 +316,99 @@ public class Maze {
 		if (!this.getTile(newLoc).isTraversable()) 
 			validMove = false;
 		return validMove;
+	}
+	
+	/**
+	 * Called whenever a player moves. Determines deaths/victory.
+	 * @param p - player that moved
+	 */
+	public void playerMovementListener(Player p) {
+		Tile tile = this.getTile(p.getLocation());
+		// check if player should die
+		if (tile.isLethal()){
+			for (Entity e : enemies) {
+				if (e.getLocation().equals(p.getLocation())) {
+					p.doDamage(e.getDamage());
+				}
+			}
+		}
+		if (tile.getItem() instanceof Coin) {
+			Coin c = (Coin) tile.getItem();
+			p.increaseScore(c.getValue());
+			tile.removeItem();
+		}
+	}
+	
+	/**
+	 * If the player is on the end tile, returns true
+	 * @param
+	 * @return
+	 */
+	public boolean isGameOver() {
+		if (player.getTile().getClassification().equals(Tile.END)) return true;
+		else return false;
+	}
+	
+	/**
+	 * Gets the player object associated with the maze
+	 * @return player
+	 */
+	public Player getPlayer() {
+		return this.player;
+	}
+	
+	/**
+	 * Removes the player from the maze
+	 */
+	public void removePlayer() {
+		this.player = null;
+	}	
+/////////////////////////////////////player/////////////////////////////////////
+	
+	public void loadImages() {
+		Toolkit t = Toolkit.getDefaultToolkit();
+		wall = t.getImage("res/wall.png");
+		path = t.getImage("res/path.png");
+		end = t.getImage("res/end.png");
+	}
+	
+	public void draw(Graphics g) {
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				Tile tile = tiles[i][j];
+				String tileName = tile.getClassification();
+				int xScale = i * SCALE;
+				int yScale = j * SCALE;
+				if (tileName.equals(Tile.WALL)) {
+					g.drawImage(wall, xScale, yScale, null);
+				} else if (tileName.equals(Tile.START) || tileName.equals(Tile.END) ||
+						   tileName.equals(Tile.PATH)) {
+					g.drawImage(path, xScale, yScale, null);
+				} 
+			}
+			g.drawImage(end, SCALE, SCALE, null);
+		}
+		drawCoins(g);
+		drawEnemies(g);
+	}
+	
+	public void drawCoins(Graphics g) {
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				Item item = tiles[i][j].getItem();
+				if (item != null) {
+					if (item instanceof Coin) {
+						item.draw(g);
+					} 
+				}
+			}
+		}
+	}
+	
+	public void drawEnemies(Graphics g) {
+		for (Entity e : enemies) {
+			e.draw(g);
+		}
 	}
 	
 	/**
@@ -307,70 +436,7 @@ public class Maze {
 		return this.tiles[p.getX()][p.getY()];
 	}
 	
-	/**
-	 * Create a new player and put it at the start of the maze
-	 * @return The player created
-	 */
-	public void createPlayer() {
-		Point start = new Point(size-2, size-2);
-		this.player = new Player(this, start);
-	}	
-	
-	/**
-	 * Called whenever a player moves. Determines deaths/victory.
-	 * @param p - player that moved
-	 */
-	public void playerMovementListener(Player p) {
-		// check if player should die
-		if (this.getTile(p.getLocation()).isLethal()) {
-			// entity should die TODO
-		}
-		// check if player has finished maze
-		if (this.getTile(p.getLocation()).getClassification().equals(Tile.END)) {
-			// player has finished the maze TODO
-			// Implement call to the GUI for display of end of game
-		}
-		//Check if there is an item on the tile
-		if (this.player.getTile().getItem() instanceof Item) {
-			this.player.getTile().getItem().playerInteractEvent(this.player);
-		}
-	}
-	
-	/**
-	 * Gets the player object associated with the maze
-	 * @return player
-	 */
-	public Player getPlayer() {
-		return this.player;
-	}
-	
-	/**
-	 * Removes the player from the maze
-	 */
-	public void removePlayer() {
-		this.player = null;
-	}
-
-	public void draw(Graphics g) {
-		Toolkit t = Toolkit.getDefaultToolkit();
-		Image wall = t.getImage("res/wall.png");
-		Image path = t.getImage("res/path.png");
-		Image end = t.getImage("res/end.png");
-		Image coin = t.getImage("res//coin.png");
-	
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				String tileName = tiles[i][j].getClassification();
-				int xScale = i * SCALE;
-				int yScale = j * SCALE;
-				if (tileName.equals(Tile.WALL)) {
-					g.drawImage(wall, xScale, yScale, null);
-				} else if (tileName.equals(Tile.START) || tileName.equals(Tile.END) ||
-						   tileName.equals(Tile.PATH)) {
-					g.drawImage(path, xScale, yScale, null);
-				} 
-			}
-			g.drawImage(end, SCALE, SCALE, null);
-		}
+	public ArrayList<Entity> getEnemies() {
+		return this.enemies;
 	}
 }
