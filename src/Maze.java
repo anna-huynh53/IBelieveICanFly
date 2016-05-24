@@ -368,9 +368,6 @@ public class Maze {
 				} else if (tileName.equals(Tile.START) || tileName.equals(Tile.END) ||
 						   tileName.equals(Tile.PATH)) {
 					g.drawImage(path, xScale, yScale, null);
-					if (tiles[i][j].getItem() instanceof Coin) {
-						g.drawImage(coin, i*SCALE, j*SCALE, null);
-					}
 				} 
 			}
 			g.drawImage(end, SCALE, SCALE, null);
