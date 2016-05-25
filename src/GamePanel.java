@@ -11,31 +11,34 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private Thread thread;
 	private boolean running;
 	
-	private BufferedImage image; 
+	private BufferedImage image;
 	private Graphics2D g; // all images in the game are drawn using this
+	//private BufferedImage mazeImage;
+	//private Graphics2D gMaze;
+	
 	private int WIDTH = 840;
 	private int HEIGHT = 840;
-	
 	public int SCALE = 20;
 	
 	public GamePanel(String difficulty) {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
+		//mazeImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		//gMaze = (Graphics2D) mazeImage.getGraphics();
 		running = true;
 		gameState = new GameState(difficulty);
+		//gameState.drawMaze(gMaze);
 	}
 	
 	//
 	public void addNotify() {
 		super.addNotify();
-		//if(thread == null) {
-			thread = new Thread(this);
-			addKeyListener(this);
-			thread.start();
-		//}
+		thread = new Thread(this);
+		addKeyListener(this);
+		thread.start();
 	}
 
-	public void run() {		
+	public void run() {			
 		long start;
 		long elapsed;
 		long wait;
@@ -47,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			drawToScreen();
 			elapsed = System.nanoTime() - start;
 			// target time in milli/fps
-			wait = 2000/60 - elapsed/1000000;
+			wait = 2500/30 - elapsed/1000000;
 			if(wait < 0) wait = 5;
 			try {
 				Thread.sleep(wait);
@@ -76,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	 */
 	private void drawToScreen() {
 		Graphics g2 = getGraphics();
+		//g2.drawImage(mazeImage, 0, 0, WIDTH, HEIGHT, null);
 		g2.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
 		g2.dispose();
 	}

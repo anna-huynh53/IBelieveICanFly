@@ -8,10 +8,17 @@ public class EvilSun implements Entity {
 	private int damage;
 	private int i; // delete this
 	
+	private Animation animate;
+	private ArrayList<Image> sun;
+	
 	public EvilSun(Maze maze, Point loc) {
 		this.maze = maze;
 		this.currentLoc = loc;
 		this.damage = 10;
+		
+		animate = new Animation();
+		sun = maze.getImages().getSun();
+		animate.setFrames(sun);
 	}
 	
 	public void move() {
@@ -29,13 +36,15 @@ public class EvilSun implements Entity {
 	
 	public void update() {
 		i++; // replace with timer
-		if (i % 5 == 0) 
+		if (i % 5 == 0) {
 			move();
+			animate.update();
+		}
 	}
 	
 	public void draw(Graphics g) {
-		g.drawImage(maze.getImages().getSun(), (int)this.currentLoc.getX() * 20,
-				   (int)this.currentLoc.getY() * 20, null);
+		g.drawImage(animate.getCurrImage(), this.currentLoc.getX()*Maze.SCALE,
+				    this.currentLoc.getY()*Maze.SCALE, null);
 	}
 	
 	public Point getLocation() {
