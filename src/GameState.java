@@ -5,8 +5,14 @@ public class GameState {
 	private Maze maze;
 	private Player player;
 	
-	public GameState() { // add difficulty
-		this.maze = new Maze(4, "depth");
+	public GameState(String difficulty) { 
+		if (difficulty.equals("easy")) {
+			this.maze = new Maze(10, "depth");
+		} else if (difficulty.equals("medium")) {
+			this.maze = new Maze(15, "prim");
+		} else if (difficulty.equals("hard")) {
+			this.maze = new Maze(20, "prim");
+		}
 		this.player = maze.getPlayer();
 	}	
 	
