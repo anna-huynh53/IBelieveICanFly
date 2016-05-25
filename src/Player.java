@@ -1,29 +1,73 @@
-import java.awt.*;
+import java.util.ArrayList;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.Toolkit;
 
 public class Player implements Entity {
-	private Point currentLoc;
 	private Maze maze;
+	private Point currentLoc;
 	private int score;
 	private int health;
 	
 	private boolean left;
 	private boolean right;
-	private boolean up;
-	private boolean down;
+	private boolean jumping;
+	private boolean falling;
+	
+	private Toolkit t;
+	private Animation animate;
+	private ArrayList<Image> idle;
+	private ArrayList<Image> walkingMove;
+	private ArrayList<Image> jumpingMove;
+	private ArrayList<Image> fallingMove;
 	
 	public Player(Maze maze, Point loc) {
-		this.currentLoc = loc;
 		this.maze = maze;
+		this.currentLoc = loc;
 		this.score = 0;
 		this.health = 100;
+		
+		animate = new Animation();
+		initAnimationSets();
+	}
+	
+	public void initAnimationSets() {
+		t = Toolkit.getDefaultToolkit();
+		idle = new ArrayList<Image>();
+		walkingMove = new ArrayList<Image>();
+		jumpingMove = new ArrayList<Image>();
+		fallingMove = new ArrayList<Image>();
+		
+		idle.add(t.getImage("res/idle.png"));		
+		animate.setFrames(idle);
+		
+		walkingMove.add(t.getImage("res/walk1.png"));
+		walkingMove.add(t.getImage("res/walk2.png"));
+		walkingMove.add(t.getImage("res/walk3.png"));
+		walkingMove.add(t.getImage("res/walk4.png"));
 	}
 					
 	public void move() {
 		Point newLoc = new Point(0,0);
-		if (left) newLoc = new Point(this.currentLoc.getX()-1, this.currentLoc.getY());
-		if (right) newLoc = new Point(this.currentLoc.getX()+1, this.currentLoc.getY());
-		if (up) newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()-1); 
-		if (down) newLoc = new Point(this.currentLoc.getX(), this.currentLoc.getY()+1); 
+		int currX = this.currentLoc.getX();
+		int currY = this.currentLoc.getY();
+
+		if (jumping) {
+			newLoc = new Point(currX, currY-1);
+			falling = true;	
+		} else {
+			newLoc = new Point(currX, currY+1);
+			if (!maze.isValidMove(this, newLoc)) {
+				falling = false;
+			}
+		}
+		if (left) {
+			newLoc = new Point(currX-1, currY);
+		} else if (right) { 
+			newLoc = new Point(currX+1, currY);
+		}
+		
 		if (maze.isValidMove(this, newLoc)) {
 			this.currentLoc = newLoc;
 			maze.playerMovementListener(this); // must be called whenever the player moves
@@ -32,12 +76,13 @@ public class Player implements Entity {
 	
 	public void update() {
 		move();
+		animate.update();
 	}
 	
 	public void draw(Graphics g) {
-		Image spriteImage = Toolkit.getDefaultToolkit().getImage("res//sprite.png");
-		g.drawImage(spriteImage, this.currentLoc.getX() * 20,
-				    this.currentLoc.getY() * 20, null);
+		Image spriteImage = animate.getCurrImage();
+		g.drawImage(spriteImage, (int)this.currentLoc.getX() * 20,
+				    (int)this.currentLoc.getY() * 20, null);
 	}
 	
 	public void setLeft(boolean b) {
@@ -48,12 +93,8 @@ public class Player implements Entity {
 		this.right = b;
 	}
 	
-	public void setUp(boolean b) {
-		this.up = b;
-	}
-	
-	public void setDown(boolean b) {
-		this.down = b;
+	public void setJumping(boolean b) {
+		this.jumping = b;
 	}
 	
 	/**

@@ -1,12 +1,15 @@
 import java.awt.Graphics;
 
-
 public interface Item {
+	
 	/**
-	 * Called when a player interacts with the item
-	 * @param player
+	 * Called when a player interacts with an item
+	 * @param player interacting with tiem
 	 */
 	public void playerInteractEvent(Player p);
 	
+	/**
+	 * Draws the item
+	 */
 	public void draw(Graphics g);
 }

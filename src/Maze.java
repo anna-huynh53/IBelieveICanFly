@@ -1,22 +1,23 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
-import java.awt.*;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.Graphics;
 
 public class Maze {
 	private int size;
 	private Tile[][] tiles;
+	private Point startPoint;
 	private Player player;
 	private ArrayList<Entity> enemies;
 	
 	public static final String PRIM = "prim";
 	public static final String DEPTH = "depth";
 	
-	private Image wall;
-	private Image path;
-	private Image end;
+	private Images allImages;
 	
-	private final static int SCALE = 20;
+	public final static int SCALE = 20;
 	
 	/**
 	 * The constructor to create a new maze object
@@ -47,12 +48,6 @@ public class Maze {
 				}
 			}
 		}
-		// set start tile at bottom right corner 
-		tiles[size-2][size-2].setClassification(Tile.START);
-		// set end tile at top left corner
-		// (the end can be placed anywhere as there is a path between any
-		// 2 points; where it is placed will just affect difficulty)
-		tiles[1][1].setClassification(Tile.END);
 		
 		if (type.equals(Maze.DEPTH)) {
 			generateDepthFirstMaze(toVisit);
@@ -60,15 +55,69 @@ public class Maze {
 			generatePrimsMaze();
 		}		
 		
+		//resize();
+		// set start tile at bottom right corner 
+		startPoint = new Point(size-2, size-2);
+		// set end tile at top left corner
+		// (the end can be placed anywhere as there is a path between any
+		// 2 points; where it is placed will just affect difficulty)
+		//tiles[4][4].setClassification(Tile.END);
+		
 		// player is automatically created along with the maze
 		createPlayer();
 		// place random coins on the maze
 		placeRandPickups();	
 		// load images
 		enemies = new ArrayList<Entity>();
-		placeEnemies();
-		loadImages();
+		//placeEnemies();
+		allImages = new Images();
 	}	
+	
+	public void resize() {
+		Tile[][] newTiles = new Tile[size*3][size*3];
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				newTiles[i*3][j*3] = tiles[i][j];
+				newTiles[i*3+1][j*3] = tiles[i][j];
+				newTiles[i*3+2][j*3] = tiles[i][j];
+				newTiles[i*3][j*3+1] = tiles[i][j];
+				newTiles[i*3+1][j*3+1] = tiles[i][j];
+				newTiles[i*3+2][j*3+1] = tiles[i][j];
+				newTiles[i*3][j*3+2] = tiles[i][j];
+				newTiles[i*3+1][j*3+2] = tiles[i][j];
+				newTiles[i*3+2][j*3+2] = tiles[i][j];
+	
+			}
+		}
+		this.size = size*3;
+		this.tiles = newTiles;		
+		
+		removeExtraWalls();
+		removeExtraWalls();
+	}
+	
+    public void removeExtraWalls() {
+		for (int i = 2; i < size-3; i++) {
+			for (int j = 2; j < size-3; j++) {
+				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
+					if (tiles[i][j+1].getClassification().equals(Tile.WALL) &&
+						tiles[i][j-1].getClassification().equals(Tile.WALL) &&
+						tiles[i][j+2].getClassification().equals(Tile.PATH) &&
+						tiles[i][j-2].getClassification().equals(Tile.PATH)) {
+						tiles[i][j+1] = new Tile(Tile.PATH);
+						tiles[i][j-1] = new Tile(Tile.PATH);
+					}
+					if (tiles[i+1][j].getClassification().equals(Tile.WALL) &&
+						tiles[i-1][j].getClassification().equals(Tile.WALL) &&
+						tiles[i+2][j].getClassification().equals(Tile.PATH) &&
+						tiles[i-2][j].getClassification().equals(Tile.PATH) ) {
+						tiles[i+1][j] = new Tile(Tile.PATH);
+						tiles[i-1][j] = new Tile(Tile.PATH);
+					}
+				}
+			}
+		}
+    }
 	
 	/**
 	 * Generates a maze using depth first search with recursive backtracking.
@@ -292,8 +341,7 @@ public class Maze {
 	 * @return The player created
 	 */
 	public void createPlayer() {
-		Point start = new Point(size-2, size-2);
-		this.player = new Player(this, start);
+		this.player = new Player(this, startPoint);
 	}	
 	
 	/**
@@ -365,14 +413,15 @@ public class Maze {
 	}	
 /////////////////////////////////////player/////////////////////////////////////
 	
-	public void loadImages() {
-		Toolkit t = Toolkit.getDefaultToolkit();
-		wall = t.getImage("res/wall.png");
-		path = t.getImage("res/path.png");
-		end = t.getImage("res/end.png");
+	public Images getImages() {
+		return this.allImages;
 	}
 	
 	public void draw(Graphics g) {
+		Image ground = allImages.getGround();
+		Image edgeLeft = allImages.getEdgeLeft();
+		Image edgeRight = allImages.getEdgeRight();
+		Image wall = allImages.getWall();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				Tile tile = tiles[i][j];
@@ -380,27 +429,40 @@ public class Maze {
 				int xScale = i * SCALE;
 				int yScale = j * SCALE;
 				if (tileName.equals(Tile.WALL)) {
-					g.drawImage(wall, xScale, yScale, null);
+					Point p = new Point(i, j);
+					//if (!isEdgePiece(p)) {
+					//	g.drawImage(ground, xScale, yScale, null);
+					//} else {
+						g.drawImage(ground, xScale, yScale, null);
+					//}
 				} else if (tileName.equals(Tile.START) || tileName.equals(Tile.END) ||
 						   tileName.equals(Tile.PATH)) {
-					g.drawImage(path, xScale, yScale, null);
+					g.drawImage(wall, xScale, yScale, null);
 				} 
 			}
-			g.drawImage(end, SCALE, SCALE, null);
 		}
-		drawCoins(g);
+		drawItems(g);
 		drawEnemies(g);
 	}
 	
-	public void drawCoins(Graphics g) {
+	public boolean isEdgePiece(Point p) {
+		boolean edge = true;
+		Point right = new Point(p.getX()+1, p.getY()); 
+		Point left = new Point(p.getX()-1, p.getY()); 
+		if (getTile(right).getClassification().equals(Tile.WALL) &&
+			getTile(left).getClassification().equals(Tile.WALL)) {
+			edge = false;
+		}
+		return edge;
+	}	
+	
+	public void drawItems(Graphics g) {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				Item item = tiles[i][j].getItem();
+			Item item = tiles[i][j].getItem();
 				if (item != null) {
-					if (item instanceof Coin) {
-						item.draw(g);
-					} 
-				}
+					item.draw(g);
+				} 
 			}
 		}
 	}

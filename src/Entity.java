@@ -1,7 +1,8 @@
 import java.awt.Graphics;
 
 /**
- * A controllable entity that is able to interact with the maze
+ * An entity that can interact with the maze.
+ * Includes the player and enemies.
  */
 public interface Entity {
 	
@@ -17,7 +18,15 @@ public interface Entity {
 	 */
 	public void draw(Graphics g);
 	
+	/**
+	 * Gets location of the entity
+	 * @return Point of location
+	 */
 	public Point getLocation();
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getDamage();
 }

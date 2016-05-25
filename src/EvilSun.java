@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class EvilSun implements Entity {
-	private Point currentLoc;
 	private Maze maze;
+	private Point currentLoc;
 	private int damage;
-	private int i;
+	private int i; // delete this
 	
 	public EvilSun(Maze maze, Point loc) {
 		this.maze = maze;
@@ -34,9 +34,8 @@ public class EvilSun implements Entity {
 	}
 	
 	public void draw(Graphics g) {
-		Image spriteImage = Toolkit.getDefaultToolkit().getImage("res//evilSun.png");
-		g.drawImage(spriteImage, this.currentLoc.getX() * 20,
-				    this.currentLoc.getY() * 20, null);
+		g.drawImage(maze.getImages().getSun(), (int)this.currentLoc.getX() * 20,
+				   (int)this.currentLoc.getY() * 20, null);
 	}
 	
 	public Point getLocation() {

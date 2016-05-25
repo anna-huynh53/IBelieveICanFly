@@ -18,7 +18,7 @@ public class Coin implements Item {
 	
 	public void draw(Graphics g) {
 		Image coin = Toolkit.getDefaultToolkit().getImage("res//coin.png");
-		g.drawImage(coin, this.loc.getX() * 20, this.loc.getY() * 20, null);
+		g.drawImage(coin, (int)this.loc.getX() * 20, (int)this.loc.getY() * 20, null);
 	}
 	
 	public int getValue() {
