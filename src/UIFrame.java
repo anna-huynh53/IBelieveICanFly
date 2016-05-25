@@ -25,7 +25,7 @@ public class UIFrame {
 	}
 	
 	public void initGameScreen() {
-		gameScreen = new GamePanel(); // must set difficulty of game panel's game state
+		gameScreen = new GamePanel("easy"); // must set difficulty of game panel's game state
 		gameScreen.setPreferredSize(new Dimension(420, 420));
 		gameScreen.setFocusable(true);
 		gameScreen.requestFocus();

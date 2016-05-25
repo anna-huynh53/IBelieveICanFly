@@ -40,12 +40,12 @@ public class Player implements Entity {
 		fallingMove = new ArrayList<Image>();
 		
 		idle.add(t.getImage("res/idle.png"));		
-		animate.setFrames(idle);
 		
 		walkingMove.add(t.getImage("res/walk1.png"));
 		walkingMove.add(t.getImage("res/walk2.png"));
 		walkingMove.add(t.getImage("res/walk3.png"));
 		walkingMove.add(t.getImage("res/walk4.png"));
+		animate.setFrames(walkingMove);
 	}
 					
 	public void move() {
