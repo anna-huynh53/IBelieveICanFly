@@ -6,7 +6,7 @@ public class GameState {
 	private Player player;
 	
 	public GameState() { // add difficulty
-		this.maze = new Maze(10, "depth");
+		this.maze = new Maze(4, "depth");
 		this.player = maze.getPlayer();
 	}	
 	

@@ -6,12 +6,22 @@ public class UIFrame {
 	
 	public UIFrame() {
 		JFrame window = new JFrame("Why");
+		initMenuScreen();
+		initDifficultyScreen();
 		initGameScreen();
 		window.setContentPane(gameScreen);
 		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.pack();
 		window.setVisible(true);	
+	}
+	
+	public void initMenuScreen() {
+		
+	}
+	
+	public void initDifficultyScreen() {
+	
 	}
 	
 	public void initGameScreen() {
