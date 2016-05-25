@@ -8,6 +8,8 @@ public interface Item {
 	 */
 	public void playerInteractEvent(Player p);
 	
+	public void update();
+	
 	/**
 	 * Draws the item
 	 */

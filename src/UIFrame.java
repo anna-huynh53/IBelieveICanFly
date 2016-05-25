@@ -86,6 +86,7 @@ public class UIFrame extends JFrame{
 		this.setVisible(true);
 	}
 	
+<<<<<<< HEAD
 	private void setGameContent() {
 		this.game = new GamePanel("Easy");
 		BoxLayout gameLayout = new BoxLayout(game, BoxLayout.Y_AXIS);
@@ -93,6 +94,13 @@ public class UIFrame extends JFrame{
 		this.setContentPane(game);
 		this.pack();
 		this.setVisible(true);
+=======
+	public void initGameScreen() {
+		gameScreen = new GamePanel("easy"); // must set difficulty of game panel's game state
+		gameScreen.setPreferredSize(new Dimension(420, 420));
+		gameScreen.setFocusable(true);
+		gameScreen.requestFocus();
+>>>>>>> refs/remotes/origin/master
 	}
 	
 	
