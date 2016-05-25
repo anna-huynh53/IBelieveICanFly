@@ -18,11 +18,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	public int SCALE = 20;
 	
-	public GamePanel() {
+	public GamePanel(String difficulty) {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 		running = true;
-		gameState = new GameState();
+		gameState = new GameState(difficulty);
 	}
 	
 	//

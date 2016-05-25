@@ -6,6 +6,8 @@ public class Coin implements Item {
 	private int value;
 	private Point loc;
 	
+	
+	
 	public Coin(int value, Point loc) {
 		this.value = value;
 		this.loc = loc;

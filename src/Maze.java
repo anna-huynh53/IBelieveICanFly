@@ -55,7 +55,7 @@ public class Maze {
 			generatePrimsMaze();
 		}		
 		
-		resize();
+		//resize();
 		// set start tile at bottom right corner 
 		startPoint = new Point(size-2, size-2);
 		// set end tile at top left corner
