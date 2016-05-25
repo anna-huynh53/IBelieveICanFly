@@ -74,7 +74,7 @@ public class UIFrame extends JFrame{
 	private void initGameScreen() {
 		game.getOptions().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				game.showOptions();
+				//game.showOptions();
 			}
 		});
 	}
