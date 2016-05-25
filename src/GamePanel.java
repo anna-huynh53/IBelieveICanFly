@@ -1,8 +1,7 @@
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
@@ -18,20 +17,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	public int SCALE = 20;
 	
-<<<<<<< HEAD
+
 	private JLabel title = new JLabel("Good Luck!!  ");
 	private JLabel timerText = new JLabel("Start");
 	private Timer gameTimer;
 	private JButton options = new JButton("Options");
-	
-=======
->>>>>>> refs/remotes/origin/master
+
 	public GamePanel(String difficulty) {
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 		running = true;
 		gameState = new GameState(difficulty);
-<<<<<<< HEAD
+
 		
 				setPreferredSize(new Dimension(650, 420));
 		setFocusable(true);
@@ -61,8 +58,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		TimeClass tc = new TimeClass(0);
 		gameTimer = new Timer(1000, tc);
 		gameTimer.start();
-=======
->>>>>>> refs/remotes/origin/master
+
 	}
 	
 	//

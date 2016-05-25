@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
+@SuppressWarnings("serial")
 public class UIFrame extends JFrame{
 	private Menu menu;
 	private GamePanel game;
@@ -71,13 +73,13 @@ public class UIFrame extends JFrame{
 		});
 	}
 	
-	private void initGameScreen() {
+/*	private void initGameScreen() {
 		game.getOptions().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//game.showOptions();
 			}
 		});
-	}
+	}*/
 	
 	private void setDifficultyContent() {
 		diffMenu.setFocusable(true);
@@ -86,7 +88,7 @@ public class UIFrame extends JFrame{
 		this.setVisible(true);
 	}
 	
-<<<<<<< HEAD
+
 	private void setGameContent() {
 		this.game = new GamePanel("Easy");
 		BoxLayout gameLayout = new BoxLayout(game, BoxLayout.Y_AXIS);
@@ -94,13 +96,13 @@ public class UIFrame extends JFrame{
 		this.setContentPane(game);
 		this.pack();
 		this.setVisible(true);
-=======
+	}
+
 	public void initGameScreen() {
-		gameScreen = new GamePanel("easy"); // must set difficulty of game panel's game state
-		gameScreen.setPreferredSize(new Dimension(420, 420));
-		gameScreen.setFocusable(true);
-		gameScreen.requestFocus();
->>>>>>> refs/remotes/origin/master
+		game = new GamePanel("easy"); // must set difficulty of game panel's game state
+		game.setPreferredSize(new Dimension(420, 420));
+		game.setFocusable(true);
+		game.requestFocus();
 	}
 	
 	
