@@ -60,7 +60,7 @@ public class Maze {
 		// set end tile at top left corner
 		// (the end can be placed anywhere as there is a path between any
 		// 2 points; where it is placed will just affect difficulty)
-		tiles[2][2].setClassification(Tile.END);
+		tiles[1][1].setClassification(Tile.END);
 				
 		
 		// load images
