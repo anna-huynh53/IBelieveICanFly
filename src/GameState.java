@@ -17,23 +17,26 @@ public class GameState {
 	}	
 	
 	public void update() {
-		//maze.update();
-		for (Entity e : maze.getEnemies()) {
-			e.update();
-		}
+		maze.update();
 		player.update();
 	}
 	
 	public void draw(Graphics g) {
+		maze.drawMaze(g);
 		maze.draw(g);
-		for (Entity e : maze.getEnemies()) {
-			e.draw(g);
-		}
 		player.draw(g);
+	}
+	
+	public void drawMaze(Graphics g) {
+		
 	}
 	
 	public Maze getMaze() {
 		return this.maze;
+	}
+	
+	public Player getPlayer() {
+		return this.player;
 	}
 	
 	public void setMaze(Maze m) {

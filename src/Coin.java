@@ -7,7 +7,6 @@ public class Coin implements Item {
 	private int value;
 	private Point loc;
 	
-	private Toolkit t;
 	private Animation animate;
 	private ArrayList<Image> coinRot;
 	
@@ -15,18 +14,18 @@ public class Coin implements Item {
 		this.value = value;
 		this.loc = loc;
 		animate = new Animation();
-		initAnimationSets();
+		initAnimationSet();
 	}
 
-	private void initAnimationSets() {
-		t = Toolkit.getDefaultToolkit();
-		
+	private void initAnimationSet() {
+		Toolkit t = Toolkit.getDefaultToolkit();
 		coinRot = new ArrayList<Image>();
-		coinRot.add(t.getImage("res/coin1.png"));
-		coinRot.add(t.getImage("res/coin2.png"));
-		coinRot.add(t.getImage("res/coin3.png"));
-		coinRot.add(t.getImage("res/coin4.png"));
+		coinRot.add(t.getImage("res/pickups/coin1.png"));
+		coinRot.add(t.getImage("res/pickups/coin2.png"));
+		coinRot.add(t.getImage("res/pickups/coin3.png"));
+		coinRot.add(t.getImage("res/pickups/coin4.png"));
 		animate.setFrames(coinRot);
+		animate.setWait(150);
 	}
 
 	public void playerInteractEvent(Player p) {
@@ -34,13 +33,20 @@ public class Coin implements Item {
 		p.getTile().removeItem();
 	}
 	
+	public void update() {
+		animate.update();
+	}
+	
 	public void draw(Graphics g) {
-		Image coin = Toolkit.getDefaultToolkit().getImage("res//coin.png");
-		g.drawImage(coin, (int)this.loc.getX() * 20, (int)this.loc.getY() * 20, null);
+		g.drawImage(animate.getCurrImage(), this.loc.getX()*Maze.SCALE, this.loc.getY()*Maze.SCALE, null);
 	}
 	
 	public int getValue() {
 		return this.value;
+	}
+	
+	public Point getLoc() {
+		return this.loc;
 	}
 	
 	public boolean equals(Object o) {
@@ -49,9 +55,5 @@ public class Coin implements Item {
 		    return (this.value == c.value);
 		}
 		return false;
-	}
-	
-	public void update() {
-		animate.update();
 	}
 }
