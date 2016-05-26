@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
@@ -8,6 +9,9 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private GameState gameState;
@@ -36,10 +40,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		bg = Toolkit.getDefaultToolkit().getImage("res/background.png").getScaledInstance(width, height,
 		        Image.SCALE_SMOOTH);
 
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		g = (Graphics2D) image.getGraphics();
-		mazeImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		gMaze = (Graphics2D) mazeImage.getGraphics();
+		mazeImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		gMaze = (Graphics2D) mazeImage.getGraphics();	
+		gMaze.drawImage(bg, 0, 0, null);
 		gameState.drawMaze(gMaze);
 		
 		running = true;
@@ -53,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		thread.start();
 	}
 
-	public void run() {			
+	public void run() {		
 		long start;
 		long elapsed;
 		long wait;
@@ -74,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			}
 			if (gameState.isGameOver()) {
 				running = false;
+				this.setVisible(false);
 			}
 		}
 	}
@@ -89,7 +95,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	 * Draws the images in the game state
 	 */
 	private void draw() {
-		g.drawImage(bg, 0, 0, width, height, null);
 		gameState.draw(g);
 	}
 	
@@ -99,7 +104,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private void drawToScreen() {
 		Graphics g2 = getGraphics();
 		g2.drawImage(mazeImage, 0, 0, width, height, null);
-		g2.drawImage(image, 0, 0, width, height, null);
+		//g2.drawImage(image, 0 ,0 ,width, height, null);
 		g2.dispose();
 	}
 

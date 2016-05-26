@@ -425,7 +425,7 @@ public class Maze {
 				g.drawImage(vertical, i * SCALE, j * SCALE, null);
 			}
 		}
-		//drawDecorations(g);
+		drawDecorations(g);
 		drawHUD(g);
 	}
 	
@@ -455,10 +455,10 @@ public class Maze {
 				if (i == 4*size/7 && j == size) {
 					g.drawImage(allImages.getScore(), i * SCALE, j * SCALE, null);
 				}
-				if (i == 5*size/7 && j == size) {
+				if (i == 4*size/7+3 && j == size) {
 					g.drawImage(allImages.getDots(), i * SCALE, j * SCALE, null);
 				}
-				if (i == 4*size/7+5 && i < 4*size/7+7 && j == size) {
+				if (i == 4*size/7+5 && j == size) {
 					ArrayList<Image> score = hud.getPlayerScore();
 					for (int k = 0; k < score.size(); k++) {
 						g.drawImage(hud.getPlayerScore().get(k), (i + k) * SCALE, j * SCALE, null);

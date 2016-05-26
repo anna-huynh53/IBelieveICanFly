@@ -1,5 +1,7 @@
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 public class GameState {
 	private Maze maze;
@@ -9,6 +11,7 @@ public class GameState {
 	private int height;
 	
 	public GameState(String difficulty) { 
+		
 		if (difficulty.equals("easy")) {
 			this.maze = new Maze(8, "depth");
 			this.width = 340;
@@ -22,7 +25,7 @@ public class GameState {
 			this.width = 660;
 			this.height = 740;
 		}
-		this.player = maze.getPlayer();
+		this.player = maze.getPlayer();		
 	}	
 	
 	public void update() {
@@ -31,13 +34,12 @@ public class GameState {
 	}
 	
 	public void draw(Graphics g) {
-		maze.drawMaze(g);
 		maze.draw(g);
 		player.draw(g);
 	}
 	
 	public void drawMaze(Graphics g) {
-		
+		maze.drawMaze(g);
 	}
 	
 	public boolean isGameOver() {
