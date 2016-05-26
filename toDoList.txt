@@ -1,0 +1,18 @@
+/////////////////////////////////////////////////
+/// TO DO LIST IN DECREASING ORDER OF PRIORITY///
+///					      ///
+/// If you're working onsomething, remove it  ///
+/// from the list and save it to git	      ///
+/////////////////////////////////////////////////
+
+
+- Add movement within path tiles
+- Complete menu screen design
+- Implement in-game menu and design
+- Complete difficulty screen and design
+- Add end event (shit happens when you complete the maze OR health hits 0)
+- Display health
+- Write instructions text
+- FIX: Can't jump while left/right key is held
+- scaling maze with window size
+- Add background music
