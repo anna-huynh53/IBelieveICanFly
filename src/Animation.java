@@ -42,6 +42,13 @@ public class Animation {
 		return oneCycle; 
 	}
 	
+	public void increaseCurrFrame() {
+		currFrame+=2;
+		while (currFrame >= frames.size()) {
+			currFrame-=1;
+		}
+	}
+	
 	public void setWait(int waitTime) { 
 		wait = waitTime;
 	}

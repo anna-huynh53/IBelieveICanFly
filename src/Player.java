@@ -8,6 +8,7 @@ public class Player implements Entity {
 	private Maze maze;
 	private Point currentLoc;
 	private int score;
+	private int maxHealth;
 	private int health;
 	
 	private boolean left;
@@ -29,7 +30,7 @@ public class Player implements Entity {
 		this.maze = maze;
 		this.currentLoc = loc;
 		this.score = 0;
-		this.health = 100;
+		this.maxHealth = this.health = 100;
 		
 		animate = new Animation();
 		initAnimationSets();
@@ -43,35 +44,38 @@ public class Player implements Entity {
 		idle = maze.getImages().getIdle();
 		hit = maze.getImages().getHit();
 		dead = maze.getImages().getDead();
+		animate.setFrames(idle);
 	}
 					
 	public void move() {
-		Point newLoc = new Point(0,0);
-		int currX = this.currentLoc.getX();
-		int currY = this.currentLoc.getY();
-
-		if (left && !jumping) {
-			newLoc = new Point(currX-1, currY);
-			animate.setFrames(walkLeft);
-		} else if (right && !jumping) { 
-			newLoc = new Point(currX+1, currY);
-			animate.setFrames(walkRight);
-		} else if (jumping) {
-			if (left) newLoc = new Point (currX-1, currY-1);
-			else if (right) newLoc = new Point (currX+1, currY-1);
-			else newLoc = new Point(currX, currY-1);
-			falling = true;	
-			animate.setFrames(jump);
-		} else if (!left && !right && !jumping) {
-			newLoc = new Point(currX, currY+1);
-			if (!maze.isValidMove(this, newLoc)) {
-				falling = false;
-				animate.setFrames(idle);
-			} else {
-				animate.setFrames(fall);
-			}
-		} 
+		int newX = this.currentLoc.getX();
+		int newY = this.currentLoc.getY();
 		
+		if (left) {
+			newX-=1;
+			animate.setFrames(walkLeft);
+			animate.increaseCurrFrame();
+		} else if (right) {
+			newX+=1;
+			animate.setFrames(walkRight);
+			animate.increaseCurrFrame();
+		} else if (jumping) {
+			newY-=1;
+			falling = true;
+			animate.setFrames(jump);
+			animate.increaseCurrFrame();
+		} else if (falling) {
+			newY+=1;
+			falling = false;
+			animate.setFrames(fall);
+		} else {
+			newY+=1;
+			if (!maze.isValidMove(this, new Point(newX, newY))) {
+				animate.setFrames(idle);
+			}
+		}
+	
+		Point newLoc = new Point(newX, newY);
 		if (maze.isValidMove(this, newLoc)) {
 			this.currentLoc = newLoc;
 			maze.playerMovementListener(this); // must be called whenever the player moves
@@ -122,11 +126,7 @@ public class Player implements Entity {
 	 * @param value - the value to increase the score by
 	 */
 	public void increaseScore(int value) {
-		if (this.score < value) {
-			this.score = 0;
-		} else {
-			this.score = this.score + value;
-		}
+		this.score+=value;
 	}
 	
 	/**
@@ -149,6 +149,10 @@ public class Player implements Entity {
 	}
 	
 /////////////////////////////////////health/////////////////////////////////////
+	public int getMaxHealth() {
+		return this.maxHealth;
+	}
+	
 	public int getHealth() {
 		return this.health;
 	}

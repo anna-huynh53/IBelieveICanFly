@@ -1,18 +1,20 @@
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
 
-public class EvilSun implements Entity {
+public class EvilWingMan implements Entity {
 	private Maze maze;
 	private Point currentLoc;
 	private int damage;
 	
 	private Animation animate;
-	private ArrayList<Image> sun;
+	private ArrayList<Image> wingMan;
 	
-	public EvilSun(Maze maze, Point loc) {
+	public EvilWingMan(Maze maze, Point loc) {
 		this.maze = maze;
 		this.currentLoc = loc;
 		this.damage = 10;
@@ -26,8 +28,8 @@ public class EvilSun implements Entity {
 		new javax.swing.Timer(300, timedMove).start();
 		
 		animate = new Animation();
-		sun = maze.getImages().getSun();
-		animate.setFrames(sun);
+		wingMan = maze.getImages().getWingMan();
+		animate.setFrames(wingMan);
 	}
 	
 	public void move() {
@@ -44,6 +46,7 @@ public class EvilSun implements Entity {
 	}
 	
 	public void update() {
+
 	}
 	
 	public void draw(Graphics g) {

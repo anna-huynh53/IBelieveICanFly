@@ -1,6 +1,8 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 /**
@@ -12,12 +14,20 @@ public class EvilThunder implements Entity {
 	private Point currentLoc;
 	private int damage;
 	
-	public EvilThunder(Maze m) {
+	public EvilThunder(Maze m, Point p) {
 		this.maze = m;
-		this.damage = 50;		
+		this.damage = 10;		
+		this.currentLoc = p;
+		
+		ActionListener timedMove = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				move();
+			}
+		};
+		new javax.swing.Timer(1000, timedMove).start();
 	}
 	
-	public void nextLocation() {
+	public void move() {
 		Random rand = new Random();
 		Point p = new Point(rand.nextInt(this.maze.getSize()), rand.nextInt(maze.getSize()));
 		if (maze.isValidMove(this, p)) {
@@ -26,12 +36,11 @@ public class EvilThunder implements Entity {
 	}
 
 	public void update() {
-		nextLocation();
 	}
 
 	public void draw(Graphics g) {
-		g.drawImage(maze.getImages().getThunder(), (int)this.currentLoc.getX() * Maze.SCALE,
-				    (int)this.currentLoc.getY() * Maze.SCALE, null);
+		g.drawImage(maze.getImages().getThunder(), this.currentLoc.getX()*Maze.SCALE,
+				    this.currentLoc.getY()*Maze.SCALE, null);
 	}
 
 	public Point getLocation() {
