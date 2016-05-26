@@ -1,7 +1,6 @@
 import javax.swing.JFrame;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +19,7 @@ public class UIFrame extends JFrame {
 	public void initFrame() {
 		this.setTitle("I believe I can fly");
 		this.setSize(850, 900);
+		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setContentPane(menuScreen);
@@ -53,6 +53,7 @@ public class UIFrame extends JFrame {
 				runGameScreen();
 			}
 		});
+		
 
 		difficultyScreen.getMediumButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

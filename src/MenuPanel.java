@@ -12,6 +12,7 @@ public class MenuPanel extends JPanel {
 		this.setPreferredSize(new Dimension(420, 420));
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
+		this.setBackground(new Color(27, 192, 247));
 		
 	    header.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    start.setAlignmentX(Component.CENTER_ALIGNMENT);
