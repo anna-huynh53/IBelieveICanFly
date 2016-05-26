@@ -1,4 +1,6 @@
 import javax.swing.JPanel;
+
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -21,6 +23,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public int SCALE = 20;
 	
 	public GamePanel(String difficulty) {
+		this.setPreferredSize(new Dimension(420, 420));		
+		
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
 		//mazeImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);

@@ -338,10 +338,17 @@ public class Maze {
 				p.doDamage(e.getDamage());
 			}
 		}
-		if (tile.getItem() instanceof Coin) {
-			Coin c = (Coin) tile.getItem();
-			p.increaseScore(c.getValue());
-			tile.removeItem();
+		for (int i = 0; i < mapObjects.getItems().size(); i++) {
+			Item item = mapObjects.getItems().get(i);
+			if (item.getLoc().equals(p.getLocation())) {
+				if (item instanceof Coin) {
+					Coin c = (Coin) item;
+					p.increaseScore(c.getValue());
+					tile.removeItem();
+					mapObjects.getItems().remove(item);
+				}
+			}
+			
 		}
 		// check if player should die
 		if (tile.isLethal()){

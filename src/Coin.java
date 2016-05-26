@@ -45,6 +45,10 @@ public class Coin implements Item {
 		return this.value;
 	}
 	
+	public Point getLoc() {
+		return this.loc;
+	}
+	
 	public boolean equals(Object o) {
 		if (o instanceof Coin) { 
 		    Coin c = (Coin) o;
