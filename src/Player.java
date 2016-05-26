@@ -50,8 +50,6 @@ public class Player implements Entity {
         int currY = this.currentLoc.getY();
         Point newLoc = new Point(currX, currY);
 
-        animate.setFrames(idle);
-
         if (left) {
             newLoc.setX(newLoc.getX()-1);
             if (!maze.isValidMove(this, newLoc)) newLoc.setX(newLoc.getX()+1);
@@ -78,7 +76,10 @@ public class Player implements Entity {
             falling = true;
         } else {
             newLoc.setY(newLoc.getY()-1);
+            falling = false;
         }
+        
+        if (!falling && !jumping && !left && !right) animate.setFrames(idle);
 
         if (maze.isValidMove(this, newLoc)) {
             this.currentLoc = newLoc;
