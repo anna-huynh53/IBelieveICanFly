@@ -45,38 +45,46 @@ public class Player implements Entity {
 		dead = maze.getImages().getDead();
 	}
 					
-	public void move() {
-		Point newLoc = new Point(0,0);
-		int currX = this.currentLoc.getX();
-		int currY = this.currentLoc.getY();
+    public void move() {
+        int currX = this.currentLoc.getX();
+        int currY = this.currentLoc.getY();
+        Point newLoc = new Point(currX, currY);
 
-		if (left && !jumping) {
-			newLoc = new Point(currX-1, currY);
-			animate.setFrames(walkLeft);
-		} else if (right && !jumping) { 
-			newLoc = new Point(currX+1, currY);
-			animate.setFrames(walkRight);
-		} else if (jumping) {
-			if (left) newLoc = new Point (currX-1, currY-1);
-			else if (right) newLoc = new Point (currX+1, currY-1);
-			else newLoc = new Point(currX, currY-1);
-			falling = true;	
-			animate.setFrames(jump);
-		} else if (!left && !right && !jumping) {
-			newLoc = new Point(currX, currY+1);
-			if (!maze.isValidMove(this, newLoc)) {
-				falling = false;
-				animate.setFrames(idle);
-			} else {
-				animate.setFrames(fall);
-			}
-		} 
-		
-		if (maze.isValidMove(this, newLoc)) {
-			this.currentLoc = newLoc;
-			maze.playerMovementListener(this); // must be called whenever the player moves
-		} 
-	}
+        animate.setFrames(idle);
+
+        if (left) {
+            newLoc.setX(newLoc.getX()-1);
+            if (!maze.isValidMove(this, newLoc)) newLoc.setX(newLoc.getX()+1);
+            animate.setFrames(walkLeft);
+        }
+
+        if (right) {
+            newLoc.setX(newLoc.getX()+1);
+            if (!maze.isValidMove(this, newLoc)) newLoc.setX(newLoc.getX()-1);
+            animate.setFrames(walkRight);
+            if (left) animate.setFrames(idle);
+        }
+        
+        if (jumping) {
+            newLoc.setY(newLoc.getY()-1);
+            if (!maze.isValidMove(this, newLoc)) newLoc.setY(newLoc.getY()+1);
+            animate.setFrames(jump);
+        }
+
+        // Falling Logic
+        newLoc.setY(newLoc.getY()+1);
+        if (maze.isValidMove(this, newLoc) && !jumping) {
+            animate.setFrames(fall);
+            falling = true;
+        } else {
+            newLoc.setY(newLoc.getY()-1);
+        }
+
+        if (maze.isValidMove(this, newLoc)) {
+            this.currentLoc = newLoc;
+            maze.playerMovementListener(this); // must be called whenever the player moves
+        } 
+    }
 	
 	public void update() {
 		move();
@@ -98,6 +106,14 @@ public class Player implements Entity {
 	
 	public void setJumping(boolean b) {
 		this.jumping = b;
+	}
+	
+	public void setFalling(boolean b) {
+		this.falling = b;
+	}
+	
+	public boolean isFalling() {
+		return this.falling;
 	}
 	
 	/**
