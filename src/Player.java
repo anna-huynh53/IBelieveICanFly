@@ -245,6 +245,9 @@ public class Player implements Entity {
 	 */
 	public void doDamage(int damage) {
 		this.health -= damage; 
+		if (health < 0) {
+			health = 0;
+		}
 	}
 	
 	public int getMaxHealth() {
