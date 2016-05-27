@@ -55,7 +55,7 @@ public class MapObjects {
 		}
 		
 		i = 0;
-		while (i <= numItems/3) {
+		while (i <= numItems/4) {
 			int x = rand.nextInt(size-1);
 			int y = rand.nextInt(size-1);
 			Tile t = tiles[x][y];
@@ -64,10 +64,26 @@ public class MapObjects {
 				!(t.getItem() instanceof Item)) {
 				Point p = new Point(x, y);
 				Item item = new Coin(1, p, images.getCoin());
-				int num = rand.nextInt(3);
+				int num = rand.nextInt(4);
 				if (num == 0) item = new Bubble(p, images.getBubble());
 				if (num == 1) item = new Flail(p, images.getFlail());
 				if (num == 2) item = new Heart(p, images.getFullHeart());
+				t.setItem(item);
+				items.add(item);
+				i++;
+			}
+		}
+		
+		i = 0;
+		while (i <= numItems/2) {
+			int x = rand.nextInt(size-1);
+			int y = rand.nextInt(size-1);
+			Tile t = tiles[x][y];
+			if (t.getClassification().equals(Tile.PATH) &&
+				tiles[x][y+1].getClassification().equals(Tile.WALL) && 
+				!(t.getItem() instanceof Item)) {
+				Point p = new Point(x, y);
+				Item item = new Coin(1, p, images.getCoin());
 				t.setItem(item);
 				items.add(item);
 				i++;
@@ -97,7 +113,7 @@ public class MapObjects {
 			int x = rand.nextInt(size);
 			int y = rand.nextInt(size);
 			Tile t = tiles[x][y];
-			if ((x!=1 && y!=1) && t.getClassification().equals(Tile.PATH)) {
+			if ((x!=size-2 && y!=size-2) && t.getClassification().equals(Tile.PATH)) {
 				Point p = new Point(x, y);
 				Entity e =  new EvilSun(this.maze, p);
 				int enemy = rand.nextInt(3);

@@ -13,7 +13,7 @@ public class HelpPanel extends JPanel{
 	public HelpPanel() {
 		this.width = 925;
 		this.height = 640;
-		this.setPreferredSize(new Dimension(width, height));
+		//this.setPreferredSize(new Dimension(width, height));
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/helpScreen.png");
 		this.setLayout(boxLayout);

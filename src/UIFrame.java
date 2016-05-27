@@ -1,7 +1,6 @@
 import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class UIFrame extends JFrame {
@@ -10,7 +9,7 @@ public class UIFrame extends JFrame {
 	DifficultyPanel difficultyScreen;
 	GamePanel gameScreen;
 	
-	public UIFrame()  throws IOException {
+	public UIFrame() {
 		this.menuScreen = new MenuPanel();
 		this.helpScreen = new HelpPanel();
 		this.difficultyScreen = new DifficultyPanel();
@@ -29,7 +28,6 @@ public class UIFrame extends JFrame {
 	
 	private void runMenuScreen() {
 		this.setContentPane(menuScreen);
-		this.setSize(540, 540);
 		this.pack();
 		this.setLocationRelativeTo(null);
 		helpScreen.setFocusable(true);
