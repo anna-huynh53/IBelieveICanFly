@@ -11,9 +11,9 @@ public class HelpPanel extends JPanel{
 	private JButton back;
 	
 	public HelpPanel() {
-		this.width = 1024;
+		this.width = 925;
 		this.height = 640;
-		this.setSize(new Dimension(width, height));
+		this.setPreferredSize(new Dimension(width, height));
 		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/helpScreen.png");
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.back = new JButton(new ImageIcon("res/gui/backButtonDefault.png"));
