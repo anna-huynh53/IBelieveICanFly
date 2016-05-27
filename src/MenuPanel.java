@@ -5,9 +5,9 @@ import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
-	private Image background;
 	private int width;
 	private int height;
+	private Image background;
 	
 	private JButton start;
 	private JButton help; 
@@ -16,8 +16,8 @@ public class MenuPanel extends JPanel {
 	public MenuPanel() {
 		this.width = 540;
 		this.height = 540;
-		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/menuScreen.png");
 		this.setPreferredSize(new Dimension(width, height));
+		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/menuScreen.png");
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
 		Color UIcolor = new Color(181, 229, 251);

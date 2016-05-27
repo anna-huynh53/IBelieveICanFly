@@ -29,6 +29,7 @@ public class UIFrame extends JFrame {
 	
 	private void runMenuScreen() {
 		this.setContentPane(menuScreen);
+		this.setSize(540, 540);
 		this.pack();
 		this.setLocationRelativeTo(null);
 		helpScreen.setFocusable(true);
@@ -55,6 +56,7 @@ public class UIFrame extends JFrame {
 	
 	private void runHelpScreen() {
 		this.setContentPane(helpScreen);
+		this.setSize(1024,640);
 		this.pack();
 		this.setLocationRelativeTo(null);
 		helpScreen.setFocusable(true);
@@ -69,6 +71,7 @@ public class UIFrame extends JFrame {
 	
 	private void runDifficultyScreen() {
 		this.setContentPane(difficultyScreen);
+		this.setSize(540, 540);
 		this.pack();
 		this.setLocationRelativeTo(null);
 		difficultyScreen.setFocusable(true);
