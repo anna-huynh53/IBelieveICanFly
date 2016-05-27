@@ -55,7 +55,7 @@ public class MapObjects {
 		}
 		
 		i = 0;
-		while (i <= numItems) {
+		while (i <= numItems/2) {
 			int x = rand.nextInt(size-1);
 			int y = rand.nextInt(size-1);
 			Tile t = tiles[x][y];

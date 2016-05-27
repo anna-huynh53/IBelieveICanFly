@@ -27,7 +27,7 @@ public class Player implements Entity {
 	private int score;
 	private int maxHealth;
 	private int health;
-	private ArrayList<Item> powerUps;
+	private Item powerUp;
 	
 	public Player(Maze maze, Point loc) {
 		this.maze = maze;
@@ -38,7 +38,7 @@ public class Player implements Entity {
 		
 		this.score = 0;
 		this.maxHealth = this.health = 100;
-		this.powerUps = new ArrayList<Item>();
+		this.powerUp = null;
 	}
 	
 	public void initAnimationSets() {
@@ -214,16 +214,16 @@ public class Player implements Entity {
 	
 ////////////////////////////////////powerups////////////////////////////////////	
 	
-	public void addPowerUp(Item powerUp) {
-		this.powerUps.add(powerUp);
-	}
-	
 	public void removePowerUp(Item powerUp) {
-		this.powerUps.remove(powerUp);
+		this.powerUp = null;
 	}
 	
-	public ArrayList<Item> getPowerUps() {
-		return this.powerUps;
+	public Item getPowerUp() {
+		return this.powerUp;
+	}
+	
+	public void setPowerUp(Item power) {
+		this.powerUp = power;
 	}
 	
 /////////////////////////////////////health/////////////////////////////////////

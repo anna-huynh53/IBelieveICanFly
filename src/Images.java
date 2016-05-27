@@ -23,6 +23,7 @@ public class Images {
 	private Image bubblePower;
 	private Image flail;
 	private Image flailPower;
+	private Image noPower;
 	
 	private ArrayList<Image> sun;
 	private ArrayList<Image> wingMan;
@@ -96,6 +97,7 @@ public class Images {
 		bubblePower = t.getImage("res/hud/bubblePower.png");
 		flail = t.getImage("res/pickups/flail.png");
 		flailPower = t.getImage("res/hud/flailPower.png");
+		noPower = t.getImage("res/hud/noPower.png");
 	}
 	
 	public void loadEnemies() {
@@ -217,6 +219,10 @@ public class Images {
 	
 	public Image getFlailPower() {
 		return this.flailPower;
+	}
+	
+	public Image getNoPower() {
+		return this.noPower;
 	}
 	
 	public ArrayList<Image> getSun() {

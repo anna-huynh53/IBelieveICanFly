@@ -29,18 +29,6 @@ public class HelpPanel extends JPanel{
 		this.play = new JButton("Play");
 		this.back = new JButton("Back");
 		this.setBackground(new Color(27, 192, 247));
-
-		//font
-		try {
-			Font customFont = Font.createFont(Font.TRUETYPE_FONT, 
-			new FileInputStream(new File("res/sunshineFont2.ttf"))).deriveFont(Font.PLAIN, 22);
-		    	helpText.setFont(customFont);
-		    	Font customTitle = Font.createFont(Font.TRUETYPE_FONT, 
-		    	new FileInputStream(new File("res/sunshineFont.ttf"))).deriveFont(Font.PLAIN, 32	);
-		    	title.setFont(customTitle);
-		} catch (FontFormatException e) {
-			e.printStackTrace();
-		}	
 		
 		// textArea options
 	    helpText.setLineWrap(true);

@@ -275,18 +275,20 @@ public class Maze {
 			Entity e = mapObjects.getEnemies().get(i);
 			if (e.getLocation().equals(p.getLocation())) {
 				boolean noDamage = false;
-				for (int j = 0; j < p.getPowerUps().size(); j++) {
-					Item item = p.getPowerUps().get(j);
-					if (item instanceof Flail) {
-						noDamage = true;
+				Item item = p.getPowerUp();
+				if (item instanceof Flail && !(e instanceof EvilThunder)) {
+					noDamage = true;
+					if (!(e instanceof EvilThunder)) {
 						p.increaseScore(3);
 						p.removePowerUp(item);
 						mapObjects.getEnemies().remove(e);
-					} if (item instanceof Bubble) {
-						noDamage = true;
-						p.removePowerUp(item);
-					} 
+					}	
 				}
+				if (item instanceof Bubble) {
+					noDamage = true;
+					p.removePowerUp(item);
+				} 
+				
 				if (!noDamage) {
 					p.doDamage(e.getDamage());	
 					p.setDamaged(true);
@@ -297,8 +299,15 @@ public class Maze {
 		// interact with items
 		Item item = tile.getItem();
 		if (item != null) {
-			item.playerInteractEvent(p);
-			mapObjects.getItems().remove(item);
+			if (item instanceof Heart) {
+				if (p.getHealth() != p.getMaxHealth()) {
+					item.playerInteractEvent(p);
+					mapObjects.getItems().remove(item);
+				}
+			} else {
+				item.playerInteractEvent(p);
+				mapObjects.getItems().remove(item);
+			}
 		}
 		
 		// determines if player has finished either from losing all
@@ -407,11 +416,7 @@ public class Maze {
 						g.drawImage(hud.getPlayerScore().get(k), (i + k)*SCALE, j*SCALE, null);
 					}
 				}
-				int k = 0;
-				while (k < hud.getPowerUps().size()) {
-					g.drawImage(hud.getPowerUps().get(k), (k+1)*SCALE, (size+1)*SCALE, null);
-					k++;
-				}
+				g.drawImage(hud.getPowerUp(), SCALE, (size+1)*SCALE, null);
 			}
 		}
 	}
