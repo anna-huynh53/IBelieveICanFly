@@ -14,14 +14,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class HelpPanel extends JPanel{
-	JLabel title = new JLabel("How to play the game");
-	JTextArea helpText = new JTextArea();
-	JButton play = new JButton("Play");
-	JButton back = new JButton("Back");
+	JLabel title;
+	JTextArea helpText;
+	JButton play;
+	JButton back;
 		
 	public HelpPanel() throws IOException{
 		this.setPreferredSize(new Dimension(850, 950));
 		this.setLayout(new FlowLayout());
+		this.title = new JLabel("How to play the game");
+		this.helpText = new JTextArea();
+		this.play = new JButton("Play");
+		this.back = new JButton("Back");
 		
 	    helpText.setLineWrap(true);
 	    helpText.setWrapStyleWord(true);
