@@ -16,11 +16,10 @@ public class MenuPanel extends JPanel {
 		this.setLayout(boxLayout);
 		Color UIcolor = new Color(181, 229, 251);
 		this.setBackground(UIcolor);
-		ImageIcon i;
 		
-		this.start = new JButton();
-		this.help = new JButton();
-		this.quit = new JButton();
+		this.start = new JButton(new ImageIcon("res/gui/playButtonDefault.png"));
+		this.help = new JButton(new ImageIcon("res/gui/helpButtonDefault.png"));
+		this.quit = new JButton(new ImageIcon("res/gui/quitButtonDefault.png"));
 		
 		// set allignment
 	    start.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -29,16 +28,10 @@ public class MenuPanel extends JPanel {
 	    
 	 // set appearance
 	    start.setBackground(UIcolor);
-	    i = new ImageIcon("res/gui/playButtonDefault.png");
-	    start.setIcon(i);
 	    start.setBorderPainted(false);
 	    help.setBackground(UIcolor);
-	    i = new ImageIcon("res/gui/helpButtonDefault.png");
-	    help.setIcon(i);
 	    help.setBorderPainted(false);
 	    quit.setBackground(UIcolor);
-	    i = new ImageIcon("res/gui/quitButtonDefault.png");
-	    quit.setIcon(i);
 	    quit.setBorderPainted(false);
 	    
 	    // animate buttons

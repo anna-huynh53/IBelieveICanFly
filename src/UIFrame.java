@@ -24,7 +24,6 @@ public class UIFrame extends JFrame {
 		this.setSize(420, 420);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
-		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -32,6 +31,7 @@ public class UIFrame extends JFrame {
 	private void runMenuScreen() {
 		this.setContentPane(menuScreen);
 		this.pack();
+		this.setLocationRelativeTo(null);
 		menuScreen.setVisible(true);	
 		
 		menuScreen.getStartButton().addActionListener(new ActionListener() {
@@ -56,14 +56,9 @@ public class UIFrame extends JFrame {
 	private void runHelpScreen() {
 		this.setContentPane(helpScreen);
 		this.pack();
+		this.setLocationRelativeTo(null);
 		helpScreen.setFocusable(true);
 		helpScreen.setVisible(true);
-		
-		helpScreen.getPlayButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runDifficultyScreen();
-			}
-		});
 		
 		helpScreen.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -76,6 +71,7 @@ public class UIFrame extends JFrame {
 	private void runDifficultyScreen() {
 		this.setContentPane(difficultyScreen);
 		this.pack();
+		this.setLocationRelativeTo(null);
 		difficultyScreen.setFocusable(true);
 		difficultyScreen.setVisible(true);
 
@@ -112,6 +108,7 @@ public class UIFrame extends JFrame {
 		this.pack();
 		gameScreen.setFocusable(true);
 		gameScreen.requestFocusInWindow();
+		this.setLocationRelativeTo(null);
 		gameScreen.setVisible(true);
 		
 		gameScreen.getRestartButton().addActionListener(new ActionListener() {
