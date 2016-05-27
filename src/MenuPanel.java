@@ -5,13 +5,20 @@ import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
-
+	private Image background;
+	private int width;
+	private int height;
+	
 	private JButton start;
 	private JButton help; 
 	private JButton quit;
 	
 	public MenuPanel() {
-		this.setPreferredSize(new Dimension(420, 420));
+		this.width = 540;
+		this.height = 540;
+		this.background = Toolkit.getDefaultToolkit().getImage
+				("res/gui/menuScreen.png");
+		this.setPreferredSize(new Dimension(width, height));
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
 		Color UIcolor = new Color(181, 229, 251);
@@ -31,7 +38,7 @@ public class MenuPanel extends JPanel {
 	    start.setBorderPainted(false);
 	    help.setBackground(UIcolor);
 	    help.setBorderPainted(false);
-	    quit.setBackground(UIcolor);
+	    quit.setBackground(new Color(150, 203, 99));
 	    quit.setBorderPainted(false);
 	    
 	    // animate buttons
@@ -92,12 +99,17 @@ public class MenuPanel extends JPanel {
 	    quit.setMaximumSize(buttonSize);
 	    
 	    // add the buttons to the panel with input blank area as spacing
-	    add(Box.createRigidArea(new Dimension(0,100)));
+	    add(Box.createRigidArea(new Dimension(0,215)));
 	    add(start);
 	    add(Box.createRigidArea(new Dimension(0,25)));
 	    add(help);   
-	    add(Box.createRigidArea(new Dimension(0,25)));
+	    add(Box.createRigidArea(new Dimension(0,85)));
 	    add(quit);
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(background, 0, 0, this);
 	}
 	
 	public JButton getStartButton() {

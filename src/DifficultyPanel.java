@@ -5,52 +5,46 @@ import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class DifficultyPanel extends JPanel {
-	private JLabel header ;
+	private Image background;
+	private int width;
+	private int height;
+	
 	private JButton easy;
 	private JButton medium;
 	private JButton hard;
 	private JButton back;
 	
 	public DifficultyPanel() {
-		this.setPreferredSize(new Dimension(420, 420));
+		this.width = 540;
+		this.height = 540;
+		this.background = Toolkit.getDefaultToolkit().getImage
+				("res/gui/difficultyScreen.png");
+		this.setPreferredSize(new Dimension(width, height));
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
 		Color UIcolor = new Color(181, 229, 251);
 		this.setBackground(UIcolor);
-		ImageIcon i;
 		
-		this.header = new JLabel("Difficulty");
-		this.easy = new JButton();
-	    this.medium = new JButton();
-	    this.hard = new JButton();
-	    this.back = new JButton();
+		this.easy = new JButton(new ImageIcon("res/gui/easyButtonDefault.png"));
+	    this.medium = new JButton(new ImageIcon("res/gui/mediumButtonDefault.png"));
+	    this.hard = new JButton(new ImageIcon("res/gui/hardButtonDefault.png"));
+	    this.back = new JButton(new ImageIcon("res/gui/backButtonDefault.png"));
 	    
 	    // set allignment
-		header.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    easy.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    medium.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    hard.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    back.setAlignmentX(Component.CENTER_ALIGNMENT);
-	    
-	    // set fonts
-	    header.setFont(new Font("Impact",1,40));
+	   
 	    
 	    // set appearance
 	    easy.setBackground(UIcolor);
-	    i = new ImageIcon("res/gui/easyButtonDefault.png");
-	    easy.setIcon(i);
 	    easy.setBorderPainted(false);
 	    medium.setBackground(UIcolor);
-	    i = new ImageIcon("res/gui/mediumButtonDefault.png");
-	    medium.setIcon(i);
 	    medium.setBorderPainted(false);
 	    hard.setBackground(UIcolor);
-	    i = new ImageIcon("res/gui/hardButtonDefault.png");
-	    hard.setIcon(i);
 	    hard.setBorderPainted(false);
-	    back.setBackground(UIcolor);
-	    i = new ImageIcon("res/gui/backButtonDefault.png");
-	    back.setIcon(i);
+	    back.setBackground(new Color(150, 203, 99));
 	    back.setBorderPainted(false);
 	    
 	    // animate buttons
@@ -126,18 +120,19 @@ public class DifficultyPanel extends JPanel {
 	    back.setMaximumSize(buttonSize);
 	    
 	    // add the buttons to the panel with input blank area as spacing
-	    add(Box.createRigidArea(new Dimension(0,20)));
-	    add(header);
-	    add(Box.createRigidArea(new Dimension(0,50)));
+	    add(Box.createRigidArea(new Dimension(0,165)));
 	    add(easy);
 	    add(Box.createRigidArea(new Dimension(0,25)));
 	    add(medium);   
 	    add(Box.createRigidArea(new Dimension(0,25)));
 	    add(hard);
-	    add(Box.createRigidArea(new Dimension(0, 50)));
+	    add(Box.createRigidArea(new Dimension(0, 70)));
 	    add(back);
 	}
-	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(background, 0, 0, this);
+	}
 	public JButton getEasyButton() {
 		return this.easy;
 	}
