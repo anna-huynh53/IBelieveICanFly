@@ -21,10 +21,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private Image bg; // background image
 	
 	private int width; // dimensions of panel
-	private int height;
-	
-	public int SCALE = 20; // size of images
-	
+	private int height;	
 	
 	public GamePanel(String difficulty) {
 		this.gameState = new GameState(difficulty);

@@ -21,14 +21,7 @@ public class UIFrame extends JFrame {
 		this.setSize(420, 420);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-<<<<<<< HEAD
 		this.setVisible(true);
-=======
-		this.setContentPane(menuScreen);
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);	
->>>>>>> 53e2521f45d13681d00f97c39cb46291c9f725ca
 	}
 	
 	private void runMenuScreen() {
@@ -61,7 +54,6 @@ public class UIFrame extends JFrame {
 				runGameScreen();
 			}
 		});
-		
 
 		difficultyScreen.getMediumButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

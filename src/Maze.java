@@ -1,23 +1,24 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.Graphics;
+import java.awt.Image;
 
 public class Maze {
 	private int size;
 	private Tile[][] tiles;
+	
 	private Point startPoint;
 	private boolean gameOver;
-	private Player player;
+	
 	private MapObjects mapObjects;
+	private Player player;
 	private HUD hud;
+	
+	private Images allImages;
 	
 	public static final String PRIM = "prim";
 	public static final String DEPTH = "depth";
-	
-	private Images allImages;
 	public final static int SCALE = 20;
 	
 	/**
@@ -56,69 +57,24 @@ public class Maze {
 			generatePrimsMaze();
 		}		
 		
-		//resize();
 		// set start tile at bottom right corner 
-		startPoint = new Point(size-2, size-2);
+		this.startPoint = new Point(size-2, size-2);
 		// set end tile at top left corner
 		// (the end can be placed anywhere as there is a path between any
 		// 2 points; where it is placed will just affect difficulty)
-		tiles[1][1].setClassification(Tile.END);
-		gameOver = false;
+		this.tiles[1][1].setClassification(Tile.END);
+		// set game status
+		this.gameOver = false;
 				
-		
 		// load images
-		allImages = new Images();
+		this.allImages = new Images();
+		// contains items and enemies
+		this.mapObjects = new MapObjects(this);
 		// player is automatically created along with the maze
 		createPlayer();
-		mapObjects = new MapObjects(this);
-		hud = new HUD(this);
+		// contains player info
+		this.hud = new HUD(this);
 	}	
-	
-	public void resize() {
-		Tile[][] newTiles = new Tile[size*3][size*3];
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				newTiles[i*3][j*3] = tiles[i][j];
-				newTiles[i*3+1][j*3] = tiles[i][j];
-				newTiles[i*3+2][j*3] = tiles[i][j];
-				newTiles[i*3][j*3+1] = tiles[i][j];
-				newTiles[i*3+1][j*3+1] = tiles[i][j];
-				newTiles[i*3+2][j*3+1] = tiles[i][j];
-				newTiles[i*3][j*3+2] = tiles[i][j];
-				newTiles[i*3+1][j*3+2] = tiles[i][j];
-				newTiles[i*3+2][j*3+2] = tiles[i][j];
-	
-			}
-		}
-		this.size = size*3;
-		this.tiles = newTiles;		
-		
-		removeExtraWalls();
-		removeExtraWalls();
-	}
-	
-    public void removeExtraWalls() {
-		for (int i = 2; i < size-3; i++) {
-			for (int j = 2; j < size-3; j++) {
-				if (tiles[i][j].getClassification().equals(Tile.WALL)) {
-					if (tiles[i][j+1].getClassification().equals(Tile.WALL) &&
-						tiles[i][j-1].getClassification().equals(Tile.WALL) &&
-						tiles[i][j+2].getClassification().equals(Tile.PATH) &&
-						tiles[i][j-2].getClassification().equals(Tile.PATH)) {
-						tiles[i][j+1] = new Tile(Tile.PATH);
-						tiles[i][j-1] = new Tile(Tile.PATH);
-					}
-					if (tiles[i+1][j].getClassification().equals(Tile.WALL) &&
-						tiles[i-1][j].getClassification().equals(Tile.WALL) &&
-						tiles[i+2][j].getClassification().equals(Tile.PATH) &&
-						tiles[i-2][j].getClassification().equals(Tile.PATH) ) {
-						tiles[i+1][j] = new Tile(Tile.PATH);
-						tiles[i-1][j] = new Tile(Tile.PATH);
-					}
-				}
-			}
-		}
-    }
 	
 	/**
 	 * Generates a maze using depth first search with recursive backtracking.
@@ -273,33 +229,8 @@ public class Maze {
 		return unvisitedTiles;	
 	}
 	
-	/**
-	 * From a tile, finds the tile that lies beyond a given wall (tile here
-	 * refers to the point of the tile, not the object Tile). This method
-	 * is needed as the direction of the wall randomly chosen is not known
-	 * @param tile - point
-	 * @param wall - wall adjoining the point
-	 * @return
-	 */
-	/* May use for something else
-	public Point findTileAcrossWall(Point tile, Point wall) {
-		Point tileAcrossWall = new Point(0, 0);
-		int xDiff = tile.getX() - wall.getX();
-		int yDiff = tile.getY() - wall.getY();
-		if (yDiff < 0) { // tile to north
-			tileAcrossWall = new Point(tile.getX(), tile.getY()-2);
-		} else if (xDiff > 0) { //tile to east
-			tileAcrossWall = new Point(tile.getX()+2, tile.getY());
-		} else if (yDiff > 0) { //tile to south
-			tileAcrossWall = new Point(tile.getX(), tile.getY()+2);
-		} else if (xDiff < 0) { //tile to west
-			tileAcrossWall = new Point(tile.getX()-2, tile.getY());	
-		}
-		return tileAcrossWall;
-	}
-	*/
-	
 /////////////////////////////////////player/////////////////////////////////////
+	
 	/**
 	 * Create a new player and put it at the start of the maze
 	 * @return The player created
@@ -331,11 +262,12 @@ public class Maze {
 	}
 	
 	/**
-	 * Called whenever a player moves. Determines deaths/victory.
-	 * @param p - player that moved
+	 * Called whenever a player moves to react to the environment
+	 * @param player that moved
 	 */
 	public void playerMovementListener(Player p) {
 		Tile tile = this.getTile(p.getLocation());
+		
 		// deal damage from enemies
 		for (Entity e : mapObjects.getEnemies()) {
 			if (e.getLocation().equals(p.getLocation())) {
@@ -350,6 +282,8 @@ public class Maze {
 				if (!noDamage) p.doDamage(e.getDamage());	
 			}
 		}
+		
+		// interact with items
 		Item item = tile.getItem();
 		if (item instanceof Coin) {
 			Coin c = (Coin) item;
@@ -361,6 +295,8 @@ public class Maze {
 			b.playerInteractEvent(p);
 		}
 		
+		// determines if player has finished either from losing all
+		// health or getting to the end
 		if (p.getHealth() == 0 || tile.getClassification().equals(Tile.END)) {
 			gameOver = true;
 		}
@@ -389,6 +325,7 @@ public class Maze {
 	public void removePlayer() {
 		this.player = null;
 	}	
+	
 /////////////////////////////////////player/////////////////////////////////////
 	
 	public void update() {
@@ -436,23 +373,6 @@ public class Maze {
 			}
 		}
 		drawHUD(g);
-	}
-	
-	public void drawDecorations(Graphics g) {
-		Random rand = new Random();
-		ArrayList<Image> decorations = allImages.getDecorations();
-		int i = 0;
-		while (i <= 10) {
-			int x = rand.nextInt(size-1);
-			int y = rand.nextInt(size-1);
-			int xScale = x * SCALE;
-			int yScale = y * SCALE;
-			Tile t = tiles[x][y];
-			if (t.getClassification().equals(Tile.PATH) && tiles[x][y+1].getClassification().equals(Tile.WALL)) {
-				g.drawImage(decorations.get(rand.nextInt(5)), xScale, yScale, null);
-				i++;
-			}
-		}
 	}
 	
 	public void drawHUD(Graphics g) {
