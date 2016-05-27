@@ -16,4 +16,6 @@ public interface Item {
 	public void draw(Graphics g);
 	
 	public Point getLoc();
+	
+	public Item clone();
 }

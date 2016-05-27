@@ -120,8 +120,17 @@ public class Tile {
 			Tile t = (Tile)o;
 			return ((this.classification.equals(t.classification)) &&
 					(this.isLethal() == t.isLethal()) && 
-					(this.isTraversable() == t.isTraversable()));
+					(this.isTraversable() == t.isTraversable()) &&
+					this.item.equals(t.getItem()));
 		}
 		return false;
+	}
+	
+	public Tile clone() {
+		Tile t = new Tile(this.classification);
+		t.setTraversable(this.traversable);
+		t.setLethal(this.lethal);
+		t.setItem(this.item.clone());
+		return t;
 	}
 }
