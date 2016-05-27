@@ -6,11 +6,13 @@ import java.awt.event.ActionListener;
 @SuppressWarnings("serial")
 public class UIFrame extends JFrame {
 	MenuPanel menuScreen;
+	HelpPanel helpScreen;
 	DifficultyPanel difficultyScreen;
 	GamePanel gameScreen;
 	
 	public UIFrame()  throws IOException {
 		this.menuScreen = new MenuPanel();
+		this.helpScreen = new HelpPanel();
 		this.difficultyScreen = new DifficultyPanel();
 		initFrame();
 		runMenuScreen();
