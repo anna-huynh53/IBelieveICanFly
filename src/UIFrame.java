@@ -20,7 +20,7 @@ public class UIFrame extends JFrame {
 	}
 
 	public void initFrame() {
-		this.setTitle("I believe I can fly");
+		this.setTitle("I Believe I Can Fly");
 		this.setSize(420, 420);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
@@ -96,6 +96,12 @@ public class UIFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				gameScreen = new GamePanel("hard");
 				runGameScreen();
+			}
+		});
+		
+		difficultyScreen.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				runMenuScreen();
 			}
 		});
 	}
