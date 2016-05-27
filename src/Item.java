@@ -14,6 +14,4 @@ public interface Item {
 	 * Draws the item
 	 */
 	public void draw(Graphics g);
-	
-	public Point getLoc();
 }

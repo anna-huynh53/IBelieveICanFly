@@ -1,125 +1,109 @@
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class UIFrame extends JFrame {
-	MenuPanel menuScreen;
-	HelpPanel helpScreen;
-	DifficultyPanel difficultyScreen;
-	GamePanel gameScreen;
+@SuppressWarnings("serial")
+public class UIFrame extends JFrame{
+	private Menu menu;
+	private GamePanel game;
+	private Difficulty diffMenu;
 	
 	public UIFrame() {
-		this.menuScreen = new MenuPanel();
-		this.difficultyScreen = new DifficultyPanel();
-		this.helpScreen = new HelpPanel();
+		this.menu = new Menu();
+		this.diffMenu = new Difficulty();
 		initFrame();
+		menu.setFocusable(true);
 		runMenuScreen();
 	}
 	
-	public void initFrame() {
+	private void initFrame() {
 		this.setTitle("I believe I can fly");
-		//this.setSize(850, 900);
+		this.setSize(850, 900);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setContentPane(menuScreen);
+		menu.setPreferredSize(new Dimension(420, 420));
+		this.setContentPane(menu);
+		// this.add(new JLabel(new ImageIcon("/home/siriprayook/YEAR 2 UNI/2911Project/res/background.png")));
 		this.pack();
-		this.setVisible(true);	
+		BoxLayout boxLayout = new BoxLayout(menu, BoxLayout.Y_AXIS);
+		menu.setLayout(boxLayout);
+		this.setVisible(true);
 	}
 	
 	private void runMenuScreen() {
-		menuScreen.getStartButton().addActionListener(new ActionListener() {
+		menu.getStartButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				runDifficultyScreen();
-			}
-		});
-		
-		menuScreen.getHelpButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runHelpScreen();
+				setDifficultyContent();
+				menu.setFocusable(false);
 			}
 		});
 
-		menuScreen.getQuitButton().addActionListener(new ActionListener() {
+		menu.getQuitButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
 	}
 	
-	private void runHelpScreen() {
-		this.setContentPane(helpScreen);
-		this.pack();
-		helpScreen.setFocusable(true);
-		helpScreen.setVisible(true);
-		
-		helpScreen.getPlayButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				runDifficultyScreen();
-			}
-		});
-		
-		helpScreen.getBackButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				initFrame();
-			}
-		});
-		
-	}
-	
 	private void runDifficultyScreen() {
-		this.setContentPane(difficultyScreen);
-		this.pack();
-		difficultyScreen.setFocusable(true);
-		difficultyScreen.setVisible(true);
-
-		difficultyScreen.getEasyButton().addActionListener(new ActionListener() {
+		// init diff screen
+		diffMenu.setPreferredSize(new Dimension(420, 420));
+		BoxLayout boxLayout = new BoxLayout(diffMenu, BoxLayout.Y_AXIS);
+		diffMenu.setLayout(boxLayout);
+		
+		// diff buttons
+		diffMenu.getEasyButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gameScreen = new GamePanel("easy");
-				gameScreen.setPreferredSize(new Dimension(650, 420));
-				runGameScreen();
+				setGameContent();
+				diffMenu.setFocusable(false);
 			}
 		});
 
-		difficultyScreen.getMediumButton().addActionListener(new ActionListener() {
+		diffMenu.getMediumButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gameScreen = new GamePanel("medium");
-				gameScreen.setPreferredSize(new Dimension(860, 621));
-				runGameScreen();
+				// for medium board
 			}
 		});
 
-		difficultyScreen.getHardButton().addActionListener(new ActionListener() {
+		diffMenu.getHardButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gameScreen = new GamePanel("hard");
-				gameScreen.setPreferredSize(new Dimension(1100, 820));
-				runGameScreen();
+				// for hard board
 			}
 		});
 	}
 	
-	private void runGameScreen() {
-		this.setContentPane(gameScreen);
+/*	private void initGameScreen() {
+		game.getOptions().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//game.showOptions();
+			}
+		});
+	}*/
+	
+	private void setDifficultyContent() {
+		diffMenu.setFocusable(true);
+		this.setContentPane(diffMenu);
 		this.pack();
-		gameScreen.setFocusable(true);
-		gameScreen.requestFocusInWindow();
-		gameScreen.setVisible(true);
-		
-		gameScreen.getHelp().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// insert help screen
-			}
-		});
-		
-		gameScreen.getBackMain().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// there may be some issues with closing the thread when running this
-				gameScreen.thread.stop();
-				initFrame();
-				runMenuScreen();
-			}
-		});
+		this.setVisible(true);
 	}
+	
+
+	private void setGameContent() {
+		this.game = new GamePanel("Easy");
+		BoxLayout gameLayout = new BoxLayout(game, BoxLayout.Y_AXIS);
+		game.setLayout(gameLayout);
+		this.setContentPane(game);
+		this.pack();
+		this.setVisible(true);
+	}
+
+	public void initGameScreen() {
+		game = new GamePanel("easy"); // must set difficulty of game panel's game state
+		game.setPreferredSize(new Dimension(420, 420));
+		game.setFocusable(true);
+		game.requestFocus();
+	}
+	
+	
 }
