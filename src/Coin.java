@@ -65,8 +65,13 @@ public class Coin implements Item {
 	public boolean equals(Object o) {
 		if (o instanceof Coin) { 
 		    Coin c = (Coin) o;
-		    return (this.value == c.value);
+		    return (this.value == c.getValue() && this.loc == c.getLoc());
 		}
 		return false;
+	}
+	
+	public Coin clone() {
+		Coin c = new Coin(this.value, this.loc.clone());
+		return c;
 	}
 }

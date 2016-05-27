@@ -54,4 +54,13 @@ public class Point {
 		}
 		return false;
 	}
+<<<<<<< HEAD
 }
+=======
+	
+	public Point clone() {
+		Point p = new Point(this.x, this.y);
+		return p;
+	}
+}
+>>>>>>> 53e2521f45d13681d00f97c39cb46291c9f725ca

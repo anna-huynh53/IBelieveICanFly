@@ -13,6 +13,7 @@ public class MenuPanel extends JPanel {
 		this.setPreferredSize(new Dimension(420, 420));
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
+		this.setBackground(new Color(27, 192, 247));
 		
 		this.header = new JLabel("I believe I can fly");
 		this.start = new JButton("Start Game");
