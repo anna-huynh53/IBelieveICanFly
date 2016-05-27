@@ -391,11 +391,10 @@ public class Maze {
 				g.drawImage(vertical, i * SCALE, j * SCALE, null);
 			}
 		}
-		
-		if (gameOver) {
-			g.drawImage(allImages.getGameOver(), (size/2 * SCALE - 110), size/2 * SCALE, null);
-		}
 		drawHUD(g);
+		if (gameOver) {
+			g.drawImage(allImages.getGameOver(), (size/2*SCALE-110), (size/2)*SCALE, null);
+		}
 	}
 	
 	public void drawHUD(Graphics g) {
@@ -419,10 +418,6 @@ public class Maze {
 				g.drawImage(hud.getPowerUp(), SCALE, (size+1)*SCALE, null);
 			}
 		}
-	}
-	
-	public void drawGameOver(Graphics g) {
-		g.drawImage(allImages.getGameOver(), size/3 * SCALE, size/3 * SCALE, null);
 	}
 	
 	public boolean isVerticalPiece(Point p) {

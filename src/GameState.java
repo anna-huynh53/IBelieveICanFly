@@ -47,10 +47,6 @@ public class GameState {
 		return maze.isGameOver();
 	}
 	
-	public void drawGameOver(Graphics g) {
-		maze.drawGameOver(g);
-	}
-	
 	public void keyPressed(int k) {
 		if(k == KeyEvent.VK_LEFT) player.setLeft(true);
 		if(k == KeyEvent.VK_RIGHT) player.setRight(true);
