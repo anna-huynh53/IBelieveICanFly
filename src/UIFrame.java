@@ -18,7 +18,7 @@ public class UIFrame extends JFrame {
 	
 	public void initFrame() {
 		this.setTitle("I believe I can fly");
-		this.setSize(850, 900);
+		this.setSize(420, 420);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setContentPane(menuScreen);
