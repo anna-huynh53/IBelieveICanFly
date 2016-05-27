@@ -5,16 +5,16 @@ import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class HelpPanel extends JPanel{
-	private JButton back;
-	private Image background;
 	private int width;
 	private int height;
+	private Image background;
+	private JButton back;
 	
 	public HelpPanel() {
-		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/helpScreen.png");
 		this.width = 1024;
 		this.height = 640;
 		this.setSize(new Dimension(width, height));
+		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/helpScreen.png");
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.back = new JButton(new ImageIcon("res/gui/backButtonDefault.png"));
 		

@@ -5,9 +5,9 @@ import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class DifficultyPanel extends JPanel {
-	private Image background;
 	private int width;
 	private int height;
+	private Image background;
 	
 	private JButton easy;
 	private JButton medium;
@@ -15,10 +15,10 @@ public class DifficultyPanel extends JPanel {
 	private JButton back;
 	
 	public DifficultyPanel() {
-		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/difficultyScreen.png");
 		this.width = 540;
 		this.height = 540;
 		this.setPreferredSize(new Dimension(width, height));
+		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/difficultyScreen.png");
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
 		Color UIcolor = new Color(181, 229, 251);

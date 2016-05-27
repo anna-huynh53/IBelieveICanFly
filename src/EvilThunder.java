@@ -42,7 +42,7 @@ public class EvilThunder implements Entity {
 	public void update() {} // unused as thunder has no animation
 
 	public void draw(Graphics g) {
-		g.drawImage(thunder,this.currentLoc.getX()*Maze.SCALE,this.currentLoc.getY()*Maze.SCALE, null);
+		g.drawImage(thunder,this.currentLoc.getX()*Maze.SCALE+3,this.currentLoc.getY()*Maze.SCALE, null);
 	}
 
 	/**
