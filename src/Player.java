@@ -90,7 +90,8 @@ public class Player implements Entity {
         if (jumping) {
             newLoc.setY(newLoc.getY()-1);
             Point jumpLoc = new Point(currX, currY-1);
-            if (!maze.isValidMove(this, newLoc) || !maze.isValidMove(this, jumpLoc)) newLoc.setY(newLoc.getY()+1);
+            if (!maze.isValidMove(this, newLoc) || !maze.isValidMove(this, jumpLoc)) 
+            	newLoc.setY(newLoc.getY()+1);
             animate.setFrames(jump);
         }
 

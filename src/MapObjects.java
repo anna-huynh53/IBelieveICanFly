@@ -33,11 +33,11 @@ public class MapObjects {
 		int numItems = 0;
 		System.out.println(maze.getLevel());
 		if (maze.getLevel().equals("easy")) {
-			numItems = 15;
+			numItems = 8;
 		} else if (maze.getLevel().equals("medium")) {
-			numItems = 25;
+			numItems = 16;
 		} else if (maze.getLevel().equals("hard")) {
-			numItems = 40;
+			numItems = 32;
 		}
 		
 		int i = 0;
@@ -66,8 +66,8 @@ public class MapObjects {
 				Point p = new Point(x, y);
 				Item item = new Coin(1, p, images.getCoin());
 				int num = rand.nextInt(3);
-				if (num == 0) item = new Coin(1, p, images.getCoin());
-				if (num == 1) item = new Bubble(p, images.getBubble());
+				if (num == 0) item = new Bubble(p, images.getBubble());
+				if (num == 1) item = new Flail(p, images.getFlail());
 				t.setItem(item);
 				items.add(item);
 				i++;

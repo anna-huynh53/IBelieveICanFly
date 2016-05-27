@@ -271,15 +271,21 @@ public class Maze {
 		Tile tile = this.getTile(p.getLocation());
 		
 		// deal damage from enemies
-		for (Entity e : mapObjects.getEnemies()) {
+		for (int i = 0; i < mapObjects.getEnemies().size(); i++) {
+			Entity e = mapObjects.getEnemies().get(i);
 			if (e.getLocation().equals(p.getLocation())) {
 				boolean noDamage = false;
-				for (int i = 0; i < p.getPowerUps().size(); i++) {
-					Item item = p.getPowerUps().get(i);
-					if (item instanceof Bubble) {
+				for (int j = 0; j < p.getPowerUps().size(); j++) {
+					Item item = p.getPowerUps().get(j);
+					if (item instanceof Flail) {
+						noDamage = true;
+						p.increaseScore(3);
+						p.removePowerUp(item);
+						mapObjects.getEnemies().remove(e);
+					} if (item instanceof Bubble) {
 						noDamage = true;
 						p.removePowerUp(item);
-					}
+					} 
 				}
 				if (!noDamage) {
 					p.doDamage(e.getDamage());	
@@ -298,6 +304,10 @@ public class Maze {
 		if (item instanceof Bubble) {
 			Bubble b = (Bubble) item;
 			b.playerInteractEvent(p);
+		} else if (item instanceof Flail) {
+			Flail f = (Flail) item;
+			f.playerInteractEvent(p);
+			mapObjects.getItems().remove(item);
 		}
 		
 		// determines if player has finished either from losing all
@@ -390,24 +400,26 @@ public class Maze {
 	
 	public void drawHUD(Graphics g) {
 		for (int i = 0; i < size; i++) {
-			for (int j = size; j < size + 4; j++) {
+			for (int j = size; j < size+4; j++) {
 				if (i >= 1 && i < 6 && j == size) {
-					g.drawImage(hud.getHearts().get(i-1), i * SCALE, j * SCALE, null);
+					g.drawImage(hud.getHearts().get(i-1), i*SCALE, j*SCALE, null);
 				}
 				if (i == 4*size/7 && j == size) {
-					g.drawImage(allImages.getScore(), i * SCALE, j * SCALE, null);
+					g.drawImage(allImages.getScore(), i*SCALE, j*SCALE, null);
 				}
 				if (i == 4*size/7+3 && j == size) {
-					g.drawImage(allImages.getDots(), i * SCALE, j * SCALE, null);
+					g.drawImage(allImages.getDots(), i*SCALE, j*SCALE, null);
 				}
 				if (i == 4*size/7+5 && j == size) {
 					ArrayList<Image> score = hud.getPlayerScore();
 					for (int k = 0; k < score.size(); k++) {
-						g.drawImage(hud.getPlayerScore().get(k), (i + k) * SCALE, j * SCALE, null);
+						g.drawImage(hud.getPlayerScore().get(k), (i + k)*SCALE, j*SCALE, null);
 					}
 				}
-				if (i == 1 && j == size+1 && !hud.getPowerUps().isEmpty()) {
-					g.drawImage(hud.getPowerUps().get(i-1), i * SCALE, j * SCALE, null);
+				int k = 0;
+				while (k < hud.getPowerUps().size()) {
+					g.drawImage(hud.getPowerUps().get(k), (k+1)*SCALE, (size+1)*SCALE, null);
+					k++;
 				}
 			}
 		}

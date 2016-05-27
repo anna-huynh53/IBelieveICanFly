@@ -1,12 +1,9 @@
-
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 import java.awt.Color;
@@ -16,13 +13,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+@SuppressWarnings("serial")
 public class HelpPanel extends JPanel{
-	JLabel title;
-	JTextArea helpText;
-	JButton play;
-	JButton back;
+	private JLabel title;
+	private JTextArea helpText;
+	private JButton play;
+	private JButton back;
 		
-	public HelpPanel() throws IOException{
+	@SuppressWarnings("resource")
+	public HelpPanel() throws IOException {
 		this.setPreferredSize(new Dimension(850, 950));
 		this.setLayout(new FlowLayout());
 		this.title = new JLabel("How to play");
@@ -33,12 +32,13 @@ public class HelpPanel extends JPanel{
 
 		//font
 		try {
-			Font customFont = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(new File("res/sunshineFont2.ttf"))).deriveFont(Font.PLAIN, 22);
+			Font customFont = Font.createFont(Font.TRUETYPE_FONT, 
+			new FileInputStream(new File("res/sunshineFont2.ttf"))).deriveFont(Font.PLAIN, 22);
 		    	helpText.setFont(customFont);
-		    	Font customTitle = Font.createFont(Font.TRUETYPE_FONT, new FileInputStream(new File("res/sunshineFont.ttf"))).deriveFont(Font.PLAIN, 32	);
+		    	Font customTitle = Font.createFont(Font.TRUETYPE_FONT, 
+		    	new FileInputStream(new File("res/sunshineFont.ttf"))).deriveFont(Font.PLAIN, 32	);
 		    	title.setFont(customTitle);
 		} catch (FontFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		
@@ -60,8 +60,6 @@ public class HelpPanel extends JPanel{
 	    helpText.setText(text);
 		
 	    // sets fonts
-	    // title.setFont(new Font("Impact",1,40));
-	    // helpText.setFont(new Font("Calibri",1,18));
 	    play.setFont(new Font("Impact",1,18));
 	    back.setFont(new Font("Impact",1,18));
 	    
@@ -70,15 +68,12 @@ public class HelpPanel extends JPanel{
 	    play.setMaximumSize(buttonSize);
 	    back.setMaximumSize(buttonSize);
 	    
-	    // add to panel
 	    add(title);
 	    add(helpText);
 	    add(play);
 	    add(back);
-
 	}
-	
-	// get functions
+
 	public JButton getPlayButton() {
 		return this.play;
 	}
