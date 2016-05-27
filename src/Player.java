@@ -15,12 +15,15 @@ public class Player implements Entity {
 	private boolean jumping;
 	private boolean falling;
 	
-	private Toolkit t;
 	private Animation animate;
+	private ArrayList<Image> walkLeft;
+	private ArrayList<Image> walkRight;
+	private ArrayList<Image> jump;
+	private ArrayList<Image> fall;
 	private ArrayList<Image> idle;
-	private ArrayList<Image> walkingMove;
-	private ArrayList<Image> jumpingMove;
-	private ArrayList<Image> fallingMove;
+	private ArrayList<Image> hit;
+	private ArrayList<Image> dead;
+	
 	
 	public Player(Maze maze, Point loc) {
 		this.maze = maze;
@@ -33,46 +36,55 @@ public class Player implements Entity {
 	}
 	
 	public void initAnimationSets() {
-		t = Toolkit.getDefaultToolkit();
-		idle = new ArrayList<Image>();
-		walkingMove = new ArrayList<Image>();
-		jumpingMove = new ArrayList<Image>();
-		fallingMove = new ArrayList<Image>();
-		
-		idle.add(t.getImage("res/idle.png"));		
-		
-		walkingMove.add(t.getImage("res/walk1.png"));
-		walkingMove.add(t.getImage("res/walk2.png"));
-		walkingMove.add(t.getImage("res/walk3.png"));
-		walkingMove.add(t.getImage("res/walk4.png"));
-		animate.setFrames(walkingMove);
+		walkLeft = maze.getImages().getWalkLeft();
+		walkRight = maze.getImages().getWalkRight();
+		jump = maze.getImages().getJump();
+		fall = maze.getImages().getFall();
+		idle = maze.getImages().getIdle();
+		hit = maze.getImages().getHit();
+		dead = maze.getImages().getDead();
 	}
 					
-	public void move() {
-		Point newLoc = new Point(0,0);
-		int currX = this.currentLoc.getX();
-		int currY = this.currentLoc.getY();
+    public void move() {
+        int currX = this.currentLoc.getX();
+        int currY = this.currentLoc.getY();
+        Point newLoc = new Point(currX, currY);
 
-		if (jumping) {
-			newLoc = new Point(currX, currY-1);
-			falling = true;	
-		} else {
-			newLoc = new Point(currX, currY+1);
-			if (!maze.isValidMove(this, newLoc)) {
-				falling = false;
-			}
-		}
-		if (left) {
-			newLoc = new Point(currX-1, currY);
-		} else if (right) { 
-			newLoc = new Point(currX+1, currY);
-		}
-		
-		if (maze.isValidMove(this, newLoc)) {
-			this.currentLoc = newLoc;
-			maze.playerMovementListener(this); // must be called whenever the player moves
-		} 
-	}
+        animate.setFrames(idle);
+
+        if (left) {
+            newLoc.setX(newLoc.getX()-1);
+            if (!maze.isValidMove(this, newLoc)) newLoc.setX(newLoc.getX()+1);
+            animate.setFrames(walkLeft);
+        }
+
+        if (right) {
+            newLoc.setX(newLoc.getX()+1);
+            if (!maze.isValidMove(this, newLoc)) newLoc.setX(newLoc.getX()-1);
+            animate.setFrames(walkRight);
+            if (left) animate.setFrames(idle);
+        }
+        
+        if (jumping) {
+            newLoc.setY(newLoc.getY()-1);
+            if (!maze.isValidMove(this, newLoc)) newLoc.setY(newLoc.getY()+1);
+            animate.setFrames(jump);
+        }
+
+        // Falling Logic
+        newLoc.setY(newLoc.getY()+1);
+        if (maze.isValidMove(this, newLoc) && !jumping) {
+            animate.setFrames(fall);
+            falling = true;
+        } else {
+            newLoc.setY(newLoc.getY()-1);
+        }
+
+        if (maze.isValidMove(this, newLoc)) {
+            this.currentLoc = newLoc;
+            maze.playerMovementListener(this); // must be called whenever the player moves
+        } 
+    }
 	
 	public void update() {
 		move();
@@ -80,9 +92,8 @@ public class Player implements Entity {
 	}
 	
 	public void draw(Graphics g) {
-		Image spriteImage = animate.getCurrImage();
-		g.drawImage(spriteImage, (int)this.currentLoc.getX() * 20,
-				    (int)this.currentLoc.getY() * 20, null);
+		Image player = animate.getCurrImage();
+		g.drawImage(player, this.currentLoc.getX()*Maze.SCALE, this.currentLoc.getY()*Maze.SCALE, null);
 	}
 	
 	public void setLeft(boolean b) {
@@ -95,6 +106,14 @@ public class Player implements Entity {
 	
 	public void setJumping(boolean b) {
 		this.jumping = b;
+	}
+	
+	public void setFalling(boolean b) {
+		this.falling = b;
+	}
+	
+	public boolean isFalling() {
+		return this.falling;
 	}
 	
 	/**

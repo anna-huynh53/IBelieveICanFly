@@ -10,13 +10,12 @@ public class Maze {
 	private Tile[][] tiles;
 	private Point startPoint;
 	private Player player;
-	private ArrayList<Entity> enemies;
+	private MapObjects mapObjects;
 	
 	public static final String PRIM = "prim";
 	public static final String DEPTH = "depth";
 	
 	private Images allImages;
-	
 	public final static int SCALE = 20;
 	
 	/**
@@ -61,16 +60,14 @@ public class Maze {
 		// set end tile at top left corner
 		// (the end can be placed anywhere as there is a path between any
 		// 2 points; where it is placed will just affect difficulty)
-		//tiles[4][4].setClassification(Tile.END);
+		tiles[1][1].setClassification(Tile.END);
+				
 		
+		// load images
+		allImages = new Images();
 		// player is automatically created along with the maze
 		createPlayer();
-		// place random coins on the maze
-		placeRandPickups();	
-		// load images
-		enemies = new ArrayList<Entity>();
-		//placeEnemies();
-		allImages = new Images();
+		mapObjects = new MapObjects(this);
 	}	
 	
 	public void resize() {
@@ -298,43 +295,6 @@ public class Maze {
 	}
 	*/
 	
-	/**
-	 * Places random pickups in the maze
-	 * (currently, there are only coins)
-	 */
-	public void placeRandPickups() {
-		Random rand = new Random();
-		int i = 0;
-		while (i <= 10) {
-			int x = rand.nextInt(this.size);
-			int y = rand.nextInt(this.size);
-			Tile t = this.tiles[x][y];
-			if (t.getClassification().equals(Tile.PATH) && !(t.getItem() instanceof Item)) {
-				Point p = new Point(x, y);
-				Coin c = new Coin(1, p);
-				t.setItem(c);
-				i++;
-			}
-		}
-	}
-	
-	// place in separate file
-	public void placeEnemies() {
-		Random rand = new Random();
-		int i = 0;
-		while (i < 2) {
-			int x = rand.nextInt(this.size);
-			int y = rand.nextInt(this.size);
-			Tile t = this.tiles[x][y];
-			if (t.getClassification().equals(Tile.PATH)) {
-				Point p = new Point(x, y);
-				EvilSun e = new EvilSun(this, p);
-				enemies.add(e);
-				i++;
-			}
-		}
-	}
-	
 /////////////////////////////////////player/////////////////////////////////////
 	/**
 	 * Create a new player and put it at the start of the maze
@@ -372,25 +332,34 @@ public class Maze {
 	 */
 	public void playerMovementListener(Player p) {
 		Tile tile = this.getTile(p.getLocation());
-		// check if player should die
-		if (tile.isLethal()){
-			for (Entity e : enemies) {
-				if (e.getLocation().equals(p.getLocation())) {
-					p.doDamage(e.getDamage());
-				}
+		// deal damage from enemies
+		for (Entity e : mapObjects.getEnemies()) {
+			if (e.getLocation().equals(p.getLocation())) {
+				p.doDamage(e.getDamage());
 			}
 		}
-		if (tile.getItem() instanceof Coin) {
-			Coin c = (Coin) tile.getItem();
-			p.increaseScore(c.getValue());
-			tile.removeItem();
+		for (int i = 0; i < mapObjects.getItems().size(); i++) {
+			Item item = mapObjects.getItems().get(i);
+			if (item.getLoc().equals(p.getLocation())) {
+				if (item instanceof Coin) {
+					Coin c = (Coin) item;
+					p.increaseScore(c.getValue());
+					tile.removeItem();
+					mapObjects.getItems().remove(item);
+				}
+			}
+			
+		}
+		// check if player should die
+		if (tile.isLethal()){
+
 		}
 	}
 	
 	/**
-	 * If the player is on the end tile, returns true
-	 * @param
-	 * @return
+	 * Checks if the game is over (from a player finishing the game and not because
+	 * of death)
+	 * @return true if player on end tile otherwise false
 	 */
 	public boolean isGameOver() {
 		if (player.getTile().getClassification().equals(Tile.END)) return true;
@@ -413,14 +382,21 @@ public class Maze {
 	}	
 /////////////////////////////////////player/////////////////////////////////////
 	
-	public Images getImages() {
-		return this.allImages;
+	public void update() {
+		mapObjects.update();
 	}
 	
+
 	public void draw(Graphics g) {
+		drawMaze(g);
+		mapObjects.draw(g);
+	}
+	
+	public void drawMaze(Graphics g) {
 		Image ground = allImages.getGround();
 		Image edgeLeft = allImages.getEdgeLeft();
 		Image edgeRight = allImages.getEdgeRight();
+		Image vertical = allImages.getVertical();
 		Image wall = allImages.getWall();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -430,47 +406,67 @@ public class Maze {
 				int yScale = j * SCALE;
 				if (tileName.equals(Tile.WALL)) {
 					Point p = new Point(i, j);
-					//if (!isEdgePiece(p)) {
-					//	g.drawImage(ground, xScale, yScale, null);
-					//} else {
+					if (i == 0 || j == 0 || i == size-1) {
+						g.drawImage(vertical, xScale, yScale, null);
+					} else if (isVerticalPiece(p)) {
+						g.drawImage(vertical, xScale, yScale, null);
+					} else if (isEdgePiece(p) == 1) {
+						g.drawImage(edgeLeft, xScale, yScale, null);
+					} else if (isEdgePiece(p) == 2) {
+						g.drawImage(edgeRight, xScale, yScale, null);
+					} else {
 						g.drawImage(ground, xScale, yScale, null);
-					//}
+					}
 				} else if (tileName.equals(Tile.START) || tileName.equals(Tile.END) ||
 						   tileName.equals(Tile.PATH)) {
 					g.drawImage(wall, xScale, yScale, null);
 				} 
 			}
 		}
-		drawItems(g);
-		drawEnemies(g);
 	}
 	
-	public boolean isEdgePiece(Point p) {
-		boolean edge = true;
+	public boolean isVerticalPiece(Point p) {
+		boolean vertical = false;
 		Point right = new Point(p.getX()+1, p.getY()); 
 		Point left = new Point(p.getX()-1, p.getY()); 
-		if (getTile(right).getClassification().equals(Tile.WALL) &&
-			getTile(left).getClassification().equals(Tile.WALL)) {
-			edge = false;
-		}
-		return edge;
-	}	
-	
-	public void drawItems(Graphics g) {
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-			Item item = tiles[i][j].getItem();
-				if (item != null) {
-					item.draw(g);
-				} 
+		if (isValidPoint(left) && isValidPoint(right)) {
+			if (getTile(left).getClassification().equals(Tile.PATH) &&
+				getTile(right).getClassification().equals(Tile.PATH)) {
+				vertical = true;
 			}
 		}
+		
+		return vertical;
 	}
 	
-	public void drawEnemies(Graphics g) {
-		for (Entity e : enemies) {
-			e.draw(g);
+	/**
+	 * Checks if a tile at a point is an edge piece.
+	 * 0: not edge
+	 * 1: left edge
+	 * 2: right edge
+	 * @param point
+	 * @return 
+	 */
+	public int isEdgePiece(Point p) {
+		int edgeDirection = 0;
+		Point right = new Point(p.getX()+1, p.getY()); 
+		Point left = new Point(p.getX()-1, p.getY()); 
+		if (isValidPoint(left) && isValidPoint(right)) {
+			if (getTile(left).getClassification().equals(Tile.PATH) &&
+				getTile(right).getClassification().equals(Tile.WALL)) {
+				edgeDirection = 1;
+			} else 
+			if (getTile(left).getClassification().equals(Tile.WALL) &&
+				getTile(right).getClassification().equals(Tile.PATH)) {
+				edgeDirection = 2;
+			}
 		}
+		return edgeDirection;
+	}	
+	
+	public boolean isValidPoint(Point p) {
+		if (p.getX() < 0 || p.getX() >= size || p.getY() < 0 || p.getY() >= size) return false;
+		return true;
 	}
 	
 	/**
@@ -498,7 +494,7 @@ public class Maze {
 		return this.tiles[p.getX()][p.getY()];
 	}
 	
-	public ArrayList<Entity> getEnemies() {
-		return this.enemies;
+	public Images getImages() {
+		return this.allImages;
 	}
 }
