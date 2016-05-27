@@ -14,8 +14,9 @@ public class HelpPanel extends JPanel{
 		this.width = 925;
 		this.height = 640;
 		this.setPreferredSize(new Dimension(width, height));
+		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/helpScreen.png");
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setLayout(boxLayout);
 		this.back = new JButton(new ImageIcon("res/gui/backButtonDefault.png"));
 		
 		//set back button's appearance
@@ -40,8 +41,7 @@ public class HelpPanel extends JPanel{
 	    // sets button size and adds it in the bottom right corner
 	    Dimension buttonSize = new Dimension(160,40);
 	    back.setMaximumSize(buttonSize);
-	    back.setAlignmentX(BOTTOM_ALIGNMENT);
-	    back.setAlignmentY(RIGHT_ALIGNMENT);
+	    this.add(Box.createRigidArea(new Dimension(width-25, height-50)));
 	    add(back);
 	}
 	
