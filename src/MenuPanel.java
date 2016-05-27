@@ -93,7 +93,7 @@ public class MenuPanel extends JPanel {
 	    
 
 	    // set button size
-	    Dimension buttonSize = new Dimension(180,40);
+	    Dimension buttonSize = new Dimension(160,40);
 	    start.setMaximumSize(buttonSize);
 	    help.setMaximumSize(buttonSize);
 	    quit.setMaximumSize(buttonSize);
