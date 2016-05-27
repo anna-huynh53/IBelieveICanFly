@@ -2,15 +2,18 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class UIFrame extends JFrame {
 	MenuPanel menuScreen;
+	HelpPanel helpScreen;
 	DifficultyPanel difficultyScreen;
 	GamePanel gameScreen;
 	
-	public UIFrame() {
+	public UIFrame()  throws IOException {
 		this.menuScreen = new MenuPanel();
+		this.helpScreen = new HelpPanel();
 		this.difficultyScreen = new DifficultyPanel();
 		initFrame();
 		runMenuScreen();
@@ -34,6 +37,12 @@ public class UIFrame extends JFrame {
 				runDifficultyScreen();
 			}
 		});
+		
+		menuScreen.getHelpButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				runHelpScreen();
+			}
+		});
 
 		menuScreen.getQuitButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -41,6 +50,27 @@ public class UIFrame extends JFrame {
 			}
 		});
 	}
+	
+	private void runHelpScreen() {
+		this.setContentPane(helpScreen);
+		this.pack();
+		helpScreen.setFocusable(true);
+		helpScreen.setVisible(true);
+		
+		helpScreen.getPlayButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				runDifficultyScreen();
+			}
+		});
+		
+		helpScreen.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				initFrame();
+				runGameScreen();
+			}
+		});
+		
+	}	
 	
 	private void runDifficultyScreen() {
 		this.setContentPane(difficultyScreen);
