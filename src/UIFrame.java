@@ -24,6 +24,7 @@ public class UIFrame extends JFrame {
 		this.setSize(420, 420);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}

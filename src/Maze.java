@@ -296,17 +296,8 @@ public class Maze {
 		
 		// interact with items
 		Item item = tile.getItem();
-		if (item instanceof Coin) {
-			Coin c = (Coin) item;
-			c.playerInteractEvent(p);
-			mapObjects.getItems().remove(item);
-		}	
-		if (item instanceof Bubble) {
-			Bubble b = (Bubble) item;
-			b.playerInteractEvent(p);
-		} else if (item instanceof Flail) {
-			Flail f = (Flail) item;
-			f.playerInteractEvent(p);
+		if (item != null) {
+			item.playerInteractEvent(p);
 			mapObjects.getItems().remove(item);
 		}
 		
@@ -439,7 +430,6 @@ public class Maze {
 				vertical = true;
 			}
 		}
-		
 		return vertical;
 	}
 	

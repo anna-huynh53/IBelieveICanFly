@@ -21,6 +21,7 @@ public class EvilWingMan implements Entity {
 		this.animate = new Animation();
 		this.wingMan = maze.getImages().getWingMan();
 		animate.setFrames(wingMan);
+		animate.setDelay(200);
 		
 		ActionListener timedMove = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -28,7 +29,7 @@ public class EvilWingMan implements Entity {
 				update();
 			}
 		};
-		new javax.swing.Timer(300, timedMove).start();
+		new javax.swing.Timer(600, timedMove).start();
 	}
 	
 	/**

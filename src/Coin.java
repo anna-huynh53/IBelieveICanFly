@@ -23,7 +23,7 @@ public class Coin implements Item {
 
 	private void initAnimationSet() {
 		animate.setFrames(coinRot);
-		animate.setWait(150);
+		animate.setDelay(150);
 	}
 
 	/**
