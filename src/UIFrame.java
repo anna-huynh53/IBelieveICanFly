@@ -1,5 +1,4 @@
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -21,9 +20,9 @@ public class UIFrame extends JFrame {
 
 	public void initFrame() {
 		this.setTitle("I Believe I Can Fly");
-		this.setSize(420, 420);
-		this.setLayout(new BorderLayout());
+		this.setSize(540, 540);
 		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -32,6 +31,7 @@ public class UIFrame extends JFrame {
 		this.setContentPane(menuScreen);
 		this.pack();
 		this.setLocationRelativeTo(null);
+		helpScreen.setFocusable(true);
 		menuScreen.setVisible(true);	
 		
 		menuScreen.getStartButton().addActionListener(new ActionListener() {
@@ -105,9 +105,9 @@ public class UIFrame extends JFrame {
 	private void runGameScreen() {
 		this.setContentPane(gameScreen);
 		this.pack();
+		this.setLocationRelativeTo(null);		
 		gameScreen.setFocusable(true);
 		gameScreen.requestFocusInWindow();
-		this.setLocationRelativeTo(null);
 		gameScreen.setVisible(true);
 		
 		gameScreen.getRestartButton().addActionListener(new ActionListener() {
@@ -124,6 +124,6 @@ public class UIFrame extends JFrame {
 				gameScreen.setRunning(false);
 				runMenuScreen();
 			}
-		});
+		});		
 	}
 }

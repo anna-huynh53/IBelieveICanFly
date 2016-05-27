@@ -1,16 +1,7 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class HelpPanel extends JPanel{
@@ -23,7 +14,7 @@ public class HelpPanel extends JPanel{
 		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/helpScreen.png");
 		this.width = 1024;
 		this.height = 640;
-		this.setPreferredSize(new Dimension(width, height));
+		this.setSize(new Dimension(width, height));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.back = new JButton(new ImageIcon("res/gui/backButtonDefault.png"));
 		

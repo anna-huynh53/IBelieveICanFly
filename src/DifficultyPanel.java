@@ -15,10 +15,9 @@ public class DifficultyPanel extends JPanel {
 	private JButton back;
 	
 	public DifficultyPanel() {
+		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/difficultyScreen.png");
 		this.width = 540;
 		this.height = 540;
-		this.background = Toolkit.getDefaultToolkit().getImage
-				("res/gui/difficultyScreen.png");
 		this.setPreferredSize(new Dimension(width, height));
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
@@ -35,7 +34,6 @@ public class DifficultyPanel extends JPanel {
 	    medium.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    hard.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    back.setAlignmentX(Component.CENTER_ALIGNMENT);
-	   
 	    
 	    // set appearance
 	    easy.setBackground(UIcolor);
@@ -129,10 +127,12 @@ public class DifficultyPanel extends JPanel {
 	    add(Box.createRigidArea(new Dimension(0, 70)));
 	    add(back);
 	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(background, 0, 0, this);
 	}
+	
 	public JButton getEasyButton() {
 		return this.easy;
 	}

@@ -72,6 +72,9 @@ public class Images {
 		decorations.add(t.getImage("res/decoration/dec4.png"));
 		decorations.add(t.getImage("res/decoration/dec5.png"));
 		decorations.add(t.getImage("res/decoration/dec6.png"));
+		decorations.add(t.getImage("res/decoration/dec7.png"));
+		decorations.add(t.getImage("res/decoration/dec8.png"));
+		decorations.add(t.getImage("res/decoration/dec9.png"));
 	}
 	
 	public String randTile() {

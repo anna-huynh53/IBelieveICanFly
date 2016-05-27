@@ -8,13 +8,14 @@ import java.awt.image.BufferedImage;
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private GameState gameState; // contains the maze
 	
-	ImageIcon restartIcon;
+	private ImageIcon restartIcon;
 	private JButton restart;
-	ImageIcon exitIcon;
+	private ImageIcon exitIcon;
 	private JButton exit;
 	
 	private Thread thread;
 	private boolean running;
+	private boolean waiting;
 	private boolean end;
 	
 	private BufferedImage image;
@@ -35,6 +36,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		this.restart = new JButton(restartIcon);
 		this.exitIcon = new ImageIcon("res/hud/exit.png");
 		this.exit = new JButton(exitIcon);
+		
+		// set tool tips for buttons
+		restart.setToolTipText("restart");
+		exit.setToolTipText("exit");
+		
 		// add buttons to bottom of panel
 	    add(Box.createRigidArea(new Dimension(width,height-45)));
 	    add(restart);
@@ -42,10 +48,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		
 		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		this.g = (Graphics2D) image.getGraphics();
-		this.bg = Toolkit.getDefaultToolkit().getImage("res/background.png").getScaledInstance(width, height,
-		          Image.SCALE_SMOOTH);
+		this.bg = Toolkit.getDefaultToolkit().getImage("res/background.png").getScaledInstance(
+				  width, height, Image.SCALE_SMOOTH);
 		
 		this.running = true;
+		this.waiting = false;
 		this.end = false;
 	}
 	
@@ -55,9 +62,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	 */
 	public void addNotify() {
 		super.addNotify();
-		thread = new Thread(this);
-		addKeyListener(this);
-		thread.start();
+		if (thread == null) {
+			thread = new Thread(this);
+			addKeyListener(this);
+			thread.start();
+		}
 	}
 
 	/**
@@ -73,14 +82,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			if (gameState.isGameOver()) {
 				end = true;
 			}
+			if (waiting == false) {
+				update();
+				draw();
+				repaint();
+			}
 			start = System.nanoTime();
-			update();
-			draw();
-			repaint();
 			elapsed = System.nanoTime() - start;
 			// target time in milli/fps
 			wait = 2500/30 - elapsed/1000000;
-			if(wait < 0) wait = 5;
+			if (wait < 0) wait = 5;
 			try {
 				Thread.sleep(wait);
 			} catch(Exception e) {
@@ -115,6 +126,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	 */
 	public void keyPressed(KeyEvent key) {
 		gameState.keyPressed(key.getKeyCode());
+		if (key.getKeyCode() == KeyEvent.VK_SPACE) waiting = !waiting;
 	}
 	
 	public void keyReleased(KeyEvent key) {

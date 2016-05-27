@@ -48,14 +48,14 @@ public class MapObjects {
 				tiles[x][y+1].getClassification().equals(Tile.WALL) && 
 				!(t.getItem() instanceof Item)) {
 				Point p = new Point(x, y);
-				Item item = new Decoration(p, images.getDecorations().get(rand.nextInt(5)));
+				Item item = new Decoration(p, images.getDecorations().get(rand.nextInt(8)));
 				t.setItem(item);
 				i++;
 			}
 		}
 		
 		i = 0;
-		while (i <= numItems/2) {
+		while (i <= numItems/3) {
 			int x = rand.nextInt(size-1);
 			int y = rand.nextInt(size-1);
 			Tile t = tiles[x][y];
@@ -97,7 +97,7 @@ public class MapObjects {
 			int x = rand.nextInt(size);
 			int y = rand.nextInt(size);
 			Tile t = tiles[x][y];
-			if (t.getClassification().equals(Tile.PATH)) {
+			if ((x!=1 && y!=1) && t.getClassification().equals(Tile.PATH)) {
 				Point p = new Point(x, y);
 				Entity e =  new EvilSun(this.maze, p);
 				int enemy = rand.nextInt(3);

@@ -16,8 +16,7 @@ public class MenuPanel extends JPanel {
 	public MenuPanel() {
 		this.width = 540;
 		this.height = 540;
-		this.background = Toolkit.getDefaultToolkit().getImage
-				("res/gui/menuScreen.png");
+		this.background = Toolkit.getDefaultToolkit().getImage("res/gui/menuScreen.png");
 		this.setPreferredSize(new Dimension(width, height));
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
@@ -33,7 +32,7 @@ public class MenuPanel extends JPanel {
 	    help.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    quit.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    
-	 // set appearance
+	    // set appearance
 	    start.setBackground(UIcolor);
 	    start.setBorderPainted(false);
 	    help.setBackground(UIcolor);
@@ -49,7 +48,6 @@ public class MenuPanel extends JPanel {
 			    start.setIcon(i);
 			}
 		});
-	    
 	    
 	    help.addMouseListener(new MouseAdapter() {
 			@Override
@@ -90,7 +88,6 @@ public class MenuPanel extends JPanel {
 			    quit.setIcon(i);
 			}
 		});
-	    
 
 	    // set button size
 	    Dimension buttonSize = new Dimension(160,40);
