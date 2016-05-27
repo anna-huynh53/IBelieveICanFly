@@ -67,40 +67,49 @@ public class Player implements Entity {
 	/**
 	 * Moves the player based on the key listener and sets the appropriate animation
 	 */
-	public void move() {
-		int newX = this.currentLoc.getX();
-		int newY = this.currentLoc.getY();
-		
-		if (left) {
-			newX-=1;
-			animate.setFrames(walkLeft);
-			animate.increaseCurrFrame();
-		} else if (right) {
-			newX+=1;
-			animate.setFrames(walkRight);
-			animate.increaseCurrFrame();
-		} else if (jumping) {
-			newY-=1;
-			falling = true;
-			animate.setFrames(jump);
-			animate.increaseCurrFrame();
-		} else if (falling) {
-			newY+=1;
-			falling = false;
-			animate.setFrames(fall);
-		} else {
-			newY+=1;
-			if (!maze.isValidMove(this, new Point(newX, newY))) {
-				animate.setFrames(idle);
-			}
-		}
-	
-		Point newLoc = new Point(newX, newY);
-		if (maze.isValidMove(this, newLoc)) {
-			this.currentLoc = newLoc;
-			maze.playerMovementListener(this); // must be called whenever the player moves
-		} 
-	}
+    public void move() {
+        int currX = this.currentLoc.getX();
+        int currY = this.currentLoc.getY();
+        Point newLoc = new Point(currX, currY);
+
+        if (left) {
+            newLoc.setX(newLoc.getX()-1);
+            if (!maze.isValidMove(this, newLoc)) newLoc.setX(newLoc.getX()+1);
+            animate.setFrames(walkLeft);
+        }
+
+        if (right) {
+            newLoc.setX(newLoc.getX()+1);
+            if (!maze.isValidMove(this, newLoc)) newLoc.setX(newLoc.getX()-1);
+            animate.setFrames(walkRight);
+            if (left) animate.setFrames(idle);
+        }
+        
+        if (jumping) {
+            newLoc.setY(newLoc.getY()-1);
+            if (!maze.isValidMove(this, newLoc)) newLoc.setY(newLoc.getY()+1);
+            animate.setFrames(jump);
+        }
+
+        // Falling Logic
+        newLoc.setY(newLoc.getY()+1);
+        if (maze.isValidMove(this, newLoc) && !jumping) {
+            animate.setFrames(fall);
+            falling = true;
+        } else {
+            newLoc.setY(newLoc.getY()-1);
+            falling = false;
+        }
+        
+        if (!falling && !jumping && !left && !right) animate.setFrames(idle);
+
+        animate.increaseCurrFrame();
+
+        if (maze.isValidMove(this, newLoc)) {
+            this.currentLoc = newLoc;
+            maze.playerMovementListener(this); // must be called whenever the player moves
+        } 
+    }
 	
 	/**
 	 * Gets the player's location in the maze
