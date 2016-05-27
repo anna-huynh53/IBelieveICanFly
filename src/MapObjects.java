@@ -29,8 +29,34 @@ public class MapObjects {
 		Random rand = new Random();
 		int size = this.maze.getSize();
 		Tile[][] tiles = this.maze.getTiles();
+		
+		int numItems = 0;
+		System.out.println(maze.getLevel());
+		if (maze.getLevel().equals("easy")) {
+			numItems = 15;
+		} else if (maze.getLevel().equals("medium")) {
+			numItems = 25;
+		} else if (maze.getLevel().equals("hard")) {
+			numItems = 40;
+		}
+		
 		int i = 0;
-		while (i <= 10) {
+		while (i <= numItems) {
+			int x = rand.nextInt(size-1);
+			int y = rand.nextInt(size-1);
+			Tile t = tiles[x][y];
+			if (t.getClassification().equals(Tile.PATH) &&
+				tiles[x][y+1].getClassification().equals(Tile.WALL) && 
+				!(t.getItem() instanceof Item)) {
+				Point p = new Point(x, y);
+				Item item = new Decoration(p, images.getDecorations().get(rand.nextInt(5)));
+				t.setItem(item);
+				i++;
+			}
+		}
+		
+		i = 0;
+		while (i <= numItems) {
 			int x = rand.nextInt(size-1);
 			int y = rand.nextInt(size-1);
 			Tile t = tiles[x][y];
@@ -40,7 +66,7 @@ public class MapObjects {
 				Point p = new Point(x, y);
 				Item item = new Coin(1, p, images.getCoin());
 				int num = rand.nextInt(3);
-				if (num == 0) item = new Decoration(p, images.getDecorations().get(rand.nextInt(5)));
+				if (num == 0) item = new Coin(1, p, images.getCoin());
 				if (num == 1) item = new Bubble(p, images.getBubble());
 				t.setItem(item);
 				items.add(item);
@@ -56,8 +82,18 @@ public class MapObjects {
 		Random rand = new Random();
 		int size = this.maze.getSize();
 		Tile[][] tiles = this.maze.getTiles();
+		
+		int numItems = 0;
+		if (maze.getLevel().equals("easy")) {
+			numItems = 5;
+		} else if (maze.getLevel().equals("medium")) {
+			numItems = 10;
+		} else if (maze.getLevel().equals("hard")) {
+			numItems = 20;
+		}
+		
 		int i = 0;
-		while (i < 5) {
+		while (i < numItems) {
 			int x = rand.nextInt(size);
 			int y = rand.nextInt(size);
 			Tile t = tiles[x][y];

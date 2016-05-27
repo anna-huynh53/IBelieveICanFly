@@ -11,6 +11,8 @@ public class Player implements Entity {
 	private boolean right;
 	private boolean jumping;
 	private boolean falling;
+	private boolean damaged;
+	private boolean died;
 	
 	private Animation animate;
 	private ArrayList<Image> walkLeft;
@@ -91,7 +93,7 @@ public class Player implements Entity {
             animate.setFrames(jump);
         }
 
-        // Falling Logic
+        // falling logic
         newLoc.setY(newLoc.getY()+1);
         if (maze.isValidMove(this, newLoc) && !jumping) {
             animate.setFrames(fall);
@@ -101,7 +103,19 @@ public class Player implements Entity {
             falling = false;
         }
         
+        // if not doing anything, player is idle
         if (!falling && !jumping && !left && !right) animate.setFrames(idle);
+        
+        // if player is hit by enemy
+        if (damaged) {
+        	animate.setFrames(hit);
+        	damaged = false;
+        }
+        
+        // if player is dead
+        if (died)  {
+        	animate.setFrames(dead);
+        }
 
         animate.increaseCurrFrame();
 
@@ -149,6 +163,22 @@ public class Player implements Entity {
 	 */
 	public void setJumping(boolean b) {
 		this.jumping = b;
+	}
+	
+	/**
+	 * Sets if player is currently being attacked
+	 * @param true if attacked otherwise false
+	 */
+	public void setDamaged(boolean b) {
+		this.damaged = b;
+	}
+	
+	/**
+	 * Sets if player has died
+	 * @param true if dead otherwise false 
+	 */
+	public void setDied(boolean b) {
+		this.died = b;
 	}
 
 /////////////////////////////////////score/////////////////////////////////////

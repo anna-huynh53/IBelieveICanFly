@@ -7,6 +7,7 @@ import java.awt.Image;
 public class Maze {
 	private int size;
 	private Tile[][] tiles;
+	private String level;
 	
 	private Point startPoint;
 	private boolean gameOver;
@@ -26,12 +27,13 @@ public class Maze {
 	 * @param seed - used to generate size of the maze (size = 2 * seed + 1)
 	 * @param type - the type of maze generation [Maze.PRIM, Maze.DEPTH]
 	 */
-	public Maze(int seed, String type) {
+	public Maze(int seed, String type, String level) {
 		
 		// the actual board size will be size x 2 + 1 to account for the 
 		// border and the walls needed between each of the tiles
 		this.size = seed + seed + 1;
 		this.tiles = new Tile[this.size][this.size]; 
+		this.level = level;
 		
 		// initialise all tiles to have walls surrounding them i.e.
 		// tiles are isolated and not connecting to any other tile
@@ -279,7 +281,10 @@ public class Maze {
 						p.removePowerUp(item);
 					}
 				}
-				if (!noDamage) p.doDamage(e.getDamage());	
+				if (!noDamage) {
+					p.doDamage(e.getDamage());	
+					p.setDamaged(true);
+				}
 			}
 		}
 		
@@ -297,7 +302,11 @@ public class Maze {
 		
 		// determines if player has finished either from losing all
 		// health or getting to the end
-		if (p.getHealth() == 0 || tile.getClassification().equals(Tile.END)) {
+		if (p.getHealth() == 0) {
+			p.setDied(true);
+			gameOver = true;
+		}
+		if (tile.getClassification().equals(Tile.END)) {
 			gameOver = true;
 		}
 	}
@@ -308,7 +317,7 @@ public class Maze {
 	 * @return true if player on end tile otherwise false
 	 */
 	public boolean isGameOver() {
-		return gameOver;
+		return this.gameOver;
 	}
 	
 	/**
@@ -372,6 +381,10 @@ public class Maze {
 				g.drawImage(vertical, i * SCALE, j * SCALE, null);
 			}
 		}
+		
+		if (gameOver) {
+			g.drawImage(allImages.getGameOver(), (size/2 * SCALE - 110), size/2 * SCALE, null);
+		}
 		drawHUD(g);
 	}
 	
@@ -398,6 +411,10 @@ public class Maze {
 				}
 			}
 		}
+	}
+	
+	public void drawGameOver(Graphics g) {
+		g.drawImage(allImages.getGameOver(), size/3 * SCALE, size/3 * SCALE, null);
 	}
 	
 	public boolean isVerticalPiece(Point p) {
@@ -458,6 +475,10 @@ public class Maze {
 	 */
 	public Tile[][] getTiles() {
 		return this.tiles;
+	}
+	
+	public String getLevel() {
+		return this.level;
 	}
 	
 	/**

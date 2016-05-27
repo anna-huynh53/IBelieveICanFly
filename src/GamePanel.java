@@ -82,8 +82,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			}
 			// check if the game is over
 			if (gameState.isGameOver()) {
-				// draw game over image
-				endGame();
+				gameState.drawGameOver(g);
+				//endGame();
 			}
 		}
 	}

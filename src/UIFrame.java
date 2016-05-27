@@ -80,7 +80,7 @@ public class UIFrame extends JFrame {
 		//gameScreen.getThread().addActionListener(new ActionListener()) {
 		gameScreen.getRestartButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String level = gameScreen.getGameState().getLevel();
+				String level = gameScreen.getGameState().getMaze().getLevel();
 				gameScreen.endGame();
 				gameScreen = new GamePanel(level);
 				runGameScreen();

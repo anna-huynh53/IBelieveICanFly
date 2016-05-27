@@ -40,7 +40,7 @@ public class Images {
 	private Image score;
 	private Image dots;
 	private ArrayList<Image> numbers;
-	private Image settingButton;
+	private Image gameOver;
 	
 	public Images() {
 		t = Toolkit.getDefaultToolkit();
@@ -167,6 +167,8 @@ public class Images {
 		numbers.add(t.getImage("res/hud/7.png"));
 		numbers.add(t.getImage("res/hud/8.png"));
 		numbers.add(t.getImage("res/hud/9.png"));
+		
+		gameOver = t.getImage("res/hud/gameOver.png");
 	}
 	
 	public Image getGround() {
@@ -269,7 +271,7 @@ public class Images {
 		return this.numbers;
 	}
 	
-	public Image getSettingButton() {
-		return this.settingButton;
+	public Image getGameOver() {
+		return this.gameOver;
 	}
 }

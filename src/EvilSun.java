@@ -33,7 +33,7 @@ public class EvilSun implements Entity {
 				update();
 			}
 		};
-		new javax.swing.Timer(300, timedMove).start();
+		new javax.swing.Timer(500, timedMove).start();
 	}
 	
 	/**

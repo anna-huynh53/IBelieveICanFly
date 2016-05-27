@@ -28,7 +28,7 @@ public class EvilThunder implements Entity {
 				move();
 			}
 		};
-		new javax.swing.Timer(1000, timedMove).start();
+		new javax.swing.Timer(1500, timedMove).start();
 	}
 	
 	public void move() {

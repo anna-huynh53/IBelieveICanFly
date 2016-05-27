@@ -17,18 +17,15 @@ public class GameState {
 	
 	public GameState(String difficulty) { 
 		if (difficulty.equals("easy")) {
-			this.maze = new Maze(8, "depth");
-			this.level = "easy";
+			this.maze = new Maze(8, "depth", "easy");
 			this.width = 340;
 			this.height = 440;
 		} else if (difficulty.equals("medium")) {
-			this.maze = new Maze(11, "prim");
-			this.level = "medium";
+			this.maze = new Maze(11, "prim", "medium");
 			this.width = 460;
 			this.height = 560;
 		} else if (difficulty.equals("hard")) {
-			this.maze = new Maze(16, "prim");
-			this.level = "hard";
+			this.maze = new Maze(16, "prim", "hard");
 			this.width = 660;
 			this.height = 760;
 		}
@@ -48,6 +45,10 @@ public class GameState {
 	
 	public boolean isGameOver() {
 		return maze.isGameOver();
+	}
+	
+	public void drawGameOver(Graphics g) {
+		maze.drawGameOver(g);
 	}
 	
 	public void keyPressed(int k) {
