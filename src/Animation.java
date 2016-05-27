@@ -62,11 +62,11 @@ public class Animation {
 	}
 	
 	/**
-	 * Sets a delay (in secs) until the next frame is shown 
+	 * Sets a delay until the next frame is shown 
 	 * Used to slow down the animation
 	 * @param wait time
 	 */
-	public void setWait(int delay) { 
+	public void setDelay(int delay) { 
 		this.delay = delay;
 	}
 }

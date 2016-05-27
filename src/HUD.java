@@ -66,17 +66,14 @@ public class HUD {
 	 * Gets the powerup icons to draw to represent the player's available power ups
 	 * @return list of powerup icons
 	 */
-	public ArrayList<Image> getPowerUps() {
-		ArrayList<Image> powers = new ArrayList<Image>();
-		Image bubblePower = maze.getImages().getBubblePower();
-		for (Item i : this.maze.getPlayer().getPowerUps()) {
-			if (i instanceof Bubble) {
-				powers.add(bubblePower);
-			}
-			if (i instanceof Flail) {
-				powers.add(maze.getImages().getFlail());
-			}
+	public Image getPowerUp() {
+		Image power = maze.getImages().getNoPower();
+		Item i = this.maze.getPlayer().getPowerUp();
+		if (i instanceof Bubble) {
+			power = maze.getImages().getBubblePower();
+		} else if (i instanceof Flail) {
+			power = maze.getImages().getFlailPower();
 		}
-		return powers;	
+		return power;	
 	}
 }

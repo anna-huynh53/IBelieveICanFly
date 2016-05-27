@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	private Thread thread;
 	private boolean running;
+	private boolean end;
 	
 	private BufferedImage image;
 	private Graphics2D g; // all images are drawn using this
@@ -45,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		          Image.SCALE_SMOOTH);
 		
 		this.running = true;
+		this.end = false;
 	}
 	
 	/**
@@ -67,6 +69,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		long wait;
 		
 		while (running) {
+			// check if the game is over
+			if (gameState.isGameOver()) {
+				gameState.drawGameOver(g);
+				end = true;
+			}
 			start = System.nanoTime();
 			update();
 			draw();
@@ -80,10 +87,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-			// check if the game is over
-			if (gameState.isGameOver()) {
-				gameState.drawGameOver(g);
-			}
+			if (end) running = false;
 		}
 	}
 	

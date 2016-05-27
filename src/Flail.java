@@ -17,7 +17,7 @@ public class Flail implements Item {
 	 */
 	public void playerInteractEvent(Player p) {
 		p.getTile().removeItem();
-		p.addPowerUp(this);
+		p.setPowerUp(this);
 	}
 
 	public void update() {} // unused as the bubble has no animation

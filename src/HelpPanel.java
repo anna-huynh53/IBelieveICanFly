@@ -24,6 +24,7 @@ public class HelpPanel extends JPanel{
 		this.back = new JButton(new ImageIcon("res/gui/backButtonDefault.png"));
 		Color UIcolor = new Color(181, 229, 251);
 		this.setBackground(UIcolor);
+
 	    
 	    // sets button size and adds it in the bottom right corner
 	    Dimension buttonSize = new Dimension(160,40);
