@@ -9,8 +9,10 @@ public class Maze {
 	private int size;
 	private Tile[][] tiles;
 	private Point startPoint;
+	private boolean gameOver;
 	private Player player;
 	private MapObjects mapObjects;
+	private HUD hud;
 	
 	public static final String PRIM = "prim";
 	public static final String DEPTH = "depth";
@@ -61,6 +63,7 @@ public class Maze {
 		// (the end can be placed anywhere as there is a path between any
 		// 2 points; where it is placed will just affect difficulty)
 		tiles[1][1].setClassification(Tile.END);
+		gameOver = false;
 				
 		
 		// load images
@@ -68,6 +71,7 @@ public class Maze {
 		// player is automatically created along with the maze
 		createPlayer();
 		mapObjects = new MapObjects(this);
+		hud = new HUD(this);
 	}	
 	
 	public void resize() {
@@ -336,23 +340,19 @@ public class Maze {
 		for (Entity e : mapObjects.getEnemies()) {
 			if (e.getLocation().equals(p.getLocation())) {
 				p.doDamage(e.getDamage());
+				System.out.println(p.getHealth());
 			}
 		}
-		for (int i = 0; i < mapObjects.getItems().size(); i++) {
-			Item item = mapObjects.getItems().get(i);
-			if (item.getLoc().equals(p.getLocation())) {
-				if (item instanceof Coin) {
-					Coin c = (Coin) item;
-					p.increaseScore(c.getValue());
-					tile.removeItem();
-					mapObjects.getItems().remove(item);
-				}
-			}
-			
-		}
-		// check if player should die
-		if (tile.isLethal()){
-
+		Item item = tile.getItem();
+		if (item instanceof Coin) {
+			Coin c = (Coin) item;
+			c.playerInteractEvent(p);
+			System.out.println(p.getScore());
+			mapObjects.getItems().remove(item);
+		}	
+		
+		if (p.getHealth() == 0 || tile.getClassification().equals(Tile.END)) {
+			gameOver = true;
 		}
 	}
 	
@@ -362,8 +362,7 @@ public class Maze {
 	 * @return true if player on end tile otherwise false
 	 */
 	public boolean isGameOver() {
-		if (player.getTile().getClassification().equals(Tile.END)) return true;
-		else return false;
+		return gameOver;
 	}
 	
 	/**
@@ -386,9 +385,7 @@ public class Maze {
 		mapObjects.update();
 	}
 	
-
 	public void draw(Graphics g) {
-		drawMaze(g);
 		mapObjects.draw(g);
 	}
 	
@@ -397,7 +394,7 @@ public class Maze {
 		Image edgeLeft = allImages.getEdgeLeft();
 		Image edgeRight = allImages.getEdgeRight();
 		Image vertical = allImages.getVertical();
-		Image wall = allImages.getWall();
+		Image end = allImages.getEnd();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				Tile tile = tiles[i][j];
@@ -417,10 +414,56 @@ public class Maze {
 					} else {
 						g.drawImage(ground, xScale, yScale, null);
 					}
-				} else if (tileName.equals(Tile.START) || tileName.equals(Tile.END) ||
-						   tileName.equals(Tile.PATH)) {
-					g.drawImage(wall, xScale, yScale, null);
-				} 
+				} else if (tileName.equals(Tile.END)) {
+					g.drawImage(end, xScale, yScale, null);
+				}
+			}
+		}
+		// for HUD display
+		for (int i = 0; i < size; i++) {
+			for (int j = size; j < size + 4; j++) {
+				g.drawImage(vertical, i * SCALE, j * SCALE, null);
+			}
+		}
+		drawDecorations(g);
+		drawHUD(g);
+	}
+	
+	public void drawDecorations(Graphics g) {
+		Random rand = new Random();
+		ArrayList<Image> decorations = allImages.getDecorations();
+		int i = 0;
+		while (i <= 10) {
+			int x = rand.nextInt(size-1);
+			int y = rand.nextInt(size-1);
+			int xScale = x * SCALE;
+			int yScale = y * SCALE;
+			Tile t = tiles[x][y];
+			if (t.getClassification().equals(Tile.PATH) && tiles[x][y+1].getClassification().equals(Tile.WALL)) {
+				g.drawImage(decorations.get(rand.nextInt(5)), xScale, yScale, null);
+				i++;
+			}
+		}
+	}
+	
+	public void drawHUD(Graphics g) {
+		for (int i = 0; i < size; i++) {
+			for (int j = size; j < size + 4; j++) {
+				if (i >= 1 && i < 6 && j == size) {
+					g.drawImage(hud.getHearts().get(i-1), i * SCALE, j * SCALE, null);
+				}
+				if (i == 4*size/7 && j == size) {
+					g.drawImage(allImages.getScore(), i * SCALE, j * SCALE, null);
+				}
+				if (i == 4*size/7+3 && j == size) {
+					g.drawImage(allImages.getDots(), i * SCALE, j * SCALE, null);
+				}
+				if (i == 4*size/7+5 && j == size) {
+					ArrayList<Image> score = hud.getPlayerScore();
+					for (int k = 0; k < score.size(); k++) {
+						g.drawImage(hud.getPlayerScore().get(k), (i + k) * SCALE, j * SCALE, null);
+					}
+				}
 			}
 		}
 	}

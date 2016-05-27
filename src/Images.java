@@ -10,9 +10,12 @@ public class Images {
 	private Image edgeLeft;
 	private Image edgeRight;
 	private Image vertical;
-	private Image wall;
+	private Image end;
+	
+	private ArrayList<Image> decorations;
 	
 	private ArrayList<Image> sun;
+	private ArrayList<Image> wingMan;
 	private Image thunder;
 	
 	private ArrayList<Image> walkLeft;
@@ -23,6 +26,13 @@ public class Images {
 	private ArrayList<Image> hit;
 	private ArrayList<Image> dead;
 	
+	private Image fullHeart;
+	private Image halfHeart;
+	private Image emptyHeart;
+	private Image score;
+	private Image dots;
+	private ArrayList<Image> numbers;
+	private Image settingButton;
 	
 	public Images() {
 		t = Toolkit.getDefaultToolkit();
@@ -30,6 +40,7 @@ public class Images {
 		loadPickUps();
 		loadEnemies();
 		loadPlayer();
+		loadHUD();
 	}
 	
 	public void loadTiles() {
@@ -38,7 +49,7 @@ public class Images {
 		edgeLeft = t.getImage("res/tiles/"+colour+"/edgeLeft.png");
 		edgeRight = t.getImage("res/tiles/"+colour+"/edgeRight.png");
 		vertical = t.getImage("res/tiles/"+colour+"/vertical.png");
-		wall = t.getImage("res/tiles/path.png");
+		end = t.getImage("res/tiles/end.png");
 	}
 	
 	public String randTile() {
@@ -54,13 +65,25 @@ public class Images {
 	}
 	
 	public void loadPickUps() {
-		
+		decorations = new ArrayList<Image>();
+		decorations.add(t.getImage("res/decoration/dec1.png"));
+		decorations.add(t.getImage("res/decoration/dec2.png"));
+		decorations.add(t.getImage("res/decoration/dec3.png"));
+		decorations.add(t.getImage("res/decoration/dec4.png"));
+		decorations.add(t.getImage("res/decoration/dec5.png"));
+		decorations.add(t.getImage("res/decoration/dec6.png"));
 	}
 	
 	public void loadEnemies() {
 		sun = new ArrayList<Image>();
 		sun.add(t.getImage("res/enemies/evilSun1.png"));
 		sun.add(t.getImage("res/enemies/evilSun2.png"));
+		
+		wingMan = new ArrayList<Image>();
+		wingMan.add(t.getImage("res/enemies/wingMan1.png"));
+		wingMan.add(t.getImage("res/enemies/wingMan2.png"));
+		wingMan.add(t.getImage("res/enemies/wingMan3.png"));
+		wingMan.add(t.getImage("res/enemies/wingMan4.png"));
 		
 		thunder = t.getImage("res/enemies/thunder.png");
 	}
@@ -106,6 +129,26 @@ public class Images {
 		return player;
 	}
 	
+	public void loadHUD() {
+		fullHeart = t.getImage("res/hud/fullHeart.png");
+		halfHeart = t.getImage("res/hud/halfHeart.png");
+		emptyHeart = t.getImage("res/hud/emptyHeart.png");
+		score = t.getImage("res/hud/score.png");
+		dots = t.getImage("res/hud/dots.png");
+		
+		numbers = new ArrayList<Image>();
+		numbers.add(t.getImage("res/hud/0.png"));
+		numbers.add(t.getImage("res/hud/1.png"));
+		numbers.add(t.getImage("res/hud/2.png"));
+		numbers.add(t.getImage("res/hud/3.png"));
+		numbers.add(t.getImage("res/hud/4.png"));
+		numbers.add(t.getImage("res/hud/5.png"));
+		numbers.add(t.getImage("res/hud/6.png"));
+		numbers.add(t.getImage("res/hud/7.png"));
+		numbers.add(t.getImage("res/hud/8.png"));
+		numbers.add(t.getImage("res/hud/9.png"));
+	}
+	
 	public Image getGround() {
 		return this.ground;
 	}
@@ -122,12 +165,20 @@ public class Images {
 		return this.vertical;
 	}
 	
-	public Image getWall() {
-		return this.wall;
+	public Image getEnd() {
+		return this.end;
+	}
+	
+	public ArrayList<Image> getDecorations() {
+		return this.decorations;
 	}
 	
 	public ArrayList<Image> getSun() {
 		return this.sun;
+	}
+	
+	public ArrayList<Image> getWingMan() {
+		return this.wingMan;
 	}
 	
 	public Image getThunder() {
@@ -160,5 +211,33 @@ public class Images {
 	
 	public ArrayList<Image> getDead() {
 		return this.dead;
+	}
+	
+	public Image getFullHeart() {
+		return this.fullHeart;
+	}
+	
+	public Image getHalfHeart() {
+		return this.halfHeart;
+	}
+	
+	public Image getEmptyHeart() {
+		return this.emptyHeart;
+	}
+	
+	public Image getScore() {
+		return this.score;
+	}
+	
+	public Image getDots() {
+		return this.dots;
+	}
+	
+	public ArrayList<Image> getNumbers() {
+		return this.numbers;
+	}
+	
+	public Image getSettingButton() {
+		return this.settingButton;
 	}
 }

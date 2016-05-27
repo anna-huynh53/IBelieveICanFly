@@ -1,40 +1,56 @@
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private GameState gameState;
+	public boolean start; // used to draw the maze only once
 	
 	private Thread thread;
 	private boolean running;
 	
 	private BufferedImage image;
-	private Graphics2D g; // all images in the game are drawn using this
-	//private BufferedImage mazeImage;
-	//private Graphics2D gMaze;
+	private Graphics2D g; // all images except the maze in the game are drawn using this
+	private BufferedImage mazeImage;
+	private Graphics2D gMaze; 
 	
-	private int WIDTH = 840;
-	private int HEIGHT = 840;
+	private int width;
+	private int height;
 	public int SCALE = 20;
 	
+	private Image bg;
+	
 	public GamePanel(String difficulty) {
-		this.setPreferredSize(new Dimension(420, 420));		
-		
-		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-		g = (Graphics2D) image.getGraphics();
-		//mazeImage = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-		//gMaze = (Graphics2D) mazeImage.getGraphics();
-		running = true;
 		gameState = new GameState(difficulty);
-		//gameState.drawMaze(gMaze);
+		width = gameState.getWidth();
+		height = gameState.getHeight();
+		this.setPreferredSize(new Dimension(width, height));
+		
+		bg = Toolkit.getDefaultToolkit().getImage("res/background.png").getScaledInstance(width, height,
+		        Image.SCALE_SMOOTH);
+
+		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		g = (Graphics2D) image.getGraphics();
+		mazeImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		gMaze = (Graphics2D) mazeImage.getGraphics();	
+		gMaze.drawImage(bg, 0, 0, null);
+		gameState.drawMaze(gMaze);
+		
+		running = true;
+		start = true;
 	}
 	
-	//
 	public void addNotify() {
 		super.addNotify();
 		thread = new Thread(this);
@@ -42,12 +58,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		thread.start();
 	}
 
-	public void run() {			
+	public void run() {		
 		long start;
 		long elapsed;
 		long wait;
 		
-		while(running) {
+		while (running) {
 			start = System.nanoTime();
 			update();
 			draw();
@@ -60,6 +76,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 				Thread.sleep(wait);
 			} catch(Exception e) {
 				e.printStackTrace();
+			}
+			if (gameState.isGameOver()) {
+				running = false;
+				this.setVisible(false);
 			}
 		}
 	}
@@ -83,8 +103,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	 */
 	private void drawToScreen() {
 		Graphics g2 = getGraphics();
-		//g2.drawImage(mazeImage, 0, 0, WIDTH, HEIGHT, null);
-		g2.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
+		g2.drawImage(mazeImage, 0, 0, width, height, null);
+		//g2.drawImage(image, 0 ,0 ,width, height, null);
 		g2.dispose();
 	}
 
@@ -98,4 +118,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	}
 	
 	public void keyTyped(KeyEvent key) {}
+	
+	public Thread getThread() {
+		return this.thread;
+	}
 }

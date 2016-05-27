@@ -19,11 +19,11 @@ public class UIFrame extends JFrame {
 	public void initFrame() {
 		this.setTitle("I believe I can fly");
 		this.setSize(850, 900);
-		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setContentPane(menuScreen);
 		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);	
 	}
 	
@@ -58,12 +58,14 @@ public class UIFrame extends JFrame {
 		difficultyScreen.getMediumButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				gameScreen = new GamePanel("medium");
+				runGameScreen();
 			}
 		});
 
 		difficultyScreen.getHardButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				gameScreen = new GamePanel("hard");
+				runGameScreen();
 			}
 		});
 	}
