@@ -71,7 +71,7 @@ public class Coin implements Item {
 	}
 	
 	public Coin clone() {
-		Coin c = new Coin(this.value, this.loc.clone());
+		Coin c = new Coin(this.value, this.loc.clone(), coinRot);
 		return c;
 	}
 }
