@@ -2,6 +2,7 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class UIFrame extends JFrame {
