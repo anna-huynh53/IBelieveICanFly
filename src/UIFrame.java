@@ -20,9 +20,10 @@ public class UIFrame extends JFrame {
 	}
 
 	public void initFrame() {
-		this.setTitle("I believe I can fly");
+		this.setTitle("I Believe I Can Fly");
 		this.setSize(420, 420);
 		this.setLayout(new BorderLayout());
+		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -68,8 +69,7 @@ public class UIFrame extends JFrame {
 				initFrame();
 				runGameScreen();
 			}
-		});
-		
+		});	
 	}	
 	
 	private void runDifficultyScreen() {
@@ -98,6 +98,12 @@ public class UIFrame extends JFrame {
 				runGameScreen();
 			}
 		});
+		
+		difficultyScreen.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				runMenuScreen();
+			}
+		});
 	}
 	
 	private void runGameScreen() {
@@ -107,11 +113,10 @@ public class UIFrame extends JFrame {
 		gameScreen.requestFocusInWindow();
 		gameScreen.setVisible(true);
 		
-		//gameScreen.getThread().addActionListener(new ActionListener()) {
 		gameScreen.getRestartButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String level = gameScreen.getGameState().getMaze().getLevel();
-				gameScreen.endGame();
+				gameScreen.setRunning(false);
 				gameScreen = new GamePanel(level);
 				runGameScreen();
 			}
@@ -119,7 +124,7 @@ public class UIFrame extends JFrame {
 		
 		gameScreen.getExitButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				gameScreen.endGame();
+				gameScreen.setRunning(false);
 				runMenuScreen();
 			}
 		});

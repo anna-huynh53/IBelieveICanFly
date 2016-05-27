@@ -83,16 +83,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			// check if the game is over
 			if (gameState.isGameOver()) {
 				gameState.drawGameOver(g);
-				//endGame();
 			}
 		}
-	}
-	
-	/** 
-	 * When the game is over, stop the thread
-	 */
-	public void endGame() {
-		running = false;
 	}
 	
 	/**
@@ -136,19 +128,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		return this.gameState;
 	}
 	
-	/**
-	 * Gets thread game is running on
-	 * @return thread
-	 */
-	public Thread getThread() {
-		return this.thread;
-	}
-	
 	public JButton getRestartButton() {
 		return this.restart;
 	}
 	
 	public JButton getExitButton() {
 		return this.exit;
+	}
+	
+	public void setRunning(boolean b) {
+		this.running = b;
 	}
 }

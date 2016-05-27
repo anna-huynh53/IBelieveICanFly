@@ -9,6 +9,7 @@ public class DifficultyPanel extends JPanel {
 	private JButton easy;
 	private JButton medium;
 	private JButton hard;
+	private JButton back;
 	
 	public DifficultyPanel() {
 		this.setPreferredSize(new Dimension(420, 420));
@@ -19,15 +20,17 @@ public class DifficultyPanel extends JPanel {
 		ImageIcon i;
 		
 		this.header = new JLabel("Difficulty");
-		this.easy = new JButton("");
-	    this.medium = new JButton("");
-	    this.hard = new JButton("");
+		this.easy = new JButton();
+	    this.medium = new JButton();
+	    this.hard = new JButton();
+	    this.back = new JButton();
 	    
 	    // set allignment
 		header.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    easy.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    medium.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    hard.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    back.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    
 	    // set fonts
 	    header.setFont(new Font("Impact",1,40));
@@ -45,6 +48,10 @@ public class DifficultyPanel extends JPanel {
 	    i = new ImageIcon("res/gui/hardButtonDefault.png");
 	    hard.setIcon(i);
 	    hard.setBorderPainted(false);
+	    back.setBackground(UIcolor);
+	    i = new ImageIcon("res/gui/backButtonDefault.png");
+	    back.setIcon(i);
+	    back.setBorderPainted(false);
 	    
 	    // animate buttons
 	    easy.addMouseListener(new MouseAdapter() {
@@ -68,6 +75,14 @@ public class DifficultyPanel extends JPanel {
 			public void mouseEntered(MouseEvent e) {
 				ImageIcon i = new ImageIcon("res/gui/hardButtonHover.png");
 			    hard.setIcon(i);
+			}
+		});
+	    
+	    back.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				ImageIcon i = new ImageIcon("res/gui/backButtonHover.png");
+			    back.setIcon(i);
 			}
 		});
 	    
@@ -95,11 +110,20 @@ public class DifficultyPanel extends JPanel {
 			}
 		});
 	    
+	    back.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				ImageIcon i = new ImageIcon("res/gui/backButtonDefault.png");
+			    back.setIcon(i);
+			}
+		});
+	    
 	    // set button size
 	    Dimension buttonSize = new Dimension(160,40);
 	    easy.setMaximumSize(buttonSize);
 	    medium.setMaximumSize(buttonSize);
 	    hard.setMaximumSize(buttonSize);
+	    back.setMaximumSize(buttonSize);
 	    
 	    // add the buttons to the panel with input blank area as spacing
 	    add(Box.createRigidArea(new Dimension(0,20)));
@@ -110,6 +134,8 @@ public class DifficultyPanel extends JPanel {
 	    add(medium);   
 	    add(Box.createRigidArea(new Dimension(0,25)));
 	    add(hard);
+	    add(Box.createRigidArea(new Dimension(0, 50)));
+	    add(back);
 	}
 	
 	public JButton getEasyButton() {
@@ -122,5 +148,9 @@ public class DifficultyPanel extends JPanel {
 	
 	public JButton getHardButton() {
 		return this.hard;
+	}
+	
+	public JButton getBackButton() {
+		return this.back;
 	}
 }

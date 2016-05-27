@@ -73,6 +73,9 @@ public class HUD {
 			if (i instanceof Bubble) {
 				powers.add(bubblePower);
 			}
+			if (i instanceof Flail) {
+				powers.add(maze.getImages().getFlail());
+			}
 		}
 		return powers;	
 	}
