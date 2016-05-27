@@ -1,10 +1,9 @@
 import javax.swing.JFrame;
-
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@SuppressWarnings("serial")
 public class UIFrame extends JFrame {
 	MenuPanel menuScreen;
 	DifficultyPanel difficultyScreen;
@@ -16,18 +15,20 @@ public class UIFrame extends JFrame {
 		initFrame();
 		runMenuScreen();
 	}
-	
+
 	public void initFrame() {
 		this.setTitle("I believe I can fly");
 		this.setSize(420, 420);
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setContentPane(menuScreen);
-		this.pack();
-		this.setVisible(true);	
+		this.setVisible(true);
 	}
 	
 	private void runMenuScreen() {
+		this.setContentPane(menuScreen);
+		this.pack();
+		menuScreen.setVisible(true);	
+		
 		menuScreen.getStartButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				runDifficultyScreen();
@@ -75,5 +76,22 @@ public class UIFrame extends JFrame {
 		gameScreen.setFocusable(true);
 		gameScreen.requestFocusInWindow();
 		gameScreen.setVisible(true);
+		
+		//gameScreen.getThread().addActionListener(new ActionListener()) {
+		gameScreen.getRestartButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String level = gameScreen.getGameState().getLevel();
+				gameScreen.endGame();
+				gameScreen = new GamePanel(level);
+				runGameScreen();
+			}
+		});
+		
+		gameScreen.getExitButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gameScreen.endGame();
+				runMenuScreen();
+			}
+		});
 	}
 }

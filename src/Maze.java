@@ -339,17 +339,27 @@ public class Maze {
 		// deal damage from enemies
 		for (Entity e : mapObjects.getEnemies()) {
 			if (e.getLocation().equals(p.getLocation())) {
-				p.doDamage(e.getDamage());
-				System.out.println(p.getHealth());
+				boolean noDamage = false;
+				for (int i = 0; i < p.getPowerUps().size(); i++) {
+					Item item = p.getPowerUps().get(i);
+					if (item instanceof Bubble) {
+						noDamage = true;
+						p.removePowerUp(item);
+					}
+				}
+				if (!noDamage) p.doDamage(e.getDamage());	
 			}
 		}
 		Item item = tile.getItem();
 		if (item instanceof Coin) {
 			Coin c = (Coin) item;
 			c.playerInteractEvent(p);
-			System.out.println(p.getScore());
 			mapObjects.getItems().remove(item);
 		}	
+		if (item instanceof Bubble) {
+			Bubble b = (Bubble) item;
+			b.playerInteractEvent(p);
+		}
 		
 		if (p.getHealth() == 0 || tile.getClassification().equals(Tile.END)) {
 			gameOver = true;
@@ -421,11 +431,10 @@ public class Maze {
 		}
 		// for HUD display
 		for (int i = 0; i < size; i++) {
-			for (int j = size; j < size + 4; j++) {
+			for (int j = size; j < size + 3; j++) {
 				g.drawImage(vertical, i * SCALE, j * SCALE, null);
 			}
 		}
-		drawDecorations(g);
 		drawHUD(g);
 	}
 	
@@ -463,6 +472,9 @@ public class Maze {
 					for (int k = 0; k < score.size(); k++) {
 						g.drawImage(hud.getPlayerScore().get(k), (i + k) * SCALE, j * SCALE, null);
 					}
+				}
+				if (i == 1 && j == size+1 && !hud.getPowerUps().isEmpty()) {
+					g.drawImage(hud.getPowerUps().get(i-1), i * SCALE, j * SCALE, null);
 				}
 			}
 		}

@@ -5,11 +5,6 @@ public class Point {
 	private int x;
 	private int y;
 	
-	/**
-	 * Constructor for creating a point
-	 * @param x - x coordinate
-	 * @param y - y coordinate
-	 */
 	public Point(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -49,8 +44,8 @@ public class Point {
 	
 	/**
 	 * Determines if this point is equal to another point
-	 * @param p - point
-	 * @return if the points are the same
+	 * @param point
+	 * @return true if points are the same otherwise false
 	 */
 	public boolean equals(Object o) {
 		if (o instanceof Point) { 

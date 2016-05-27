@@ -1,9 +1,14 @@
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * An entity in the form of an evil sun that moves randomly and deals 20 damage.
+ *
+ */
 public class EvilSun implements Entity {
 	private Maze maze;
 	private Point currentLoc;
@@ -15,21 +20,25 @@ public class EvilSun implements Entity {
 	public EvilSun(Maze maze, Point loc) {
 		this.maze = maze;
 		this.currentLoc = loc;
-		this.damage = 10;
+		this.damage = 20;
 		
+		this.animate = new Animation();
+		this.sun = maze.getImages().getSun();
+		animate.setFrames(sun);
+		
+		// moves sun on timed intervals
 		ActionListener timedMove = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				move();
-				animate.update();
+				update();
 			}
 		};
 		new javax.swing.Timer(300, timedMove).start();
-		
-		animate = new Animation();
-		sun = maze.getImages().getSun();
-		animate.setFrames(sun);
 	}
 	
+	/**
+	 * Moves sun to a random valid location
+	 */
 	public void move() {
 		Random rand = new Random();
 		ArrayList<Point> locs = new ArrayList<Point>();
@@ -43,7 +52,11 @@ public class EvilSun implements Entity {
 		} 
 	}
 	
+	/**
+	 * Updates animation of sun
+	 */
 	public void update() {
+		animate.update();
 	}
 	
 	public void draw(Graphics g) {
@@ -51,10 +64,18 @@ public class EvilSun implements Entity {
 				    this.currentLoc.getY()*Maze.SCALE, null);
 	}
 	
+	/**
+	 * Gets location of sun
+	 * @return location of sun
+	 */
 	public Point getLocation() {
 		return this.currentLoc;
 	}
 	
+	/**
+	 * Gets amount of damage inflicted by sun
+	 * @return damage value of sun
+	 */
 	public int getDamage() {
 		return this.damage;
 	}

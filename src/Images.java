@@ -3,6 +3,10 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Loads all images needed to draw a maze and its components.
+ *
+ */
 public class Images {
 	private Toolkit t; 
 	
@@ -13,6 +17,10 @@ public class Images {
 	private Image end;
 	
 	private ArrayList<Image> decorations;
+	
+	private ArrayList<Image> coin;
+	private Image bubble;	
+	private Image bubblePower;
 	
 	private ArrayList<Image> sun;
 	private ArrayList<Image> wingMan;
@@ -37,6 +45,7 @@ public class Images {
 	public Images() {
 		t = Toolkit.getDefaultToolkit();
 		loadTiles();
+		loadMazeItems();
 		loadPickUps();
 		loadEnemies();
 		loadPlayer();
@@ -52,6 +61,16 @@ public class Images {
 		end = t.getImage("res/tiles/end.png");
 	}
 	
+	public void loadMazeItems() {
+		decorations = new ArrayList<Image>();
+		decorations.add(t.getImage("res/decoration/dec1.png"));
+		decorations.add(t.getImage("res/decoration/dec2.png"));
+		decorations.add(t.getImage("res/decoration/dec3.png"));
+		decorations.add(t.getImage("res/decoration/dec4.png"));
+		decorations.add(t.getImage("res/decoration/dec5.png"));
+		decorations.add(t.getImage("res/decoration/dec6.png"));
+	}
+	
 	public String randTile() {
 		String tile = "";
 		Random rand = new Random();
@@ -65,13 +84,14 @@ public class Images {
 	}
 	
 	public void loadPickUps() {
-		decorations = new ArrayList<Image>();
-		decorations.add(t.getImage("res/decoration/dec1.png"));
-		decorations.add(t.getImage("res/decoration/dec2.png"));
-		decorations.add(t.getImage("res/decoration/dec3.png"));
-		decorations.add(t.getImage("res/decoration/dec4.png"));
-		decorations.add(t.getImage("res/decoration/dec5.png"));
-		decorations.add(t.getImage("res/decoration/dec6.png"));
+		coin = new ArrayList<Image>();
+		coin.add(t.getImage("res/pickups/coin1.png"));
+		coin.add(t.getImage("res/pickups/coin2.png"));
+		coin.add(t.getImage("res/pickups/coin3.png"));
+		coin.add(t.getImage("res/pickups/coin4.png"));
+		
+		bubble = t.getImage("res/pickups/bubble.png");
+		bubblePower = t.getImage("res/hud/bubblePower.png");
 	}
 	
 	public void loadEnemies() {
@@ -171,6 +191,18 @@ public class Images {
 	
 	public ArrayList<Image> getDecorations() {
 		return this.decorations;
+	}
+	
+	public ArrayList<Image> getCoin() {
+		return this.coin;
+	}
+	
+	public Image getBubble() {
+		return this.bubble;
+	}
+	
+	public Image getBubblePower() {
+		return this.bubblePower;
 	}
 	
 	public ArrayList<Image> getSun() {

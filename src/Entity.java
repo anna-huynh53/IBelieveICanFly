@@ -1,15 +1,12 @@
 import java.awt.Graphics;
 
 /**
- * An entity that can interact with the maze.
- * Includes the player and enemies.
+ * An entity that can interact with the maze including players and enemies.
  */
 public interface Entity {
 	
 	/**
-	 * Updates the entity by calling move and setting other
-	 * (this is for stuff like where it is facing and stuff but don't
-	 * worry about it for now)
+	 * Updates the entity by calling move and animate
 	 */
 	public void update();
 	
@@ -25,7 +22,7 @@ public interface Entity {
 	public Point getLocation();
 	
 	/**
-	 * 
+	 * Gets if the entity has damage value
 	 * @return
 	 */
 	public int getDamage();

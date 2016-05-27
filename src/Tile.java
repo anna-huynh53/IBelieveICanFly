@@ -10,11 +10,10 @@ public class Tile {
 	private Item item;
 	
 	// Classifications //
-	public static final String START = "start"; // Also a path by definition
-	public static final String END = "end"; // Also a path by definition
+	public static final String START = "start"; // also a path by definition
+	public static final String END = "end"; // also a path by definition
 	public static final String WALL = "wall";
 	public static final String PATH = "path";
-	public static final String LAVA = "lava";
 	
 	/**
 	 * Instantiates a new tile object
@@ -33,6 +32,16 @@ public class Tile {
 			this.lethal = false;
 		}
 		item = null;
+	}
+	
+	/**
+	 * Removes the item from the tile
+	 * @return item removed
+	 */
+	public Item removeItem() {
+		Item i = this.item;
+		this.item = null;
+		return i;
 	}
 	
 	/**
@@ -91,7 +100,6 @@ public class Tile {
 		this.lethal = l;
 	}
 
-	
 	/**
 	 * Set the item the tile contains
 	 * @param i - the Item the tile contains
@@ -101,19 +109,9 @@ public class Tile {
 	}
 	
 	/**
-	 * Removes the item from the tile
-	 * @return item removed
-	 */
-	public Item removeItem() {
-		Item i = this.item;
-		this.item = null;
-		return i;
-	}
-	
-	/**
 	 * Checks if this and another tile are equal
-	 * @param t - tile object
-	 * @return if the two tiles are equal
+	 * @param tile object
+	 * @return true if the two tiles are equal otherwise false
 	 */
 	public boolean equals(Object o) {
 		if (o instanceof Tile) {

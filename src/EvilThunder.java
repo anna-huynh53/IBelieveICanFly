@@ -1,12 +1,12 @@
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
 /**
- * Randomly appears in the maze at timed intervals dealing 50 damage.
+ * An entity inthe form of an evil thunderbolt that randomly appears in the maze 
+ * at timed intervals dealing 50 damage.
  *
  */
 public class EvilThunder implements Entity {
@@ -14,10 +14,14 @@ public class EvilThunder implements Entity {
 	private Point currentLoc;
 	private int damage;
 	
+	private Image thunder;
+	
 	public EvilThunder(Maze m, Point p) {
 		this.maze = m;
 		this.damage = 10;		
 		this.currentLoc = p;
+		
+		this.thunder = maze.getImages().getThunder();
 		
 		ActionListener timedMove = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -35,18 +39,24 @@ public class EvilThunder implements Entity {
 		}
 	}
 
-	public void update() {
-	}
+	public void update() {} // unused as thunder has no animation
 
 	public void draw(Graphics g) {
-		g.drawImage(maze.getImages().getThunder(), this.currentLoc.getX()*Maze.SCALE,
-				    this.currentLoc.getY()*Maze.SCALE, null);
+		g.drawImage(thunder,this.currentLoc.getX()*Maze.SCALE,this.currentLoc.getY()*Maze.SCALE, null);
 	}
 
+	/**
+	 * Gets location of thunder
+	 * @return location of thunder
+	 */
 	public Point getLocation() {
 		return this.currentLoc;
 	}
 
+	/**
+	 * Gets amount of damage inflicted by thunder
+	 * @return damage value of thunder
+	 */
 	public int getDamage() {
 		return this.damage;
 	}

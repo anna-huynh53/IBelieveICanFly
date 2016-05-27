@@ -1,8 +1,11 @@
+import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
-import java.util.ArrayList;
 
+/**
+ * A pickup item for a player that increases their score.
+ *
+ */
 public class Coin implements Item {
 	private int value;
 	private Point loc;
@@ -10,41 +13,51 @@ public class Coin implements Item {
 	private Animation animate;
 	private ArrayList<Image> coinRot;
 	
-	public Coin(int value, Point loc) {
+	public Coin(int value, Point loc, ArrayList<Image> coinRot) {
 		this.value = value;
-		this.loc = loc;
-		animate = new Animation();
+		this.loc = loc;		
+		this.animate = new Animation();
+		this.coinRot = coinRot;
 		initAnimationSet();
 	}
 
 	private void initAnimationSet() {
-		Toolkit t = Toolkit.getDefaultToolkit();
-		coinRot = new ArrayList<Image>();
-		coinRot.add(t.getImage("res/pickups/coin1.png"));
-		coinRot.add(t.getImage("res/pickups/coin2.png"));
-		coinRot.add(t.getImage("res/pickups/coin3.png"));
-		coinRot.add(t.getImage("res/pickups/coin4.png"));
 		animate.setFrames(coinRot);
 		animate.setWait(150);
 	}
 
+	/**
+	 * If a player steps on a coin, the coin is removed from the maze and
+	 * their score is increased by the value of the coin 
+	 */
 	public void playerInteractEvent(Player p) {
-		p.increaseScore(value);
 		p.getTile().removeItem();
+		p.increaseScore(value);
 	}
 	
+	/**
+	 * Updates animation
+	 */
 	public void update() {
 		animate.update();
 	}
 	
 	public void draw(Graphics g) {
-		g.drawImage(animate.getCurrImage(), this.loc.getX()*Maze.SCALE, this.loc.getY()*Maze.SCALE, null);
+		g.drawImage(animate.getCurrImage(),this.loc.getX()*Maze.SCALE,this.loc.getY()*Maze.SCALE,null);
 	}
 	
+	/**
+	 * Gets value of coin
+	 * @return value of coin
+	 */
 	public int getValue() {
 		return this.value;
 	}
 	
+	/**
+	 * Gets location of coin
+	 * @return location of coin
+	 */
 	public Point getLoc() {
 		return this.loc;
 	}

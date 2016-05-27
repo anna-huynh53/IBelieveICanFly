@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
 
 public class EvilWingMan implements Entity {
 	private Maze maze;
@@ -19,19 +18,22 @@ public class EvilWingMan implements Entity {
 		this.currentLoc = loc;
 		this.damage = 10;
 		
+		this.animate = new Animation();
+		this.wingMan = maze.getImages().getWingMan();
+		animate.setFrames(wingMan);
+		
 		ActionListener timedMove = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				move();
-				animate.update();
+				update();
 			}
 		};
 		new javax.swing.Timer(300, timedMove).start();
-		
-		animate = new Animation();
-		wingMan = maze.getImages().getWingMan();
-		animate.setFrames(wingMan);
 	}
 	
+	/**
+	 * Changes the location of the thunder to a random valid new location
+	 */
 	public void move() {
 		Random rand = new Random();
 		ArrayList<Point> locs = new ArrayList<Point>();
@@ -45,8 +47,11 @@ public class EvilWingMan implements Entity {
 		} 
 	}
 	
+	/**
+	 * Updates animation of wingman
+	 */
 	public void update() {
-
+		animate.update();
 	}
 	
 	public void draw(Graphics g) {
@@ -54,10 +59,18 @@ public class EvilWingMan implements Entity {
 				    this.currentLoc.getY()*Maze.SCALE, null);
 	}
 	
+	/**
+	 * Gets location of wingman
+	 * @return location of wingman
+	 */
 	public Point getLocation() {
 		return this.currentLoc;
 	}
 	
+	/**
+	 * Gets amount of damage inflicted by wingman
+	 * @return damage value of wingman
+	 */
 	public int getDamage() {
 		return this.damage;
 	}

@@ -1,8 +1,11 @@
 import java.awt.Graphics;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The various items and enemies in a maze.
+ *
+ */
 public class MapObjects {
 	private Maze maze;
 	private ArrayList<Item> items;
@@ -10,7 +13,7 @@ public class MapObjects {
 	
 	public MapObjects(Maze m) {
 		this.maze = m;
-		// place random coins on the maze
+		// place items on the maze
 		items = new ArrayList<Item>();
 		placePickups();	
 		// place enemies
@@ -20,9 +23,9 @@ public class MapObjects {
 	
 	/**
 	 * Places random pickups in the maze
-	 * (currently, there are only coins)
 	 */
 	public void placePickups() {
+		Images images = this.maze.getImages();
 		Random rand = new Random();
 		int size = this.maze.getSize();
 		Tile[][] tiles = this.maze.getTiles();
@@ -35,8 +38,10 @@ public class MapObjects {
 				tiles[x][y+1].getClassification().equals(Tile.WALL) && 
 				!(t.getItem() instanceof Item)) {
 				Point p = new Point(x, y);
-				Item item = new Coin(1, p);
+				Item item = new Coin(1, p, images.getCoin());
 				int num = rand.nextInt(3);
+				if (num == 0) item = new Decoration(p, images.getDecorations().get(rand.nextInt(5)));
+				if (num == 1) item = new Bubble(p, images.getBubble());
 				t.setItem(item);
 				items.add(item);
 				i++;
@@ -45,7 +50,7 @@ public class MapObjects {
 	}
 	
 	/**
-	 * Places enemies randomly
+	 * Places random enemies in the maze
 	 */
 	public void placeEnemies() {
 		Random rand = new Random();
@@ -68,6 +73,9 @@ public class MapObjects {
 		}
 	}
 	
+	/**
+	 * Updates the items and enemies
+	 */
 	public void update() {
 		for (Item i : items) {
 			i.update();
@@ -77,6 +85,9 @@ public class MapObjects {
 		}
 	}
 	
+	/**
+	 * Draws the items and enemies
+	 */
 	public void draw(Graphics g) {
 		for (int i = 0; i < maze.getSize(); i++) {
 			for (int j = 0; j < maze.getSize(); j++) {
@@ -90,10 +101,18 @@ public class MapObjects {
 		}
 	}
 	
+	/**
+	 * Gets list of items in maze
+	 * @return list of items
+	 */
 	public ArrayList<Item> getItems() {
 		return this.items;
 	}
 	
+	/**
+	 * Gets list of enemies in maze
+	 * @return list of enemies
+	 */
 	public ArrayList<Entity> getEnemies() {
 		return this.enemies;
 	}

@@ -1,30 +1,37 @@
 import javax.swing.*;
 import java.awt.*;
 
+@SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
 
-	private JLabel header = new JLabel("I believe I can fly");
-	private JButton start = new JButton("Start Game");
-	private JButton help = new JButton("Help");
-	private JButton quit = new JButton("Quit");
+	private JLabel header;
+	private JButton start;
+	private JButton help; 
+	private JButton quit;
 	
 	public MenuPanel() {
 		this.setPreferredSize(new Dimension(420, 420));
 		BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		this.setLayout(boxLayout);
 		
+		this.header = new JLabel("I believe I can fly");
+		this.start = new JButton("Start Game");
+		this.help = new JButton("Help");
+		this.quit = new JButton("Quit");
+		
+		// set allignment
 	    header.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    start.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    help.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    quit.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    
-	    // sets fonts
+	    // set fonts
 	    header.setFont(new Font("Impact",1,40));
 	    start.setFont(new Font("Impact",1,18));
 	    help.setFont(new Font("Impact",1,18));
 	    quit.setFont(new Font("Impact",1,18));
 	    
-	    // sets button size
+	    // set button size
 	    Dimension buttonSize = new Dimension(180,40);
 	    start.setMaximumSize(buttonSize);
 	    help.setMaximumSize(buttonSize);

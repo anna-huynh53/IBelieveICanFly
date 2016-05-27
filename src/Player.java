@@ -1,16 +1,12 @@
 import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.Toolkit;
 
 public class Player implements Entity {
 	private Maze maze;
-	private Point currentLoc;
-	private int score;
-	private int maxHealth;
-	private int health;
 	
+	// location and movement
+	private Point currentLoc;
 	private boolean left;
 	private boolean right;
 	private boolean jumping;
@@ -25,28 +21,52 @@ public class Player implements Entity {
 	private ArrayList<Image> hit;
 	private ArrayList<Image> dead;
 	
+	// player info
+	private int score;
+	private int maxHealth;
+	private int health;
+	private ArrayList<Item> powerUps;
 	
 	public Player(Maze maze, Point loc) {
 		this.maze = maze;
-		this.currentLoc = loc;
+		
+		this.currentLoc = loc;		
+		this.animate = new Animation();
+		initAnimationSets();
+		
 		this.score = 0;
 		this.maxHealth = this.health = 100;
-		
-		animate = new Animation();
-		initAnimationSets();
+		this.powerUps = new ArrayList<Item>();
 	}
 	
 	public void initAnimationSets() {
-		walkLeft = maze.getImages().getWalkLeft();
-		walkRight = maze.getImages().getWalkRight();
-		jump = maze.getImages().getJump();
-		fall = maze.getImages().getFall();
-		idle = maze.getImages().getIdle();
-		hit = maze.getImages().getHit();
-		dead = maze.getImages().getDead();
+		this.walkLeft = maze.getImages().getWalkLeft();
+		this.walkRight = maze.getImages().getWalkRight();
+		this.jump = maze.getImages().getJump();
+		this.fall = maze.getImages().getFall();
+		this.idle = maze.getImages().getIdle();
+		this.hit = maze.getImages().getHit();
+		this.dead = maze.getImages().getDead();
 		animate.setFrames(idle);
 	}
-					
+				
+	/**
+	 * Updates player's movement and animation
+	 */
+	public void update() {
+		move();
+		animate.update();
+	}
+	
+	public void draw(Graphics g) {
+		g.drawImage(animate.getCurrImage(),this.currentLoc.getX()*Maze.SCALE,this.currentLoc.getY()*Maze.SCALE,null);
+	}
+
+/////////////////////////////movement and location//////////////////////////////
+	
+	/**
+	 * Moves the player based on the key listener and sets the appropriate animation
+	 */
 	public void move() {
 		int newX = this.currentLoc.getX();
 		int newY = this.currentLoc.getY();
@@ -82,45 +102,48 @@ public class Player implements Entity {
 		} 
 	}
 	
-	public void update() {
-		move();
-		animate.update();
-	}
-	
-	public void draw(Graphics g) {
-		Image player = animate.getCurrImage();
-		g.drawImage(player, this.currentLoc.getX()*Maze.SCALE, this.currentLoc.getY()*Maze.SCALE, null);
-	}
-	
-	public void setLeft(boolean b) {
-		this.left = b;
-	}
-	
-	public void setRight(boolean b) {
-		this.right = b;
-	}
-	
-	public void setJumping(boolean b) {
-		this.jumping = b;
-	}
-	
 	/**
-	 * Get the player's location in the maze
-	 * @return coordinates of the player's location
+	 * Gets the player's location in the maze
+	 * @return player's location
 	 */
 	public Point getLocation() {
 		return this.currentLoc;
 	}
 	
 	/**
-	 * The current tile the player is standing on
-	 * @return
+	 * Gets the current tile the player is standing on
+	 * @return tile player is on
 	 */
 	public Tile getTile() {
 		return maze.getTile(this.currentLoc);
 	}
+	
+	/**
+	 * Sets left movement
+	 * @param true if going left otherwise false
+	 */
+	public void setLeft(boolean b) {
+		this.left = b;
+	}
+	
+	/**
+	 * Sets right movement
+	 * @param true if going right otherwise false
+	 */
+	public void setRight(boolean b) {
+		this.right = b;
+	}
+	
+	/**
+	 * Sets jumping
+	 * @param true if jumping otherwise false
+	 */
+	public void setJumping(boolean b) {
+		this.jumping = b;
+	}
 
 /////////////////////////////////////score/////////////////////////////////////
+	
 	/**
 	 * Increase the players score by a value
 	 * @param value - the value to increase the score by
@@ -148,7 +171,31 @@ public class Player implements Entity {
 		}
 	}
 	
+////////////////////////////////////powerups////////////////////////////////////	
+	
+	public void addPowerUp(Item powerUp) {
+		this.powerUps.add(powerUp);
+	}
+	
+	public void removePowerUp(Item powerUp) {
+		this.powerUps.remove(powerUp);
+	}
+	
+	public ArrayList<Item> getPowerUps() {
+		return this.powerUps;
+	}
+	
+	
 /////////////////////////////////////health/////////////////////////////////////
+	
+	/**
+	 * Inflicts given amount of damage to player
+	 * @param damage value
+	 */
+	public void doDamage(int damage) {
+		this.health -= damage; 
+	}
+	
 	public int getMaxHealth() {
 		return this.maxHealth;
 	}
@@ -157,11 +204,5 @@ public class Player implements Entity {
 		return this.health;
 	}
 	
-	public int getDamage() {
-		return 0;
-	}
-	
-	public void doDamage(int damage) {
-		this.health -= damage; 
-	}
+	public int getDamage() { return 0; } // needed as implements Entity
 }
