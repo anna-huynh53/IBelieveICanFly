@@ -48,8 +48,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		
 		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		this.g = (Graphics2D) image.getGraphics();
-		this.bg = Toolkit.getDefaultToolkit().getImage("res/background.png").getScaledInstance(
-				  width, height, Image.SCALE_SMOOTH);
+		if (difficulty.equals("easy")) {
+			this.bg = Toolkit.getDefaultToolkit().getImage("res/bgEasy.png");
+		} else if (difficulty.equals("medium")) {
+			this.bg = Toolkit.getDefaultToolkit().getImage("res/bgMedium.png");
+		} else {
+			this.bg = Toolkit.getDefaultToolkit().getImage("res/bgHard.png");
+		}
 		
 		this.running = true;
 		this.waiting = false;
