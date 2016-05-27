@@ -62,8 +62,7 @@ public class UIFrame extends JFrame {
 		
 		helpScreen.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				initFrame();
-				runGameScreen();
+				runMenuScreen();
 			}
 		});	
 	}	
