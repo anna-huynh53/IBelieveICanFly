@@ -25,6 +25,7 @@ public class EvilSun implements Entity {
 		this.animate = new Animation();
 		this.sun = maze.getImages().getSun();
 		animate.setFrames(sun);
+		animate.setDelay(200);
 		
 		// moves sun on timed intervals
 		ActionListener timedMove = new ActionListener() {

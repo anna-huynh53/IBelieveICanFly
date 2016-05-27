@@ -226,8 +226,18 @@ public class Player implements Entity {
 		return this.powerUps;
 	}
 	
-	
 /////////////////////////////////////health/////////////////////////////////////
+	
+	/**
+	 * Increases player's health by given amount
+	 * @param health value
+	 */
+	public void increaseHealth(int health) {
+		this.health +=health;
+		if (health > 100) { 
+			health = 100;
+		}
+	}
 	
 	/**
 	 * Inflicts given amount of damage to player

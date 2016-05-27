@@ -31,7 +31,6 @@ public class MapObjects {
 		Tile[][] tiles = this.maze.getTiles();
 		
 		int numItems = 0;
-		System.out.println(maze.getLevel());
 		if (maze.getLevel().equals("easy")) {
 			numItems = 8;
 		} else if (maze.getLevel().equals("medium")) {
@@ -68,6 +67,7 @@ public class MapObjects {
 				int num = rand.nextInt(3);
 				if (num == 0) item = new Bubble(p, images.getBubble());
 				if (num == 1) item = new Flail(p, images.getFlail());
+				if (num == 2) item = new Heart(p, images.getFullHeart());
 				t.setItem(item);
 				items.add(item);
 				i++;
@@ -89,7 +89,7 @@ public class MapObjects {
 		} else if (maze.getLevel().equals("medium")) {
 			numItems = 10;
 		} else if (maze.getLevel().equals("hard")) {
-			numItems = 20;
+			numItems = 15;
 		}
 		
 		int i = 0;
